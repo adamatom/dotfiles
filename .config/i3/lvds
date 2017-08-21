@@ -1,0 +1,282 @@
+################################################################################
+#  Variables
+################################################################################
+set $black       #212121
+set $gray        #606060
+set $darkblack   #000000
+set $red         #C62828
+set $darkred     #B71C1C
+set $green       #2E7D32
+set $darkgreen   #1B5E20
+set $yellow      #F9A825
+set $darkyellow  #F57F17
+set $blue        #205171
+set $darkblue    #268bd2
+set $magenta     #6A1B9A
+set $darkmagenta #4A148C
+set $cyan        #00ACC1
+set $darkcyan    #0097A7
+set $white       #FFFFFF
+set $darkwhite   #FAFAFA
+set $background  #000000
+set $transparent #00000055
+
+# Name the workspaces
+set $tag1 "1:"
+set $tag2 "2:"
+set $tag3 "9:"
+set $tag4 "10:"
+
+set $mod Mod1
+
+################################################################################
+#  Startup applications
+################################################################################
+#early stage startup
+exec --no-startup-id thunar --daemon
+exec_always --no-startup-id killall gsd-xrandr; /usr/lib/gnome-settings-daemon/gsd-xrandr >/dev/null &
+exec_always --no-startup-id killall gsd-xsettings; /usr/lib/gnome-settings-daemon/gsd-xsettings >/dev/null &
+exec_always --no-startup-id killall gsd-clipboard; /usr/lib/gnome-settings-daemon/gsd-clipboard >/dev/null &
+
+exec_always --no-startup-id gsettings set org.gnome.desktop.interface scaling-factor 1
+exec_always --no-startup-id killall compton; compton -b --config /home/adam/.config/compton.conf
+# disable the track stick. I dont use it and it sometimes moves the cursor with no input.
+exec --no-startup-id xinput -set-prop "AlpsPS/2 ALPS DualPoint Stick" "Device Enabled" 0
+
+#tray item and midstage startup
+exec_always --no-startup-id killall dunst; dunst -conf ~/.config/dunst/LVDS &
+exec_always --no-startup-id killall parcellite; parcellite &
+exec_always --no-startup-id killall nm-applet; nm-applet &
+exec --no-startup-id xset m 3 5
+
+
+#application and late stage startup
+exec_always --no-startup-id feh --bg-fill ~/.config/i3/forest.jpg
+
+################################################################################
+#  Settings
+################################################################################
+
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# font for window titles and bar
+font pango:Source Sans Pro, FontAwesome 10
+
+force_display_urgency_hint 0 ms
+focus_on_window_activation urgent
+
+#                       BORDER      BACKGROUND  TEXT   INDICATOR
+client.focused          #2B83A6 #2B83A6 #FFFFFF #DDDDDD
+client.focused_inactive #212121 #212121 #86888C #292D2E
+client.unfocused        #212121 #212121 #86888C #292D2E
+client.urgent           #2F343A #D64E4E #FFFFFF #D64E4E
+client.placeholder      #212121 #0C0C0C #FFFFFF #212121
+client.background       #212121
+
+# set popups during fullscreen mode
+popup_during_fullscreen smart
+
+# window border settings
+new_window pixel    0
+new_float normal    0
+hide_edge_borders   none
+
+# configure an outside gap of 20 pixels with an inner gap of 10
+smart_gaps on
+smart_borders on
+gaps inner 15
+gaps outer 0
+
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="splash"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+for_window [class="(?i)orage"] floating enable, move position mouse
+for_window [class="(?i)file-roller"] floating enable, move position mouse
+for_window [class="(?i)ptask"] floating enable
+for_window [class="Gnome-calendar"] floating enable
+for_window [class="^.*"] border pixel 2
+
+assign [class="(?i)evolution"]                  $tag3
+assign [class="(?i)chromium"]   $tag4
+
+################################################################################
+#  Bindings
+################################################################################
+bindsym $mod+shift+space exec --no-startup-id i3-dmenu-desktop --dmenu="rofi -dmenu -opacity 90"
+# volume control
+bindsym XF86AudioRaiseVolume exec amixer -q set Master 5%+ unmute && killall i3blocks -s 44 && aplay -q -N ~/.config/i3/button-16.wav
+bindsym XF86AudioLowerVolume exec amixer -q set Master 5%- unmute && killall i3blocks -s 44 && aplay -q -N ~/.config/i3/button-16.wav
+bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle && killall i3blocks -s 44 && aplay -q -N ~/.config/i3/button-16.wav
+
+# calculator button
+bindsym XF86Calculator exec gnome-calculator
+
+# audio control
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioPlay exec playerctl play-pause
+
+
+# brightness control
+bindsym $mod+Up exec xbacklight -inc 10 -steps 1 -time 0 && killall i3blocks -s 45
+bindsym $mod+Down exec xbacklight -dec 10 -steps 1 -time 0 && killall i3blocks -s 45
+
+
+# start a terminal
+bindsym $mod+Return exec terminator
+
+bindsym $mod+space exec --no-startup-id rofi -show run
+bindsym $mod+Tab exec --no-startup-id rofi -show window
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+bindsym $mod+Control+h move workspace to output left
+bindsym $mod+Control+j move workspace to output down
+bindsym $mod+Control+k move workspace to output up
+bindsym $mod+Control+l move workspace to output right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# split window with a cut that looks like '|'
+bindsym $mod+bar split h
+
+# split window with a cut that looks like '-'
+bindsym $mod+underscore split v
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
+bindsym $mod+r layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+f floating toggle
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# focus the parent container
+bindsym $mod+p focus parent
+
+# focus the child container
+bindsym $mod+c focus child
+
+# switch to workspace
+bindsym $mod+1 workspace $tag1
+bindsym $mod+2 workspace $tag2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace $tag3
+bindsym $mod+0 workspace $tag4
+
+bindsym $mod+n exec i3-input -F 'rename workspace to "%s"' -P 'New name for this workspace: '
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $tag1
+bindsym $mod+Shift+2 move container to workspace $tag2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace $tag3
+bindsym $mod+Shift+0 move container to workspace $tag4
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
+set $exit Exit? [l]ogout [s]leep [r]eboot [p]oweroff (esc to cancel)
+mode "$exit" {
+        # exit i3 (logs you out of your X session)
+        bindsym l exit
+        bindsym p exec systemctl poweroff
+        bindsym r exec systemctl reboot
+        bindsym s exec systemctl suspend
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+bindsym $mod+Shift+e mode "$exit"
+
+set $mode_gaps Gaps: (o) outer, (i) inner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+    height 35
+    status_command i3blocks -c ~/.config/i3blocks/config
+    #status_command py3status -c ~/.config/i3status/config
+    position top
+    strip_workspace_numbers yes
+    separator_symbol        "·"
+    workspace_buttons       yes
+    colors {
+            background  #212121
+            statusline  #DDDDDD
+            separator   #666666
+            # class             border  backgr. text
+            focused_workspace   #2B83A6 #2B83A6 #FFFFFF
+            active_workspace    #212121 #212121 #FFFFFF
+            inactive_workspace  #212121 #212121 #86888C
+            urgent_workspace    #2F343A #D64E4E #FFFFFF
+      }
+}
