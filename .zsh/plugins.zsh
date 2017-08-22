@@ -15,7 +15,7 @@ function load_plugins() {
     source ~/.zsh/antibody_sourceables.zsh
 
     # zsh-autosuggestions options
-    ZSH_AUTOSUGGEST_STRATEGY=match_prev_cmd
+    ZSH_AUTOSUGGEST_STRATEGY=directory_history
 
     # zsh-syntax-highlighting
     # Turn a lot of the highlighting off
