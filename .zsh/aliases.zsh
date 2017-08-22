@@ -9,4 +9,11 @@ alias checkbranch='for dir in *; do if [ -d "$dir/.git" ]; then branch=$(git -C 
 alias vi="vim"
 alias grep="grep --color=auto"
 alias zshcolors='for code in {000..255}; do print -P -- "$code: %F{$code}Test%f"; done'
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME '
+
+config() {
+    if [[ $@ =~ "^clean" ]]; then
+        echo "LOLLLLLLL, you almost blew up your home directory"
+    else
+        /usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME $@
+    fi
+}
