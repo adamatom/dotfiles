@@ -5,20 +5,20 @@ autoload -U colors && colors # Enable colors in prompt
 autoload add-zsh-hook
 
 # Stolen from oh-my-zsh
-ZSH_THEME_GIT_PROMPT_PREFIX=""
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_PREFIX="%B%F{255} › %b%F{green}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%f"
 
-ZSH_THEME_GIT_PROMPT_MERGING="%{$fg_bold[magenta]%}⚡︎%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg_bold[yellow]%} ◒"
-ZSH_THEME_GIT_PROMPT_ADDED="%{$fg_bold[green]%} ✚"
-ZSH_THEME_GIT_PROMPT_MODIFIED="%{$fg[yellow]%} ✹"
-ZSH_THEME_GIT_PROMPT_DELETED="%{$fg_bold[red]%} ✖"
-ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg_bold[blue]%} §"
-ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg_bold[cyan]%} ⇡NUM"
-ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg_bold[cyan]%} ⇣NUM"
+ZSH_THEME_GIT_PROMPT_MERGING="%B%F{magenta} ⚡︎%f%b"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%B%F{yellow} ◒%f%b"
+ZSH_THEME_GIT_PROMPT_ADDED="%B%F{green} ✚%f%b"
+ZSH_THEME_GIT_PROMPT_MODIFIED="%F{yellow} ✹%f"
+ZSH_THEME_GIT_PROMPT_DELETED="%B%F{red} ✖%f%b"
+ZSH_THEME_GIT_PROMPT_UNMERGED="%B%F{blue} §%f%b"
+ZSH_THEME_GIT_PROMPT_AHEAD="%B%F{cyan} ⇡NUM%f%b"
+ZSH_THEME_GIT_PROMPT_BEHIND="%B%F{cyan} ⇣NUM%f%b"
 
 # Get the status of the working tree
-function parse_git_state() {
+function git_prompt_string() {
   local INDEX=$(command git status --porcelain -b 2> /dev/null)
   STATUS=""
   repo_info=$(git rev-parse --git-dir --is-inside-git-dir --is-bare-repository --is-inside-work-tree --short HEAD 2>/dev/null)
@@ -61,17 +61,12 @@ function parse_git_state() {
   if [ -n $GIT_DIR ] && test -r $GIT_DIR/MERGE_HEAD; then
       STATUS=$STATUS$ZSH_THEME_GIT_PROMPT_MERGING
   fi
-  echo "$ZSH_THEME_GIT_PROMPT_PREFIX$STATUS$ZSH_THEME_GIT_PROMPT_SUFFIX"
+  local git_where="$(git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD 2> /dev/null)"
+  git_where=${git_where/refs\/heads\//}
+  git_where=${git_where/tags\//}
+  echo "$ZSH_THEME_GIT_PROMPT_PREFIX${git_where}$STATUS$ZSH_THEME_GIT_PROMPT_SUFFIX"
 }
 
-
-# If inside a Git repository, print its branch and state
-function git_prompt_string() {
-    local git_where="$(git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD 2> /dev/null)"
-    git_where=${git_where/refs\/heads\//}
-    git_where=${git_where/tags\//}
-    [ -n "$git_where" ] && echo "%F{112}${git_where}$(parse_git_state)"
-}
 
 ASYNC_PROC=0
 function precmd() {
@@ -105,7 +100,7 @@ function TRAPUSR1() {
     # read from temp file
     local git_info="$(cat /tmp/zsh_prompt_$$)"
 
-    PROMPT="${PROMPT_START} ${git_info}${PROMPT_END}"
+    PROMPT="${PROMPT_START}${git_info}${PROMPT_END}"
     # reset proc number
     ASYNC_PROC=0
 
@@ -119,15 +114,15 @@ function gen_cmd_char() {
     local color=""
     [ "$last_err" != "0" -a "$last_err" != "148" ] && color='%F{red}' || color='%F{white}'
     if [ "$job_n" -gt 0 ]; then
-        echo "${color}%Uλ%u%f › "
+        echo "${color}%Uλ%u%f %F{255}%B›%b%f "
     else
-        echo "${color}λ%f › "
+        echo "${color}λ%f %F{255}%B›%b%f "
     fi
 }
 
 
 
-PROMPT_START='%F{255}[%F{239}%M%F{255} >> %F{074}%~%f'
+PROMPT_START='%F{255}[%F{239}%M%F{255} › %F{074}%~%f'
 PROMPT_END='%F{255}]%f
 $(gen_cmd_char)'
 PROMPT="${PROMPT_START}${PROMPT_END}"
