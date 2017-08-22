@@ -127,8 +127,7 @@ function gen_cmd_char() {
 
 
 
-HOST="$(hostname)"
-PROMPT_START="%F{255}[%F{239}${HOST}%F{255} >> %F{074}%~%f"
+PROMPT_START='%F{255}[%F{239}%M%F{255} >> %F{074}%~%f'
 PROMPT_END='%F{255}]%f
 $(gen_cmd_char)'
 PROMPT="${PROMPT_START}${PROMPT_END}"

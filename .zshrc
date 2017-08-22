@@ -1,3 +1,6 @@
+# Enable profiling
+#zmodload zsh/zprof
+
 source ~/.zsh/colors.zsh
 source ~/.zsh/setopt.zsh
 source ~/.zsh/exports.zsh
