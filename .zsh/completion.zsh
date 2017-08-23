@@ -1,11 +1,6 @@
 autoload -U compinit && compinit                                                                                       
 zmodload -i zsh/complist
 
-# man zshcontrib
-zstyle ':vcs_info:*' actionformats '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{3}|%F{1}%a%F{5}]%f '
-zstyle ':vcs_info:*' formats '%F{5}(%f%s%F{5})%F{3}-%F{5}[%F{2}%b%F{5}]%f '
-zstyle ':vcs_info:*' enable git #svn cvs 
-
 # Enable completion caching, use rehash to clear
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path ~/.zsh/cache/$HOST
@@ -22,14 +17,11 @@ zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %
 # Add simple colors to kill
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 
-# list of completers to use
-zstyle ':completion:*::::' completer _expand _complete _ignored _approximate
+# Change to a more verbose process listing so kill<TAB> shows everything
+zstyle ':completion:*:processes' command 'ps aux'
 
 zstyle ':completion:*' menu select=1 _complete _ignored _approximate
 
-# insert all expansions for expand completer
-# zstyle ':completion:*:expand:*' tag-order all-expansions
- 
 # match uppercase from lowercase
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
  
