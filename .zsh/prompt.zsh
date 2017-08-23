@@ -70,37 +70,39 @@ function git_prompt_string() {
 
 ASYNC_PROC=0
 function precmd() {
-    # If in a git repo, asynchronously fill in the git details into PROMPT
-    if git rev-parse --git-dir > /dev/null 2>&1; then
-        function async() {
-            # save to temp file
-            printf "%s" "$(git_prompt_string)" > "/tmp/zsh_prompt_$$"
 
-            # signal parent
-            kill -s USR1 $$
-        }
-
-        # do not clear RPROMPT, let it persist
-
-        # kill child if necessary
-        if [[ "${ASYNC_PROC}" != 0 ]]; then
-            kill -s HUP $ASYNC_PROC >/dev/null 2>&1 || :
+    function async() {
+        local hostsytle=''
+        local gitinfo=''
+        local pend=$'%F{255}]%f\n'$PROMPT_CHAR
+        $(config diff --no-ext-diff --quiet --exit-code 2> /dev/null) && hostsytle='%F{239}' || hostsytle='%F{009}'
+        local pstart="%F{255}[${hostsytle}%M%F{255} › %F{074}%~%f"
+        # If in a git repo, asynchronously fill in the git details into PROMPT
+        if git rev-parse --git-dir > /dev/null 2>&1; then
+            gitinfo="$(git_prompt_string)"
         fi
 
-        # start background computation
-        async &!
-        ASYNC_PROC=$!
-    else
-        PROMPT="${PROMPT_START}${PROMPT_END}"
-        RPROMPT=""
+
+        # save to temp file
+        printf "%s" $pstart$gitinfo$pend > "/tmp/zsh_prompt_$$"
+
+        # signal parent
+        kill -s USR1 $$
+    }
+
+    # kill child if necessary
+    if [[ "${ASYNC_PROC}" != 0 ]]; then
+        kill -s HUP $ASYNC_PROC >/dev/null 2>&1 || :
     fi
+
+    # start background computation
+    async &!
+    ASYNC_PROC=$!
 }
 
 function TRAPUSR1() {
     # read from temp file
-    local git_info="$(cat /tmp/zsh_prompt_$$)"
-
-    PROMPT="${PROMPT_START}${git_info}${PROMPT_END}"
+    PROMPT="$(cat /tmp/zsh_prompt_$$)"
     # reset proc number
     ASYNC_PROC=0
 
@@ -108,24 +110,9 @@ function TRAPUSR1() {
     zle && zle reset-prompt
 }
 
-function gen_cmd_char() {
-    local last_err="$?"
-    local job_n="$(jobs | sed -n '$=')"
-    local color=""
-    [ "$last_err" != "0" -a "$last_err" != "148" ] && color='%F{red}' || color='%F{white}'
-    if [ "$job_n" -gt 0 ]; then
-        echo "${color}%Uλ%u%f %F{255}%B›%b%f "
-    else
-        echo "${color}λ%f %F{255}%B›%b%f "
-    fi
-}
+PROMPT_CHAR='%(?.%F{white}.%F{red})%(1j.%Uλ%u.λ)%f %F{255}%B›%b%f '
 
-
-
-PROMPT_START='%F{255}[%F{239}%M%F{255} › %F{074}%~%f'
-PROMPT_END='%F{255}]%f
-$(gen_cmd_char)'
-PROMPT="${PROMPT_START}${PROMPT_END}"
+PROMPT=$'%F{255}[%F{239}%M%F{255} › %F{074}%~%f%F{255}]%f\n'$PROMPT_CHAR
 RPROMPT='' # no initial prompt, set dynamically
 
 export SPROMPT="Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color [(y)es (n)o (a)bort (e)dit]? "
