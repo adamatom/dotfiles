@@ -14,8 +14,11 @@ function load_plugins() {
     periodically_update_plugins
     source ~/.zsh/antibody_sourceables.zsh
 
+    # history-substring-search options
+    HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=white,bold'
     # zsh-autosuggestions options
     ZSH_AUTOSUGGEST_STRATEGY=directory_history
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=239'
 
     # zsh-syntax-highlighting
     # Turn a lot of the highlighting off
@@ -23,6 +26,7 @@ function load_plugins() {
     ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=blue
     ZSH_HIGHLIGHT_STYLES[builtin]=none
     ZSH_HIGHLIGHT_STYLES[function]=none
+    ZSH_HIGHLIGHT_STYLES[alias]=none
     ZSH_HIGHLIGHT_STYLES[command]=none
     ZSH_HIGHLIGHT_STYLES[precommand]=none
     ZSH_HIGHLIGHT_STYLES[commandseparator]=none
@@ -34,6 +38,7 @@ function load_plugins() {
     ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=yellow
     ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=yellow
     ZSH_HIGHLIGHT_STYLES[assign]=none
+
 }
 
 if [[ -f ~/.zsh/antibody_plugins.txt && -f ~/.zsh/antibody_sourceables.zsh ]]; then
