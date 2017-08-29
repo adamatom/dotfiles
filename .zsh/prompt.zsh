@@ -74,6 +74,7 @@ function precmd() {
     function async() {
         local hoststyle=''
         $(config diff --no-ext-diff --quiet --exit-code 2> /dev/null) && hoststyle='%F{239}' || hoststyle='%F{009}'
+
         local gitinfo=''
         local pend=$'%F{255}]%f\n'$PROMPT_CHAR
         local pstart="%F{255}[${hoststyle}%M%F{255} › %F{074}%~%f"
