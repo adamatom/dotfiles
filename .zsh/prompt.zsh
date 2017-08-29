@@ -72,19 +72,21 @@ ASYNC_PROC=0
 function precmd() {
 
     function async() {
-        local hostsytle=''
+        local hoststyle=''
+        $(config diff --no-ext-diff --quiet --exit-code 2> /dev/null) && hoststyle='%F{239}' || hoststyle='%F{009}'
         local gitinfo=''
         local pend=$'%F{255}]%f\n'$PROMPT_CHAR
-        $(config diff --no-ext-diff --quiet --exit-code 2> /dev/null) && hostsytle='%F{239}' || hostsytle='%F{009}'
-        local pstart="%F{255}[${hostsytle}%M%F{255} › %F{074}%~%f"
+        local pstart="%F{255}[${hoststyle}%M%F{255} › %F{074}%~%f"
         # If in a git repo, asynchronously fill in the git details into PROMPT
         if git rev-parse --git-dir > /dev/null 2>&1; then
             gitinfo="$(git_prompt_string)"
         fi
 
-
         # save to temp file
         printf "%s" $pstart$gitinfo$pend > "/tmp/zsh_prompt_$$"
+
+        # Update the title while we are at it
+        print -Pn "\e]0;%~\a"
 
         # signal parent
         kill -s USR1 $$
@@ -98,6 +100,7 @@ function precmd() {
     # start background computation
     async &!
     ASYNC_PROC=$!
+
 }
 
 function TRAPUSR1() {
