@@ -120,7 +120,3 @@ PROMPT=$'%F{255}[%F{239}%M%F{255} › %F{074}%~%f%F{255}]%f\n'$PROMPT_CHAR
 RPROMPT='' # no initial prompt, set dynamically
 
 export SPROMPT="Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color [(y)es (n)o (a)bort (e)dit]? "
-
-
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
