@@ -11,4 +11,7 @@ source ~/.zsh/history.zsh
 source ~/.zsh/z.sh
 source ~/.zsh/plugins.zsh
 source ~/.zsh/bindkeys.zsh
-[ -f ~/.zsh_local.zsh ] && source ~/.zsh_local.zsh
+if [ -f ~/.zsh_local.zsh ]; then
+    source ~/.zsh_local.zsh
+fi
+
