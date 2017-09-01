@@ -10,6 +10,7 @@ function periodically_update_plugins() {
         touch ~/.cache/antibody/timestamp
     fi
 }
+
 function load_plugins() {
     periodically_update_plugins
     source ~/.zsh/antibody_sourceables.zsh
