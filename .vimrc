@@ -292,10 +292,17 @@ noremap <Leader>q q
 noremap q <nop>
 
 " :wq when I meant :w. Nudges towards using :x
-cmap wq w
+cabbrev wq w
+
+" :W isnt a command, and I usually intend on :w
+cabbrev W w
+
+" :X is a strange crypto thing that I dont care about, intention is :x
+cabbrev X x
+
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
-cmap w!! w !sudo tee > /dev/null %
+cabbrev w!! w !sudo tee > /dev/null %
 
 " change tabstops for lua to be 2
 au FileType lua setl sw=2 sts=2 et
