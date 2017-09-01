@@ -17,8 +17,8 @@ zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %
 # Add simple colors to kill
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 
-# Change to a more verbose process listing so kill<TAB> shows everything
-zstyle ':completion:*:processes' command 'ps aux'
+# Change to a more verbose process listing so kill<TAB> shows everything for user
+zstyle ':completion:*:processes' command 'ps ux'
 
 zstyle ':completion:*' menu select=1 _complete _ignored _approximate
 
