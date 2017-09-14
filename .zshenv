@@ -1,8 +1,5 @@
 # Automatically sourced by zsh when zsh is launched
 # .zshenv → [.zprofile if login] → [.zshrc if interactive] → [.zlogin if login] → [.zlogout sometimes]
-if [ -f ~/.zshenv_custom ]; then
-    source ~/.zshenv_custom
-fi
 
 # exports for all computers running config
 export TERM=xterm-256color
