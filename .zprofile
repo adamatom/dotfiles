@@ -1,3 +1,2 @@
-export PATH=$PATH:$HOME/.bin:$GOPATH/bin:/opt/Xilinx/Vivado/2016.2/bin/
-export XLINIXD_LICENSE_FILE=2101@morph2
-export XDG_DATA_DIRS=/usr/share:/usr/local/share
+# This is sourced once per login by zsh when logging in via non-graphical interactive login.
+# .zshenv → [.zprofile if login] → [.zshrc if interactive] → [.zlogin if login] → [.zlogout sometimes]

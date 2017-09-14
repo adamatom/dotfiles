@@ -1,9 +1,10 @@
+# Automatically sourced by zsh on interactive shells
+# .zshenv → [.zprofile if login] → [.zshrc if interactive] → [.zlogin if login] → [.zlogout sometimes]
 # Enable profiling
 #zmodload zsh/zprof  # launch shell then run 'zprof'
 
 source ~/.zsh/colors.zsh
 source ~/.zsh/setopt.zsh
-source ~/.zsh/exports.zsh
 source ~/.zsh/prompt.zsh
 source ~/.zsh/completion.zsh
 source ~/.zsh/aliases.zsh
