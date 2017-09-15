@@ -92,31 +92,46 @@ Plug 'vim-syntastic/syntastic'
   let g:syntastic_ignore_files = ['\m^/usr/include/']
   let g:syntastic_cpp_checkers = ["clang_check"]
   let g:syntastic_c_checkers = ["gcc"]
+  let g:syntastic_rust_checkers = ["rustc"]
 
 
-    "lightweight autocomplete via chaining fallbacks so you dont have to remember ctrl-x ctrl-...
-Plug 'lifepillar/vim-mucomplete'
+    " autocompleter that uses async
+Plug 'maralla/completor.vim'
+  let g:completor_racer_binary = "/usr/bin/racer"
+
+  " dont use default options
+  let g:completor_set_options = 0
   inoremap <expr> <c-e> mucomplete#popup_exit("\<c-e>")
   inoremap <expr> <c-y> mucomplete#popup_exit("\<c-y>")
   inoremap <expr>  <cr> mucomplete#popup_exit("\<cr>")
   set shortmess+=c
   set completeopt-=preview
   set completeopt+=longest,menuone,noinsert,noselect
-  let g:mucomplete#enable_auto_at_startup = 1
-  "let g:mucomplete#no_mappings = 0
-  let g:mucomplete#chains = {'vim': ['file', 'cmd', 'keyn'], 
-        \    'default': ['omni','file', 'keyn', 'dict'],
-        \    'cpp': ['omni', 'file', 'keyp', 'incl', 'dict'],
-        \    'c': ['omni', 'file', 'keyp', 'incl', 'dict'],
-        \    'text': ['file', 'keyn', 'dict'],
-        \    'lua': ['file', 'keyn', 'dict']
-        \  }
 
-  let g:mucomplete#can_complete = {}
-  let g:mucomplete#can_complete.default = {
-        \   'file': { _ -> 1 }
-        \   }
-
+    "lightweight autocomplete via chaining fallbacks so you dont have to remember ctrl-x ctrl-...
+"Plug 'lifepillar/vim-mucomplete'
+"  inoremap <expr> <c-e> mucomplete#popup_exit("\<c-e>")
+"  inoremap <expr> <c-y> mucomplete#popup_exit("\<c-y>")
+"  inoremap <expr>  <cr> mucomplete#popup_exit("\<cr>")
+"  set shortmess+=c
+"  set completeopt-=preview
+"  set completeopt+=longest,menuone,noinsert,noselect
+"  let g:mucomplete#enable_auto_at_startup = 1
+"  "let g:mucomplete#no_mappings = 0
+"  let g:mucomplete#chains = {'vim': ['file', 'cmd', 'keyn'], 
+"        \    'default': ['omni','file', 'keyn', 'dict'],
+"        \    'cpp': ['omni', 'file', 'keyp', 'incl', 'dict'],
+"        \    'c': ['omni', 'file', 'keyp', 'incl', 'dict'],
+"        \    'rust': ['file', 'keyp', 'incl', 'dict'],
+"        \    'text': ['file', 'keyn', 'dict'],
+"        \    'lua': ['file', 'keyn', 'dict']
+"        \  }
+"
+"  let g:mucomplete#can_complete = {}
+"  let g:mucomplete#can_complete.default = {
+"        \   'file': { _ -> 1 }
+"        \   }
+"
     "Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
   inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
   inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
@@ -129,6 +144,10 @@ Plug 'davidhalter/jedi-vim'
 Plug 'Rip-Rip/clang_complete', {'for': ['c', 'cpp']}
   let g:clang_user_options = '-std=c++14'
   let g:clang_complete_auto = 1
+
+    "Rust omnifunc completer
+Plug 'racer-rust/vim-racer'
+  let g:racer_cmd = "/usr/bin/racer"
 
     "Automatic tag management
 Plug 'ludovicchabant/vim-gutentags'
@@ -145,6 +164,10 @@ Plug 'vim-scripts/ReplaceWithRegister'
 Plug 'terryma/vim-expand-region'
   vmap v <Plug>(expand_region_expand)
   vmap <C-v> <Plug>(expand_region_shrink)
+
+    "nice motion plugin, relieves 'w' spam, lighter weight than easymotion
+Plug 'justinmk/vim-sneak'
+  let g:sneak#label = 1
 
     "nice motion plugin, relieves 'w' spam
 Plug 'Lokaltog/vim-easymotion'
@@ -170,6 +193,7 @@ Plug 'fatih/vim-go', {'for': 'go' }
 Plug 'wlangstroth/vim-racket', {'for': ['scheme', 'racket']}
 Plug 'tpope/vim-fireplace', {'for' : 'clojure' }
 Plug 'aklt/plantuml-syntax'
+Plug 'rust-lang/rust.vim', {'for' : 'rust' }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " color schemes
