@@ -97,7 +97,27 @@ Plug 'vim-syntastic/syntastic'
 
     " autocompleter that uses async
 Plug 'maralla/completor.vim'
-  let g:completor_racer_binary = "/usr/bin/racer"
+  let b:racer = "/usr/bin/racer"
+  let b:python = "/usr/bin/python3"
+  let b:node = "/usr/bin/node"
+  let b:clang = "/usr/bin/clang"
+  let b:go = "/usr/bin/go"
+
+  if !empty(glob(b:racer))
+      let g:completor_racer_binary = "/usr/bin/racer"
+  endif
+  if !empty(glob(b:python))
+      let g:completer_python_binary = "/usr/bin/python3"
+  endif
+  if !empty(glob(b:node))
+      let g:completer_node_binary = "/usr/bin/node"
+  endif
+  if !empty(glob(b:clang))
+      let g:completer_clang_binary = "/usr/bin/clang"
+  endif
+  if !empty(glob(b:go))
+      let g:completer_go_binary = "/usr/bin/go"
+  endif
 
   " dont use default options
   let g:completor_set_options = 0
@@ -108,30 +128,6 @@ Plug 'maralla/completor.vim'
   set completeopt-=preview
   set completeopt+=longest,menuone,noinsert,noselect
 
-    "lightweight autocomplete via chaining fallbacks so you dont have to remember ctrl-x ctrl-...
-"Plug 'lifepillar/vim-mucomplete'
-"  inoremap <expr> <c-e> mucomplete#popup_exit("\<c-e>")
-"  inoremap <expr> <c-y> mucomplete#popup_exit("\<c-y>")
-"  inoremap <expr>  <cr> mucomplete#popup_exit("\<cr>")
-"  set shortmess+=c
-"  set completeopt-=preview
-"  set completeopt+=longest,menuone,noinsert,noselect
-"  let g:mucomplete#enable_auto_at_startup = 1
-"  "let g:mucomplete#no_mappings = 0
-"  let g:mucomplete#chains = {'vim': ['file', 'cmd', 'keyn'], 
-"        \    'default': ['omni','file', 'keyn', 'dict'],
-"        \    'cpp': ['omni', 'file', 'keyp', 'incl', 'dict'],
-"        \    'c': ['omni', 'file', 'keyp', 'incl', 'dict'],
-"        \    'rust': ['file', 'keyp', 'incl', 'dict'],
-"        \    'text': ['file', 'keyn', 'dict'],
-"        \    'lua': ['file', 'keyn', 'dict']
-"        \  }
-"
-"  let g:mucomplete#can_complete = {}
-"  let g:mucomplete#can_complete.default = {
-"        \   'file': { _ -> 1 }
-"        \   }
-"
     "Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
   inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
   inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
