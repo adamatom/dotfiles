@@ -15,11 +15,10 @@ if has("gui_running")
     set guifont=Input\ Mono\ Condensed\ Regular\ 10
 endif
 
-    "use vim as a man pager
+"use vim as a man pager
 let $PAGER=''
 
 set t_Co=256                        "let terminal vim use 256 colors
-"set termguicolors
 
 command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> -
 
@@ -29,162 +28,141 @@ call plug#begin('~/.vim/plugged')
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins that add new windows
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-    "fancypants status line
+"fancypants status line
 Plug 'itchyny/lightline.vim'
-  let g:lightline = { 'component': { 'readonly': '%{&readonly?"⭤":""}', } }
+let g:lightline = { 'component': { 'readonly': '%{&readonly?"⭤":""}', } }
 
-    "adds a window that shows all of the functions in the current file
+"adds a window that shows all of the functions in the current file
 Plug 'majutsushi/tagbar'
 
-    "visual undo tree. nice for when you need to go back to a branch
+"visual undo tree. nice for when you need to go back to a branch
 Plug 'sjl/gundo.vim'
 
-    "ctrl-p for go to anything
+"ctrl-p for go to anything
 Plug 'kien/ctrlp.vim'
-  " make CtrlP use ag and not cache
-  let g:ctrlp_use_caching = 0
-  let g:ctrlp_working_path_mode = '0'
-  if executable('ag')
-      set  grepprg=ag\ --nogroup\ --nocolor
-      let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  endif
+" make CtrlP use ag and not cache
+let g:ctrlp_use_caching = 0
+let g:ctrlp_working_path_mode = '0'
+if executable('ag')
+    set  grepprg=ag\ --nogroup\ --nocolor
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
 
-    "provides hg/git change status in the left gutter
+"provides hg/git change status in the left gutter
 Plug 'mhinz/vim-signify'
 
-    "vim front end for 'the silver searcher'
+"vim front end for ack, with support for ag backend
 Plug 'mileszs/ack.vim'
-  if executable('ag')
+if executable('ag')
     let g:ackprg = 'ag --vimgrep'
-  endif
+endif
 
-    "better buffer management
+"better buffer management
 Plug 'jlanzarotta/bufexplorer'
 
-    "display marks
+"display marks
 Plug 'kshenoy/vim-signature'
 
-    "file tree because netrw is bad
+"file tree because netrw is bad
 Plug 'scrooloose/nerdtree'
-  let g:NERDTreeHijackNetrw=1
-  let g:NERDTreeMapUpdirKeepOpen="-"
+let g:NERDTreeHijackNetrw=1
+let g:NERDTreeMapUpdirKeepOpen="-"
 
-    "netrw file explorer via '-' key
+"netrw file explorer via '-' key
 Plug 'tpope/vim-vinegar'
 
-    "automatically display markdown view when editing md files
+"automatically display markdown view when editing md files
 Plug 'suan/vim-instant-markdown'
 
-    "A shell for simple stuff
+"A shell for simple stuff
 Plug 'shougo/vimshell.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Intellisense, autocompletion, and linting
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-    "Syntax linting engine
+"Syntax linting engine
 Plug 'vim-syntastic/syntastic'
-  let g:syntastic_clang_check_config_file = ".clang_complete"
-  let g:syntastic_always_populate_loc_list = 1
-  let g:syntastic_auto_loc_list = 1
-  let g:syntastic_check_on_open = 0
-  let g:syntastic_check_on_wq = 0
-  let g:syntastic_ignore_files = ['\m^/usr/include/']
-  let g:syntastic_cpp_checkers = ["clang_check"]
-  let g:syntastic_c_checkers = ["gcc"]
-  let g:syntastic_rust_checkers = ["rustc"]
+let g:syntastic_clang_check_config_file = ".clang_complete"
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_ignore_files = ['\m^/usr/include/']
+let g:syntastic_cpp_checkers = ["clang_check"]
+let g:syntastic_c_checkers = ["gcc"]
+let g:syntastic_rust_checkers = ["rustc"]
 
 
-    " autocompleter that uses async
+" autocompleter that uses async
 Plug 'maralla/completor.vim'
-  let b:racer = "/usr/bin/racer"
-  let b:python = "/usr/bin/python3"
-  let b:node = "/usr/bin/node"
-  let b:clang = "/usr/bin/clang"
-  let b:go = "/usr/bin/go"
+let b:racer = "/usr/bin/racer"
+let b:python = "/usr/bin/python3"
+let b:node = "/usr/bin/node"
+let b:clang = "/usr/bin/clang"
+let b:go = "/usr/bin/go"
 
-  if !empty(glob(b:racer))
-      let g:completor_racer_binary = "/usr/bin/racer"
-  endif
-  if !empty(glob(b:python))
-      let g:completer_python_binary = "/usr/bin/python3"
-  endif
-  if !empty(glob(b:node))
-      let g:completer_node_binary = "/usr/bin/node"
-  endif
-  if !empty(glob(b:clang))
-      let g:completer_clang_binary = "/usr/bin/clang"
-  endif
-  if !empty(glob(b:go))
-      let g:completer_go_binary = "/usr/bin/go"
-  endif
+if !empty(glob(b:racer))
+    let g:completor_racer_binary = "/usr/bin/racer"
+endif
+if !empty(glob(b:python))
+    let g:completer_python_binary = "/usr/bin/python3"
+endif
+if !empty(glob(b:node))
+    let g:completer_node_binary = "/usr/bin/node"
+endif
+if !empty(glob(b:clang))
+    let g:completer_clang_binary = "/usr/bin/clang"
+endif
+if !empty(glob(b:go))
+    let g:completer_go_binary = "/usr/bin/go"
+endif
 
-  " dont use default options
-  let g:completor_set_options = 0
-  inoremap <expr> <c-e> mucomplete#popup_exit("\<c-e>")
-  inoremap <expr> <c-y> mucomplete#popup_exit("\<c-y>")
-  inoremap <expr>  <cr> mucomplete#popup_exit("\<cr>")
-  set shortmess+=c
-  set completeopt-=preview
-  set completeopt+=longest,menuone,noinsert,noselect
+"Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
+inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
+inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 
-    "Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
-  inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
-  inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-  inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-
-    "Python omnifunc completer
-Plug 'davidhalter/jedi-vim'
-
-    "C/C++ omnifunc completer
-Plug 'Rip-Rip/clang_complete', {'for': ['c', 'cpp']}
-  let g:clang_user_options = '-std=c++14'
-  let g:clang_complete_auto = 1
-
-    "Rust omnifunc completer
-Plug 'racer-rust/vim-racer'
-  let g:racer_cmd = "/usr/bin/racer"
-
-    "Automatic tag management
+"Automatic tag management
 Plug 'ludovicchabant/vim-gutentags'
-  let g:gutentags_ctags_tagfile = ".tags"
+let g:gutentags_ctags_tagfile = ".tags"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Plugins that add keyboard commands
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 
-    "replace {motion} with a register. Faster than typing '"_c[motion]^r"'
+"replace {motion} with a register. Faster than typing '"_c[motion]^r"'
 Plug 'vim-scripts/ReplaceWithRegister'
 
-    "repeated v's expand out the visually selected region
+"repeated v's expand out the visually selected region
 Plug 'terryma/vim-expand-region'
-  vmap v <Plug>(expand_region_expand)
-  vmap <C-v> <Plug>(expand_region_shrink)
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
 
-    "nice motion plugin, relieves 'w' spam, lighter weight than easymotion
+"nice motion plugin, relieves 'w' spam, lighter weight than easymotion
 Plug 'justinmk/vim-sneak'
-  let g:sneak#label = 1
+let g:sneak#label = 1
 
-    "nice motion plugin, relieves 'w' spam
+"nice motion plugin, relieves 'w' spam
 Plug 'Lokaltog/vim-easymotion'
 
-    "better file switching
+"better file switching
 Plug 'derekwyatt/vim-fswitch'
- augroup mycppfiles
-   au!
-   au BufEnter *.h let b:fswitchlocs = 'reg:/include/src/,reg:/headers/cpp/,ifrel:|/include/|../src|,./'
-   au BufEnter *.cpp let b:fswitchlocs = 'reg:/src/include/,reg:/cpp/headers/,ifrel:|/src/|../include|,./'
- augroup END
+augroup mycppfiles
+    au!
+    au BufEnter *.h let b:fswitchlocs = 'reg:/include/src/,reg:/headers/cpp/,ifrel:|/include/|../src|,./'
+    au BufEnter *.cpp let b:fswitchlocs = 'reg:/src/include/,reg:/cpp/headers/,ifrel:|/src/|../include|,./'
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Syntax Highlighting
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'NLKNguyen/c-syntax.vim', {'for': ['c', 'cpp']}
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
-    let g:cpp_class_scope_highlight = 1
+let g:cpp_class_scope_highlight = 1
 Plug 'adamatom/vim-pasm'
 Plug 'hdima/python-syntax', {'for': 'python'}
-    let python_highlight_all = 1
+let python_highlight_all = 1
 Plug 'fatih/vim-go', {'for': 'go' }
 Plug 'wlangstroth/vim-racket', {'for': ['scheme', 'racket']}
 Plug 'tpope/vim-fireplace', {'for' : 'clojure' }
@@ -264,6 +242,7 @@ let g:vhdl_indent_genportmap = 0
 
 " change leader to space, nicer to type. You loose some sort of 'move to next char' command. 
 let mapleader = "\<Space>"
+
 "leader-c will close all the extra windows created by ack/syntastic, etc
 nmap <silent> <leader>c :lclose <bar> cclose <cr>
 nmap <silent> <leader>t :TagbarToggle<CR>
@@ -271,6 +250,7 @@ nmap <silent> <leader>g :GundoToggle<CR>
 nmap <silent> <Leader>a :FSHere<cr>
 nmap <leader>s :Ack!<cr>
 nnoremap <leader>o :CtrlP<cr>
+
 " use leader {y|d|p} for interacting with the system clipboard
 vmap <Leader>y "+y
 vmap <Leader>d "+d
@@ -278,9 +258,9 @@ nmap <Leader>p "+p
 nmap <Leader>P "+P
 vmap <Leader>p "+p
 vmap <Leader>P "+P
+
 " enter visual line mode easier
 nmap <leader><leader><leader> V
-
 
 " typing jj in insert mode gets you out.
 inoremap jj <Esc>
@@ -320,9 +300,11 @@ cabbrev W w
 " :X is a strange crypto thing that I dont care about, intention is :x
 cabbrev X x
 
-
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cabbrev w!! w !sudo tee > /dev/null %
+
+" Make it a little easier to get into VimShell
+cabbrev shell VimShell
 
 " change tabstops for lua to be 2
 au FileType lua setl sw=2 sts=2 et
