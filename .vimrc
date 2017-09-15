@@ -30,7 +30,29 @@ call plug#begin('~/.vim/plugged')
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "fancypants status line
 Plug 'itchyny/lightline.vim'
-let g:lightline = { 'component': { 'readonly': '%{&readonly?"⭤":""}', } }
+let g:lightline = {
+    \ 'component': {
+    \   'readonly': '%{&readonly?"⭤":""}',
+    \ },
+    \ 'component_function': {
+    \   'filename': 'LightlineFilename',
+    \ },
+    \ }
+
+function! LightlineFilename()
+    let short_filename = expand('%:t') !=# '' ? expand("%:t") : '[No Name]'
+    let med_filename = expand('%:t') !=# '' ? fnamemodify(expand("%:p"), ":~:.") : '[No Name]'
+    let full_filename = expand('%:t') !=# '' ? fnamemodify(expand("%:p"), ":~") : '[No Name]'
+
+    let max_len = 120
+    let full_len = len(full_filename)
+    let med_len = len(med_filename)
+
+    let use_short = full_len > max_len && med_len > max_len
+    let use_med = full_len > max_len && med_len <= max_len
+
+    return use_short ? short_filename : use_med ? med_filename : full_filename
+endfunction
 
 "adds a window that shows all of the functions in the current file
 Plug 'majutsushi/tagbar'
