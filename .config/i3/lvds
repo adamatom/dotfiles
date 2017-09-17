@@ -101,6 +101,7 @@ for_window [class="(?i)orage"] floating enable, move position mouse
 for_window [class="(?i)file-roller"] floating enable, move position mouse
 for_window [class="(?i)ptask"] floating enable
 for_window [class="Gnome-calendar"] floating enable
+for_window [class="(?i)Steam"] floating enable
 for_window [class="^.*"] border pixel 2
 
 assign [class="(?i)evolution"]                  $tag3
