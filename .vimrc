@@ -190,6 +190,7 @@ Plug 'wlangstroth/vim-racket', {'for': ['scheme', 'racket']}
 Plug 'tpope/vim-fireplace', {'for' : 'clojure' }
 Plug 'aklt/plantuml-syntax'
 Plug 'rust-lang/rust.vim', {'for' : 'rust' }
+let g:rustfmt_autosave = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " color schemes
