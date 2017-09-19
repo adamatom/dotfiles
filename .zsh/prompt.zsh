@@ -8,14 +8,14 @@ autoload add-zsh-hook
 ZSH_THEME_GIT_PROMPT_PREFIX="%B%F{255} › %b%F{green}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%f"
 
-ZSH_THEME_GIT_PROMPT_MERGING="%B%F{magenta} ⚡︎%f%b"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%B%F{yellow} ◒%f%b"
-ZSH_THEME_GIT_PROMPT_ADDED="%B%F{green} ✚%f%b"
-ZSH_THEME_GIT_PROMPT_MODIFIED="%F{yellow} ✹%f"
-ZSH_THEME_GIT_PROMPT_DELETED="%B%F{red} ✖%f%b"
-ZSH_THEME_GIT_PROMPT_UNMERGED="%B%F{blue} §%f%b"
-ZSH_THEME_GIT_PROMPT_AHEAD="%B%F{cyan} ⇡NUM%f%b"
-ZSH_THEME_GIT_PROMPT_BEHIND="%B%F{cyan} ⇣NUM%f%b"
+ZSH_THEME_GIT_PROMPT_MERGING="%B%F{magenta}⚡︎%f%b"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%B%F{yellow}◒ %f%b"
+ZSH_THEME_GIT_PROMPT_ADDED="%B%F{green}✚ %f%b"
+ZSH_THEME_GIT_PROMPT_MODIFIED="%F{yellow}✹ %f"
+ZSH_THEME_GIT_PROMPT_DELETED="%B%F{red}✖ %f%b"
+ZSH_THEME_GIT_PROMPT_UNMERGED="%B%F{blue}§ %f%b"
+ZSH_THEME_GIT_PROMPT_AHEAD="%B%F{cyan}⇡NUM %f%b"
+ZSH_THEME_GIT_PROMPT_BEHIND="%B%F{cyan}⇣NUM %f%b"
 
 # Get the status of the working tree
 function git_prompt_string() {
@@ -64,7 +64,7 @@ function git_prompt_string() {
   local git_where="$(git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD 2> /dev/null)"
   git_where=${git_where/refs\/heads\//}
   git_where=${git_where/tags\//}
-  echo "$ZSH_THEME_GIT_PROMPT_PREFIX${git_where}$STATUS$ZSH_THEME_GIT_PROMPT_SUFFIX"
+  echo "$ZSH_THEME_GIT_PROMPT_PREFIX${git_where} $STATUS$ZSH_THEME_GIT_PROMPT_SUFFIX"
 }
 
 
