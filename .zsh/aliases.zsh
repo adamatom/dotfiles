@@ -21,6 +21,8 @@ function config() {
 function enable_vivado() {
     if [[ "$#" == "0" ]]; then
         echo "usage: enable_vivado <net_adaptor>"
+        echo "candidate net_adaptors:\n"
+        ip a | sed -n -e 's/^[0-9]: \(.*\):.*/\1/p' | sed -n -e '/lo/!p'
     else
         sudo ip link set dev $1 down
         sudo ip link set $1 address d6:db:e9:70:7b:16
