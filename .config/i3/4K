@@ -281,7 +281,7 @@ bar {
             focused_workspace   #2B83A6 #2B83A6 #FFFFFF
             active_workspace    #212121 #212121 #FFFFFF
             inactive_workspace  #212121 #212121 #86888C
-            urgent_workspace    #2F343A #D64E4E #FFFFFF
+            urgent_workspace    #D64E4E #D64E4E #FFFFFF
       }
 }
 
@@ -302,6 +302,6 @@ bar {
             focused_workspace   #2B83A6 #2B83A6 #FFFFFF
             active_workspace    #212121 #212121 #FFFFFF
             inactive_workspace  #212121 #212121 #86888C
-            urgent_workspace    #2F343A #D64E4E #FFFFFF
+            urgent_workspace    #D64E4E #D64E4E #FFFFFF
       }
 }
