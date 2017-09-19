@@ -12,7 +12,7 @@ if has("gui_running")
     set guioptions-=b
     set guioptions-=h
     set guioptions-=e  "I dont like the gui tabs, use ascii
-    set guifont=hack 10
+    set guifont=Essential\ PragmataPro\ 11
 endif
 
 "use vim as a man pager
