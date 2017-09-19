@@ -125,19 +125,19 @@ let b:clang = "/usr/bin/clang"
 let b:go = "/usr/bin/go"
 
 if !empty(glob(b:racer))
-    let g:completor_racer_binary = "/usr/bin/racer"
+    let g:completor_racer_binary = b:racer
 endif
 if !empty(glob(b:python))
-    let g:completer_python_binary = "/usr/bin/python3"
+    let g:completer_python_binary = b:python
 endif
 if !empty(glob(b:node))
-    let g:completer_node_binary = "/usr/bin/node"
+    let g:completer_node_binary = b:node
 endif
 if !empty(glob(b:clang))
-    let g:completer_clang_binary = "/usr/bin/clang"
+    let g:completer_clang_binary = b:clang
 endif
 if !empty(glob(b:go))
-    let g:completer_go_binary = "/usr/bin/go"
+    let g:completer_go_binary = b:go
 endif
 
 "Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
