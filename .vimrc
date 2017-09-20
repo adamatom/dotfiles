@@ -1,8 +1,9 @@
-set nocompatible              " be iMproved
+set encoding=utf-8
+scriptencoding utf-8
 filetype off                  " required!
 filetype plugin indent on     " required!
 
-if has("gui_running")
+if has('gui_running')
     set guioptions-=T  "no toolbars
     set guioptions-=m  "or menu
     set guioptions-=r  "or scrollbars
@@ -40,9 +41,9 @@ let g:lightline = {
     \ }
 
 function! LightlineFilename()
-    let short_filename = expand('%:t') !=# '' ? expand("%:t") : '[No Name]'
-    let med_filename = expand('%:t') !=# '' ? fnamemodify(expand("%:p"), ":~:.") : '[No Name]'
-    let full_filename = expand('%:t') !=# '' ? fnamemodify(expand("%:p"), ":~") : '[No Name]'
+    let short_filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
+    let med_filename = expand('%:t') !=# '' ? fnamemodify(expand('%:p'), ':~:.') : '[No Name]'
+    let full_filename = expand('%:t') !=# '' ? fnamemodify(expand('%:p'), ':~') : '[No Name]'
 
     let max_len = 120
     let full_len = len(full_filename)
@@ -88,7 +89,7 @@ Plug 'kshenoy/vim-signature'
 "file tree because netrw is bad
 Plug 'scrooloose/nerdtree'
 let g:NERDTreeHijackNetrw=1
-let g:NERDTreeMapUpdirKeepOpen="-"
+let g:NERDTreeMapUpdirKeepOpen='-'
 
 "netrw file explorer via '-' key
 Plug 'tpope/vim-vinegar'
@@ -105,36 +106,37 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "Syntax linting engine
 Plug 'vim-syntastic/syntastic'
-let g:syntastic_clang_check_config_file = ".clang_complete"
+let g:syntastic_clang_check_config_file = '.clang_complete'
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_ignore_files = ['\m^/usr/include/']
-let g:syntastic_cpp_checkers = ["clang_check"]
-let g:syntastic_c_checkers = ["gcc"]
-let g:syntastic_rust_checkers = ["rustc"]
+let g:syntastic_cpp_checkers = ['clang_check']
+let g:syntastic_c_checkers = ['gcc']
+let g:syntastic_rust_checkers = ['rustc']
+let g:syntastic_vim_checkers = ['vint']
 
 
 " autocompleter that uses async
 Plug 'maralla/completor.vim'
 function! IfExists(bin)
-    return !empty(glob(a:bin)) ? a:bin : ""
+    return !empty(glob(a:bin)) ? a:bin : ''
 endfunction
-let g:completor_racer_binary = IfExists("/usr/bin/racer")
-let g:completer_python_binary = IfExists("/usr/bin/python3")
-let g:completer_node_binary = IfExists("/usr/bin/node")
-let g:completer_clang_binary = IfExists("/usr/bin/clang")
-let g:completer_go_binary = IfExists("/usr/bin/go")
+let g:completor_racer_binary = IfExists('/usr/bin/racer')
+let g:completer_python_binary = IfExists('/usr/bin/python3')
+let g:completer_node_binary = IfExists('/usr/bin/node')
+let g:completer_clang_binary = IfExists('/usr/bin/clang')
+let g:completer_go_binary = IfExists('/usr/bin/go')
 
 "Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
-inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
-inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+inoremap <expr> <CR>       pumvisible() ? '\<C-y>' : '\<CR>'
+inoremap <expr> <Down>     pumvisible() ? '\<C-n>' : '\<Down>'
+inoremap <expr> <Up>       pumvisible() ? '\<C-p>' : '\<Up>'
 
 "Automatic tag management
 Plug 'ludovicchabant/vim-gutentags'
-let g:gutentags_ctags_tagfile = ".tags"
+let g:gutentags_ctags_tagfile = '.tags'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Plugins that add keyboard commands
@@ -196,7 +198,6 @@ set shiftwidth=4                    "four spaces for autoindenting
 set softtabstop=4
 set expandtab                       "Insert spaces instead of tabs
 set shiftround                      "use multiple of shiftwidth for indenting
-set encoding=utf-8
 set smartindent                     "Seems to do a decent job with indenting
 set scrolloff=2                     "always show lines of code above/below cursor
 set hidden                          "Dont delete buffers, just hide them. Lets us :e another file without having to s
@@ -317,4 +318,7 @@ cabbrev w!! w !sudo tee > /dev/null %
 cabbrev shell VimShell
 
 " change tabstops for lua to be 2
-au FileType lua setl sw=2 sts=2 et
+augroup filetype_lua
+    au!
+    au FileType lua setl sw=2 sts=2 et
+augroup END
