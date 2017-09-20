@@ -119,7 +119,7 @@ let g:syntastic_vim_checkers = ['vint']
 
 
 " autocompleter that uses async
-Plug 'maralla/completor.vim'
+Plug 'adamatom/completor.vim', { 'branch': 'cpp_preview' }
 function! IfExists(bin)
     return !empty(glob(a:bin)) ? a:bin : ''
 endfunction
@@ -128,6 +128,11 @@ let g:completer_python_binary = IfExists('/usr/bin/python3')
 let g:completer_node_binary = IfExists('/usr/bin/node')
 let g:completer_clang_binary = IfExists('/usr/bin/clang')
 let g:completer_go_binary = IfExists('/usr/bin/go')
+let g:completor_auto_close_doc = 0
+let g:completor_set_options = 0
+set completeopt+=menuone,preview
+
+
 
 "Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
 inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
@@ -321,4 +326,9 @@ cabbrev shell VimShell
 augroup filetype_lua
     au!
     au FileType lua setl sw=2 sts=2 et
+augroup END
+
+augroup allfiles
+    autocmd!
+    autocmd InsertLeave * pclose
 augroup END
