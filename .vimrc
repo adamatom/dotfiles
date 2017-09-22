@@ -1,6 +1,5 @@
 set encoding=utf-8
 scriptencoding utf-8
-filetype off                  " required!
 filetype plugin indent on     " required!
 
 if has('gui_running')
@@ -106,7 +105,6 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "Syntax linting engine
 Plug 'vim-syntastic/syntastic'
-let g:syntastic_clang_check_config_file = '.clang_complete'
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
@@ -114,6 +112,9 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_ignore_files = ['\m^/usr/include/']
 let g:syntastic_cpp_checkers = ['clang_check']
 let g:syntastic_c_checkers = ['gcc']
+let g:syntastic_c_config_file = '.clang_complete'
+let g:syntastic_c_compiler_options = ''
+let g:syntastic_c_no_default_include_dirs = 1
 let g:syntastic_rust_checkers = ['rustc']
 let g:syntastic_vim_checkers = ['vint']
 
@@ -135,13 +136,18 @@ set completeopt+=menuone,preview
 
 
 "Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
-inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+
 
 "Automatic tag management
 Plug 'ludovicchabant/vim-gutentags'
 let g:gutentags_ctags_tagfile = '.tags'
+
+"Automatically insert matching parens and brackets
+Plug 'raimondi/delimitmate'
+let g:delimitMate_expand_cr = 1
+let g:delimitMate_expand_space = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Plugins that add keyboard commands
@@ -194,8 +200,11 @@ Plug 'NLKNguyen/papercolor-theme'
 
 call plug#end()
 
-set spell spelllang=en_us
 syntax enable
+
+set exrc                            "Load .vimrc on a per-project basis
+set secure                          "prevent autocmd, shell, and write commands unless vimrc is owned by you
+set spell spelllang=en_us
 set title                           "set xterm title to vim title
 set titleold=""
 set tabstop=4                       "a tab is four spaces.
@@ -236,10 +245,6 @@ set nowrap
 set textwidth=119
 set formatoptions=qrn1
 set colorcolumn=120
-
-"Customize python settings
-autocmd bufreadpre *.py setlocal textwidth=79
-autocmd bufreadpre *.py setlocal colorcolumn=80
 
 "show unwanted whitespace
 set list
@@ -322,13 +327,15 @@ cabbrev w!! w !sudo tee > /dev/null %
 " Make it a little easier to get into VimShell
 cabbrev shell VimShell
 
-" change tabstops for lua to be 2
-augroup filetype_lua
-    au!
-    au FileType lua setl sw=2 sts=2 et
-augroup END
-
 augroup allfiles
     autocmd!
+    "Customize python settings
+    autocmd bufreadpre *.py setlocal textwidth=79
+    autocmd bufreadpre *.py setlocal colorcolumn=80
+
+    "Change lua tabstops to be more lua-esque
+    au FileType lua setl sw=2 sts=2 et
+
+    "Close the preview window if it is open
     autocmd InsertLeave * pclose
 augroup END
