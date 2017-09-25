@@ -112,7 +112,6 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_ignore_files = ['\m^/usr/include/']
 let g:syntastic_cpp_checkers = ['clang_check']
 let g:syntastic_c_checkers = ['gcc']
-let g:syntastic_c_config_file = '.clang_complete'
 let g:syntastic_c_compiler_options = ''
 let g:syntastic_c_no_default_include_dirs = 1
 let g:syntastic_rust_checkers = ['rustc']
@@ -120,7 +119,7 @@ let g:syntastic_vim_checkers = ['vint']
 
 
 " autocompleter that uses async
-Plug 'adamatom/completor.vim', { 'branch': 'cpp_preview' }
+Plug 'adamatom/completor.vim'
 function! IfExists(bin)
     return !empty(glob(a:bin)) ? a:bin : ''
 endfunction
@@ -312,6 +311,10 @@ nnoremap Q <nop>
 noremap <Leader>q q
 noremap q <nop>
 
+" Map alt click on an item to jump to definition. Uses tjump for ambiguous tags.
+map <A-2-LeftMouse> :exe "tjump ". expand("<cword>")<CR>
+
+
 " :wq when I meant :w. Nudges towards using :x
 cabbrev wq w
 
@@ -339,3 +342,12 @@ augroup allfiles
     "Close the preview window if it is open
     autocmd InsertLeave * pclose
 augroup END
+ 
+function! MyBalloonExpr()
+    return 'Cursor is at line ' . v:beval_lnum .
+                \', column ' . v:beval_col .
+                \ ' of file ' .  bufname(v:beval_bufnr) .
+                \ ' on word "' . v:beval_text . '"'
+endfunction
+set bexpr=MyBalloonExpr()
+set ballooneval
