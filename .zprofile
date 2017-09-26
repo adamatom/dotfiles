@@ -8,4 +8,5 @@
 if [ -f ~/.zshenv_custom ]; then
     source ~/.zshenv_custom
 fi
+export PATH=$HOME/.bin:$PATH
 
