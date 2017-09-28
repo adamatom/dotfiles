@@ -1,7 +1,7 @@
 ################################################################################
 #  Variables
 ################################################################################
-set $black       #1c1c1c
+set $black       #181818
 set $gray        #606060
 set $darkblack   #000000
 set $red         #C62828
@@ -69,11 +69,11 @@ focus_on_window_activation urgent
 
 #                       BORDER      BACKGROUND  TEXT   INDICATOR
 client.focused          #2B83A6 #2B83A6 #FFFFFF #DDDDDD
-client.focused_inactive #1c1c1c #1c1c1c #86888C #292D2E
-client.unfocused        #1c1c1c #1c1c1c #86888C #292D2E
+client.focused_inactive #181818 #181818 #86888C #292D2E
+client.unfocused        #181818 #181818 #86888C #292D2E
 client.urgent           #2F343A #D64E4E #FFFFFF #D64E4E
-client.placeholder      #1c1c1c #0C0C0C #FFFFFF #1c1c1c
-client.background       #1c1c1c
+client.placeholder      #181818 #0C0C0C #FFFFFF #181818
+client.background       #181818
 
 # set popups during fullscreen mode
 popup_during_fullscreen smart
@@ -271,13 +271,13 @@ bar {
     separator_symbol        "·"
     workspace_buttons       yes
     colors {
-            background  #1c1c1c
+            background  #181818
             statusline  #DDDDDD
             separator   #666666
             # class             border  backgr. text
             focused_workspace   #2B83A6 #2B83A6 #FFFFFF
-            active_workspace    #1c1c1c #1c1c1c #FFFFFF
-            inactive_workspace  #1c1c1c #1c1c1c #86888C
+            active_workspace    #181818 #181818 #FFFFFF
+            inactive_workspace  #181818 #181818 #86888C
             urgent_workspace    #D64E4E #D64E4E #FFFFFF
       }
 }
