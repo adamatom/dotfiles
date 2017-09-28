@@ -194,7 +194,7 @@ let g:rustfmt_autosave = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " color schemes
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-Plug 'NLKNguyen/papercolor-theme'
+Plug 'adamatom/papercolor-theme'
 
 
 call plug#end()
