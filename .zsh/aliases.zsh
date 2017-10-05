@@ -9,6 +9,7 @@ alias grep="grep --color=auto"
 alias zshcolors='for code in {000..255}; do print -P -- "$code: %F{$code}Test%f"; done'
 alias sudo="nocorrect sudo"
 alias dirh="dirs -v"
+alias cdh="dirs -v"
 
 function config() {
     if [[ $@ =~ "^clean" ]]; then
