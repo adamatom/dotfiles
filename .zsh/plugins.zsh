@@ -3,7 +3,7 @@ function periodically_update_plugins() {
         touch -t 200001010101 ~/.cache/antibody/timestamp
     fi
 
-    if test $(find "$HOME/.cache/antibody/timestamp" -mmin +10080); then
+    if [ $(find "$HOME/.cache/antibody/timestamp" -mmin +10080) ]; then
         print -P '%B%F{cyan}Updating plugins%b%f'
         antibody bundle < ~/.zsh/antibody_plugins.txt  > ~/.zsh/antibody_sourceables.zsh
         antibody update
@@ -12,7 +12,6 @@ function periodically_update_plugins() {
 }
 
 function load_plugins() {
-    periodically_update_plugins
     source ~/.zsh/antibody_sourceables.zsh
 
     # history-substring-search options
@@ -39,16 +38,26 @@ function load_plugins() {
     ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=yellow
     ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=yellow
     ZSH_HIGHLIGHT_STYLES[assign]=none
-
 }
 
-if [[ -f ~/.zsh/antibody_plugins.txt && -f ~/.zsh/antibody_sourceables.zsh ]]; then
+function update_and_load() {
+    if [[ "$(command -v antibody)" == "" ]]; then
+        print -P '%B%F{red}antibody not installed, aborting plugin initialization%b%f'
+        return 1
+    fi
+
+    if [[ ! -f ~/.zsh/antibody_plugins.txt ]]; then
+        print -P '%B%F{red}Plugins not loaded, $HOME/.zsh/antibody_plugins.txt not detected%b%f'
+        return 1
+    fi
+
+    if [[ ! -f ~/.zsh/antibody_sourceables.zsh ]]; then
+        print -P '%B%F{cyan}Initializing antibody_sourceables%b%f'
+        touch -t 200001010101 ~/.cache/antibody/timestamp
+    fi
+
+    periodically_update_plugins
     load_plugins
-elif [[ -f ~/.zsh/antibody_plugins.txt ]]; then
-    print -P '%B%F{cyan}Initializing antibody_sourceables%b%f'
-    touch -t 200001010101 ~/.cache/antibody/timestamp
-    antibody bundle < ~/.zsh/antibody_plugins.txt  > ~/.zsh/antibody_sourceables.zsh
-    load_plugins
-else
-    print -P '%B%F{red}Plugins not loaded, $HOME/.zsh/antibody_plugins.txt not detected%b%f'
-fi
+}
+
+update_and_load
