@@ -46,10 +46,11 @@ exec_always --no-startup-id killall gsd-xrandr; /usr/lib/gnome-settings-daemon/g
 exec_always --no-startup-id killall gsd-xsettings; /usr/lib/gnome-settings-daemon/gsd-xsettings >/dev/null &
 exec_always --no-startup-id killall gsd-clipboard; /usr/lib/gnome-settings-daemon/gsd-clipboard >/dev/null &
 exec --no-startup-id gsettings set org.gnome.desktop.interface scaling-factor 2
+exec --no-startup-id gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <2>}]"
 
 exec --no-startup-id xset m 3 10
 
-
+exec_always --no-startup-id xrandr --dpi 192
 exec_always --no-startup-id xrandr --output DP-3 --mode 3840x2160 --pos 0x0 --rotate normal --output DP-2 --off --output DP-1 --off --output DP-0 --primary --mode 3840x2160 --pos 3840x0 --rotate normal &> ~/.xrandr_startup
 exec_always --no-startup-id killall dunst; dunst -conf ~/.config/dunst/4K &
 exec_always --no-startup-id killall parcellite; parcellite &
