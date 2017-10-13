@@ -32,7 +32,7 @@ set $mod Mod1
 
 set $fourk DP-0
 set $lap DP-2
-set $dell DP-3
+set $dell DP-4
 
 ################################################################################
 #  Startup applications
@@ -50,8 +50,8 @@ exec --no-startup-id gsettings set org.gnome.settings-daemon.plugins.xsettings o
 
 exec --no-startup-id xset m 3 10
 
-exec_always --no-startup-id xrandr --dpi 192
-exec_always --no-startup-id xrandr --output DP-3 --mode 3840x2160 --pos 0x0 --rotate normal --output DP-2 --off --output DP-1 --off --output DP-0 --primary --mode 3840x2160 --pos 3840x0 --rotate normal &> ~/.xrandr_startup
+#exec_always --no-startup-id xrandr --dpi 192
+exec_always --no-startup-id xrandr --output DP-4 --mode 3840x2160 --pos 0x0 --rotate normal --output DP-2 --off --output DP-1 --off --output DP-0 --primary --mode 3840x2160 --pos 3840x0 --rotate normal &> ~/.xrandr_startup
 exec_always --no-startup-id killall dunst; dunst -conf ~/.config/dunst/4K &
 exec_always --no-startup-id killall parcellite; parcellite &
 exec_always --no-startup-id killall nm-applet; nm-applet &
@@ -68,7 +68,7 @@ workspace $work output $fourk
 
 
 # font for window titles and bar
-font pango:Source Sans Pro 10, FontAwesome 10
+font pango:LiberationMono Nerd Font Mono 20
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -135,7 +135,7 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioPlay exec playerctl play-pause
 
 # start a terminal
-bindsym $mod+Return exec terminator
+bindsym $mod+Return exec --no-startup-id rofi -show run
 
 bindsym $mod+space exec --no-startup-id rofi -show run
 bindsym $mod+Tab exec --no-startup-id rofi -show window

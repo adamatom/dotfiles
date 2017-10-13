@@ -62,7 +62,7 @@ exec_always --no-startup-id feh --bg-fill ~/.config/i3/forest.jpg
 floating_modifier $mod
 
 # font for window titles and bar
-font pango:Source Sans Pro, FontAwesome 12
+font pango:LiberationMono Nerd Font Mono 12
 
 force_display_urgency_hint 0 ms
 focus_on_window_activation urgent
@@ -131,7 +131,7 @@ bindsym $mod+Down exec xbacklight -dec 10 -steps 1 -time 0 && killall i3blocks -
 
 
 # start a terminal
-bindsym $mod+Return exec terminator
+bindsym $mod+Return exec --no-startup-id rofi -show run
 
 bindsym $mod+space exec --no-startup-id rofi -show run
 bindsym $mod+Tab exec --no-startup-id rofi -show window
