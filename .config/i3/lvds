@@ -39,6 +39,7 @@ exec_always --no-startup-id killall gsd-xsettings; /usr/lib/gnome-settings-daemo
 exec_always --no-startup-id killall gsd-clipboard; /usr/lib/gnome-settings-daemon/gsd-clipboard >/dev/null &
 
 exec_always --no-startup-id gsettings set org.gnome.desktop.interface scaling-factor 1
+exec_always --no-startup-id gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <1>}]"
 exec_always --no-startup-id killall compton; compton -b --config /home/adam/.config/compton.conf
 # disable the track stick. I dont use it and it sometimes moves the cursor with no input.
 exec --no-startup-id xinput -set-prop "AlpsPS/2 ALPS DualPoint Stick" "Device Enabled" 0
