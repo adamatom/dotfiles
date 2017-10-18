@@ -67,14 +67,20 @@ workspace $work output $fourk
 ################################################################################
 
 
-# font for window titles and bar
-font pango:LiberationMono Nerd Font Mono 20
-
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-force_display_urgency_hint 0 ms
-focus_on_window_activation urgent
+# font for window titles and bar
+font pango:LiberationMono Nerd Font Mono 20
+
+# Delay hiding the client.urgent color on a window when switching to it
+force_display_urgency_hint 500 ms
+
+# If a window requesting focus is on an active workspace, it receives focus.
+focus_on_window_activation smart
+
+# Jump to and back from a workspace by hitting $mod+#
+workspace_auto_back_and_forth yes
 
 #                       BORDER      BACKGROUND  TEXT   INDICATOR
 client.focused          #2B83A6 #2B83A6 #FFFFFF #DDDDDD
