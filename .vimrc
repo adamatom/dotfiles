@@ -93,6 +93,9 @@ let g:NERDTreeMapUpdirKeepOpen='-'
 "netrw file explorer via '-' key
 Plug 'tpope/vim-vinegar'
 
+"Git wrapper for doing git things on files in vim
+Plug 'tpope/vim-fugitive'
+
 "automatically display markdown view when editing md files
 Plug 'suan/vim-instant-markdown'
 
