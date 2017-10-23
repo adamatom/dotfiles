@@ -122,6 +122,7 @@ for_window [class="^.*"] border pixel 3
 
 assign [class="(?i)evolution"]                  $email
 assign [class="(?i)chromium"]   $web
+assign [class="(?i)firefox"]   $web
 
 ################################################################################
 #  Bindings

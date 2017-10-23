@@ -113,6 +113,7 @@ for_window [class="^.*"] border pixel 2
 
 assign [class="(?i)evolution"]                  $tag3
 assign [class="(?i)chromium"]   $tag4
+assign [class="(?i)firefox"]   $tag4
 
 ################################################################################
 #  Bindings
