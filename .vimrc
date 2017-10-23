@@ -85,16 +85,12 @@ Plug 'jlanzarotta/bufexplorer'
 "display marks
 Plug 'kshenoy/vim-signature'
 
-"file tree because netrw is bad
-Plug 'scrooloose/nerdtree'
-let g:NERDTreeHijackNetrw=1
-let g:NERDTreeMapUpdirKeepOpen='-'
-
-"netrw file explorer via '-' key
-Plug 'tpope/vim-vinegar'
+"Alternative to netrw, which is slow and buggy
+Plug 'jeetsukumaran/vim-filebeagle'
 
 "Git wrapper for doing git things on files in vim
 Plug 'tpope/vim-fugitive'
+command! Greview :Git! diff --staged
 
 "automatically display markdown view when editing md files
 Plug 'suan/vim-instant-markdown'
@@ -179,6 +175,13 @@ augroup mycppfiles
     au BufEnter *.h let b:fswitchlocs = 'reg:/include/src/,reg:/headers/cpp/,ifrel:|/include/|../src|,./'
     au BufEnter *.cpp let b:fswitchlocs = 'reg:/src/include/,reg:/cpp/headers/,ifrel:|/src/|../include|,./'
 augroup END
+
+
+"Add numerous [ and ] bindings for naviation
+Plug 'tpope/vim-unimpaired'
+
+"Add Linux command line tools to vim directly, :SudoWrite, :Find are especially nice
+Plug 'tpope/vim-eunuch'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Syntax Highlighting
@@ -319,6 +322,9 @@ noremap q <nop>
 " Map alt click on an item to jump to definition. Uses tjump for ambiguous tags.
 map <A-2-LeftMouse> :exe "tjump ". expand("<cword>")<CR>
 
+"Redraw when enter is pressed in normal mode
+nnoremap <cr> :update<cr>
+
 
 " :wq when I meant :w. Nudges towards using :x
 cabbrev wq w
@@ -336,18 +342,26 @@ cabbrev w!! w !sudo tee > /dev/null %
 cabbrev shell VimShell
 
 augroup allfiles
+    "Wipe out the allfiles group for when we reload the vimrc. Otherwise we just keep reattaching commands
     autocmd!
     "Customize python settings
     autocmd bufreadpre *.py setlocal textwidth=79
     autocmd bufreadpre *.py setlocal colorcolumn=80
 
     "Change lua tabstops to be more lua-esque
-    au FileType lua setl sw=2 sts=2 et
+    autocmd FileType lua setl sw=2 sts=2 et
 
     "Close the preview window if it is open
     autocmd InsertLeave * pclose
+
+    "Cleanup fugitive buffers automatically
+    autocmd BufReadPost fugitive://* set bufhidden=delete
+
+    " cursorline on active windows only
+    autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+    autocmd WinLeave * setlocal nocursorline
 augroup END
- 
+
 function! MyBalloonExpr()
     return 'Cursor is at line ' . v:beval_lnum .
                 \', column ' . v:beval_col .
