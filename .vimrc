@@ -336,8 +336,8 @@ augroup allfiles
     "Wipe out the allfiles group for when we reload the vimrc. Otherwise we just keep reattaching commands
     autocmd!
     "Customize python settings
-    autocmd bufreadpre *.py setlocal textwidth=79
-    autocmd bufreadpre *.py setlocal colorcolumn=80
+    autocmd bufreadpre *.py setlocal textwidth=99
+    autocmd bufreadpre *.py setlocal colorcolumn=100
 
     "Change lua tabstops to be more lua-esque
     autocmd FileType lua setl sw=2 sts=2 et

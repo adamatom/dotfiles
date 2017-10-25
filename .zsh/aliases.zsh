@@ -10,6 +10,7 @@ alias zshcolors='for code in {000..255}; do print -P -- "$code: %F{$code}Test%f"
 alias sudo="nocorrect sudo"
 alias dirh="dirs -v"
 alias cdh="dirs -v"
+alias reflectarch="sudo /usr/bin/reflector --protocol https --latest 30 --number 20 --sort rate --save /etc/pacman.d/mirrorlist"
 
 function config() {
     if [[ $@ =~ "^clean" ]]; then
