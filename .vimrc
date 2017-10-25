@@ -142,11 +142,6 @@ inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 Plug 'ludovicchabant/vim-gutentags'
 let g:gutentags_ctags_tagfile = '.tags'
 
-"Automatically insert matching parens and brackets
-Plug 'raimondi/delimitmate'
-let g:delimitMate_expand_cr = 1
-let g:delimitMate_expand_space = 1
-
 Plug 'alfredodeza/pytest.vim', {'for': 'python'}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -321,10 +316,6 @@ noremap q <nop>
 
 " Map alt click on an item to jump to definition. Uses tjump for ambiguous tags.
 map <A-2-LeftMouse> :exe "tjump ". expand("<cword>")<CR>
-
-"Redraw when enter is pressed in normal mode
-nnoremap <cr> :update<cr>
-
 
 " :wq when I meant :w. Nudges towards using :x
 cabbrev wq w
