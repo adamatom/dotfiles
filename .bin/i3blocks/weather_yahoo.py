@@ -77,7 +77,7 @@ def get_icon(forecast):
         return ''
 
     if 'rain' in text or code in rainids:
-        return ''
+        return ''
 
     if 'snow' in text or code in snowids:
         return '☃'

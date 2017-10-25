@@ -63,8 +63,7 @@ exec_always --no-startup-id feh --bg-fill ~/.config/i3/forest.jpg
 floating_modifier $mod
 
 # font for window titles and bar
-font pango:LiberationMono Nerd Font Mono 12
-
+font pango:EssentialPragmataPro Nerd Font Mono 12
 # Delay hiding the client.urgent color on a window when switching to it
 force_display_urgency_hint 500 ms
 

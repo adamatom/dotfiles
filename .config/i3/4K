@@ -22,7 +22,7 @@ set $background  #000000
 set $transparent #00000055
 
 # Name the workspaces
-set $work "1:  "
+set $work "1:  "
 set $tty "2:  "
 set $email "9:  "
 set $web "10:  "
@@ -71,7 +71,7 @@ workspace $work output $fourk
 floating_modifier $mod
 
 # font for window titles and bar
-font pango:LiberationMono Nerd Font Mono 20
+font pango:EssentialPragmataPro Nerd Font 20
 
 # Delay hiding the client.urgent color on a window when switching to it
 force_display_urgency_hint 500 ms
