@@ -77,7 +77,7 @@ function precmd() {
 
         local gitinfo=''
         local pend=$'%F{255}]%f\n'$PROMPT_CHAR
-        local pstart="%F{255}[${hoststyle}%M%F{255} › %F{074}%~%f"
+        local pstart="%F{255}[${hoststyle}%M%F{255} %F{255}%B›%b%f %F{074}%~%f"
         # If in a git repo, asynchronously fill in the git details into PROMPT
         if git rev-parse --git-dir > /dev/null 2>&1; then
             gitinfo="$(git_prompt_string)"
@@ -116,7 +116,7 @@ function TRAPUSR1() {
 
 PROMPT_CHAR='%(?.%F{white}.%F{red})%(1j.%Uλ%u.λ)%f %F{255}%B›%b%f '
 
-PROMPT=$'%F{255}[%F{239}%M%F{255} › %F{074}%~%f%F{255}]%f\n'$PROMPT_CHAR
+PROMPT=$'%F{255}[%F{239}%M%F{255} %F{255}%B›%b%f %F{074}%~%f%F{255}]%f\n'$PROMPT_CHAR
 RPROMPT='' # no initial prompt, set dynamically
 
 export SPROMPT="Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color [(y)es (n)o (a)bort (e)dit]? "
