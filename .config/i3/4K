@@ -25,7 +25,7 @@ set $transparent #00000055
 set $work "1:  "
 set $tty "2:  "
 set $email "9:  "
-set $web "10:  "
+set $web "10:  "
 
 # use win for mod key
 set $mod Mod1
