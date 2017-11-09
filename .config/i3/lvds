@@ -71,9 +71,6 @@ force_display_urgency_hint 500 ms
 # If a window requesting focus is on an active workspace, it receives focus.
 focus_on_window_activation smart
 
-# Jump to and back from a workspace by hitting $mod+#
-workspace_auto_back_and_forth yes
-
 #                       BORDER      BACKGROUND  TEXT   INDICATOR
 client.focused          #2B83A6 #2B83A6 #FFFFFF #DDDDDD
 client.focused_inactive #181818 #181818 #86888C #292D2E
