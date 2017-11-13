@@ -222,6 +222,8 @@ set wildmode=list:longest           "when tab is pressed, show a list similar to
 set cursorline                      "highlight the line the cursor is on
 set ttyfast                         "it is fast, this aint no modem
 set ruler
+set nofoldenable                    "I dont like folding text, so disable it everywhere
+set diffopt+=context:99999          "vimdiff doesnt respect nofoldenable, so hack it
 set backspace=indent,eol,start      "Backspace over everything
 set laststatus=2                    "always show status bar
 set number
