@@ -7,6 +7,7 @@
 [[ -f ~/.xprofile ]] && source ~/.xprofile
 [[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
 [[ $(command -v xautolock) ]] && xautolock -time 5 -locker lock.sh &
+[[ $(command -v xbanish) ]] && xbanish &
 case "$2" in
     awesome           ) exec awesome;;
     bspwm             ) exec bspwm;;

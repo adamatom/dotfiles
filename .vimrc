@@ -12,7 +12,7 @@ if has('gui_running')
     set guioptions-=b
     set guioptions-=h
     set guioptions-=e  "I dont like the gui tabs, use ascii
-    set guifont=EssentialPragmataPro\ Nerd\ Font\ Mono\ 11
+    set guifont=EssentialPragmataPro\ Nerd\ Font\ Mono\ 10
 endif
 
 "use vim as a man pager
@@ -25,6 +25,7 @@ command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> -
 " run plugged
 call plug#begin('~/.vim/plugged')
 
+let g:ale_emit_conflict_warnings = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins that add new windows
 """""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -40,18 +41,18 @@ let g:lightline = {
     \ }
 
 function! LightlineFilename()
-    let short_filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-    let med_filename = expand('%:t') !=# '' ? fnamemodify(expand('%:p'), ':~:.') : '[No Name]'
-    let full_filename = expand('%:t') !=# '' ? fnamemodify(expand('%:p'), ':~') : '[No Name]'
+    let l:short_filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
+    let l:med_filename = expand('%:t') !=# '' ? fnamemodify(expand('%:p'), ':~:.') : '[No Name]'
+    let l:full_filename = expand('%:t') !=# '' ? fnamemodify(expand('%:p'), ':~') : '[No Name]'
 
-    let max_len = 120
-    let full_len = len(full_filename)
-    let med_len = len(med_filename)
+    let l:max_len = 120
+    let l:full_len = len(l:full_filename)
+    let l:med_len = len(l:med_filename)
 
-    let use_short = full_len > max_len && med_len > max_len
-    let use_med = full_len > max_len && med_len <= max_len
+    let l:use_short = l:full_len > l:max_len && l:med_len > l:max_len
+    let l:use_med = l:full_len > l:max_len && l:med_len <= l:max_len
 
-    return use_short ? short_filename : use_med ? med_filename : full_filename
+    return l:use_short ? l:short_filename : l:use_med ? l:med_filename : l:full_filename
 endfunction
 
 "adds a window that shows all of the functions in the current file
@@ -103,7 +104,7 @@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 " Intellisense, autocompletion, and linting
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "Syntax linting engine
-Plug 'vim-syntastic/syntastic'
+Plug 'vim-syntastic/syntastic', {'for': ['c', 'cpp']}
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
@@ -113,9 +114,7 @@ let g:syntastic_cpp_checkers = ['clang_check']
 let g:syntastic_c_checkers = ['gcc']
 let g:syntastic_c_compiler_options = ''
 let g:syntastic_c_no_default_include_dirs = 1
-let g:syntastic_rust_checkers = ['rustc']
-let g:syntastic_vim_checkers = ['vint']
-
+let g:syntastic_mode_map = { 'passive_filetypes': ['python', 'vim', 'rust', 'clojure'] }
 
 " autocompleter that uses async
 Plug 'adamatom/completor.vim'
@@ -142,7 +141,15 @@ inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 Plug 'ludovicchabant/vim-gutentags'
 let g:gutentags_ctags_tagfile = '.tags'
 
-Plug 'alfredodeza/pytest.vim', {'for': 'python'}
+"Better local vimrc. It'll find it at .git level
+Plug 'krisajenkins/vim-projectlocal'
+
+"Async linting engine
+Plug 'w0rp/ale', {'for': ['python', 'vim', 'rust', 'clojure', 'zsh', 'bash']}
+let g:ale_linters = {
+\   'c': [],
+\   'cpp': [],
+\}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Plugins that add keyboard commands
@@ -178,6 +185,12 @@ Plug 'tpope/vim-unimpaired'
 "Add Linux command line tools to vim directly, :SudoWrite, :Find are especially nice
 Plug 'tpope/vim-eunuch'
 
+"Add toggle for location and quickfix windows
+Plug 'Valloric/ListToggle'
+let g:lt_height = 10
+let g:lt_location_list_toggle_map = '<leader>l'
+let g:lt_quickfix_list_toggle_map = '<leader>c'
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Syntax Highlighting
 """""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -186,7 +199,7 @@ Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
 let g:cpp_class_scope_highlight = 1
 Plug 'adamatom/vim-pasm'
 Plug 'hdima/python-syntax', {'for': 'python'}
-let python_highlight_all = 1
+let g:python_highlight_all = 1
 Plug 'fatih/vim-go', {'for': 'go' }
 Plug 'wlangstroth/vim-racket', {'for': ['scheme', 'racket']}
 Plug 'tpope/vim-fireplace', {'for' : 'clojure' }
@@ -223,17 +236,18 @@ set cursorline                      "highlight the line the cursor is on
 set ttyfast                         "it is fast, this aint no modem
 set ruler
 set nofoldenable                    "I dont like folding text, so disable it everywhere
-set diffopt+=context:99999          "vimdiff doesnt respect nofoldenable, so hack it
+set diffopt=filler,context:1000000 " filler is default and inserts empty lines for sync
 set backspace=indent,eol,start      "Backspace over everything
 set laststatus=2                    "always show status bar
 set number
 set showmatch                       "highligh matching [{()}]
+
+set undodir=~/.vim/undo
 set undofile                        "save undo tree when file is closed
-set undodir=~/.vim/undo             "undo files should be kept out of the working dir
-set undolevels=1000                 "Many many levels of undo
-set backup                          "backup files should be kept out of the working dir
 set backupdir=~/.vim/backup
+set backup                          "backup files should be kept out of the working dir
 set directory=~/.vim/tmp
+
 set viminfo+=n~/.vim/viminfo        "get this file out of home
 
 "tame searching
@@ -266,10 +280,8 @@ highlight Cursor guifg=yellow guibg=red
 let g:vhdl_indent_genportmap = 0
 
 " change leader to space, nicer to type. You loose some sort of 'move to next char' command. 
-let mapleader = "\<Space>"
+let g:mapleader = "\<Space>"
 
-"leader-c will close all the extra windows created by ack/syntastic, etc
-nmap <silent> <leader>c :lclose <bar> cclose <cr>
 nmap <silent> <leader>t :TagbarToggle<CR>
 nmap <silent> <leader>g :GundoToggle<CR>
 nmap <silent> <Leader>a :FSHere<cr>
@@ -354,12 +366,3 @@ augroup allfiles
     autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
     autocmd WinLeave * setlocal nocursorline
 augroup END
-
-function! MyBalloonExpr()
-    return 'Cursor is at line ' . v:beval_lnum .
-                \', column ' . v:beval_col .
-                \ ' of file ' .  bufname(v:beval_bufnr) .
-                \ ' on word "' . v:beval_text . '"'
-endfunction
-set bexpr=MyBalloonExpr()
-set ballooneval
