@@ -54,6 +54,7 @@ setopt correctall # spelling correction for arguments
 # ===== Prompt
 setopt prompt_subst # Enable parameter expansion, command substitution, and arithmetic expansion in the prompt
 setopt transient_rprompt # only show the rprompt on the current prompt
+setopt IGNORE_EOF # disable ctrl-d to logout
 
 # ===== Scripts and Functions
 setopt multios # perform implicit tees or cats when multiple redirections are attempted
