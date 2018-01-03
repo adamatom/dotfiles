@@ -114,27 +114,35 @@ let g:syntastic_cpp_checkers = ['clang_check']
 let g:syntastic_c_checkers = ['gcc']
 let g:syntastic_c_compiler_options = ''
 let g:syntastic_c_no_default_include_dirs = 1
-let g:syntastic_mode_map = { 'passive_filetypes': ['python', 'vim', 'rust', 'clojure'] }
+let g:syntastic_mode_map = { 'passive_filetypes': ['python', 'vim', 'rust', 'clojure', 'elixir'] }
 
 " autocompleter that uses async
-Plug 'adamatom/completor.vim'
-function! IfExists(bin)
-    return !empty(glob(a:bin)) ? a:bin : ''
-endfunction
-let g:completor_racer_binary = IfExists('/usr/bin/racer')
-let g:completer_python_binary = IfExists('/usr/bin/python3')
-let g:completer_node_binary = IfExists('/usr/bin/node')
-let g:completer_clang_binary = IfExists('/usr/bin/clang')
-let g:completer_go_binary = IfExists('/usr/bin/go')
-let g:completor_auto_close_doc = 0
-let g:completor_set_options = 0
-set completeopt+=menuone,preview
+"Plug 'maralla/completor.vim'
+"function! IfExists(bin)
+"    return !empty(glob(a:bin)) ? a:bin : ''
+"endfunction
+"let g:completor_racer_binary = IfExists('/usr/bin/racer')
+"let g:completer_python_binary = IfExists('/usr/bin/python3')
+"let g:completer_node_binary = IfExists('/usr/bin/node')
+"let g:completer_clang_binary = IfExists('/usr/bin/clang')
+"let g:completer_go_binary = IfExists('/usr/bin/go')
+"let g:completor_auto_close_doc = 0
+"let g:completor_auto_trigger = 0
+"noremap <leader>s :call completor#do('signature')<CR>
+"inoremap <expr> <Tab> pumvisible() ? "<C-N>" : "<C-R>=completor#do('complete')<CR>"
+"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
+Plug 'ajh17/VimCompletesMe'
 
-
+set completeopt+=preview
 "Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
 inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+
+
 
 
 "Automatic tag management
@@ -145,7 +153,7 @@ let g:gutentags_ctags_tagfile = '.tags'
 Plug 'krisajenkins/vim-projectlocal'
 
 "Async linting engine
-Plug 'w0rp/ale', {'for': ['python', 'vim', 'rust', 'clojure', 'zsh', 'bash']}
+Plug 'w0rp/ale', {'for': ['python', 'vim', 'rust', 'clojure', 'zsh', 'bash', 'elixir']}
 let g:ale_linters = {
 \   'c': [],
 \   'cpp': [],
@@ -204,9 +212,17 @@ Plug 'fatih/vim-go', {'for': 'go' }
 Plug 'wlangstroth/vim-racket', {'for': ['scheme', 'racket']}
 Plug 'tpope/vim-fireplace', {'for' : 'clojure' }
 Plug 'aklt/plantuml-syntax'
-Plug 'rust-lang/rust.vim', {'for' : 'rust' }
+Plug 'rust-lang/rust.vim'
 let g:rustfmt_autosave = 1
+Plug 'elixir-editors/vim-elixir'
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+" omni completers
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+Plug 'davidhalter/jedi-vim', {'for' : 'python'}
+Plug 'slashmili/alchemist.vim', {'for' : 'elixir'}
+Plug 'justmao945/vim-clang', {'for' : ['cpp', 'c']}
+Plug 'racer-rust/vim-racer', {'for' : 'rust'}
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " color schemes
 """""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -285,7 +301,6 @@ let g:mapleader = "\<Space>"
 nmap <silent> <leader>t :TagbarToggle<CR>
 nmap <silent> <leader>g :GundoToggle<CR>
 nmap <silent> <Leader>a :FSHere<cr>
-nmap <leader>s :Ack!<cr>
 nnoremap <leader>o :CtrlP<cr>
 
 " use leader {y|d|p} for interacting with the system clipboard
