@@ -1,0 +1,103 @@
+# i3blocks config file
+#
+# Please see man i3blocks for a complete reference!
+# The man page is also hosted at http://vivien.github.io/i3blocks
+#
+# List of valid properties:
+#
+# align
+# color
+# command
+# full_text
+# instance
+# interval
+# label
+# min_width
+# name
+# separator
+# separator_block_width
+# short_text
+# signal
+# urgent
+
+# Global properties
+#
+# The top properties below are applied to every block, but can be overridden.
+# Each block command defaults to the script name to avoid boilerplate.
+command=/usr/lib/i3blocks/$BLOCK_NAME
+
+separator=false
+separator_block_width=10
+border_top=0
+border_left=0
+border_right=0
+border_bottom=4
+
+[focused window]
+command=xtitle -s
+interval=persist
+color=#c0c0c0
+separator_block_width=40
+
+
+# CPU usage
+[cpu_usage]
+label=
+command=~/.bin/i3blocks/cpu.py
+interval=1
+color=#c0c0c0
+border=#1B5E20
+
+# Memory usage
+[memory]
+command=~/.bin/i3blocks/memory.py
+label=
+interval=30
+color=#c0c0c0
+border=#0277BD
+
+# Battery indicator
+[battery]
+command=~/.bin/i3blocks/battery.pl
+interval=5
+color=#c0c0c0
+border=#9E9D24
+
+[Weather]
+command=~/.bin/i3blocks/weather_yahoo.py -u f -c 'firefox-beta http://bit.ly/2shHHJl' 2518005
+interval=60
+color=#c0c0c0
+border=#D84315
+
+[pacman-updates]
+command=~/.bin/i3blocks/arch_update.py
+color=#c0c0c0
+border=#FF8F00
+interval= 120
+
+[tinc]
+command=~/.bin/i3blocks/tinc.py
+color=#c0c0c0
+interval=2
+border=#2E7D32
+
+
+[music]
+command=~/.bin/i3blocks/music.py
+interval=persist
+color=#c0c0c0
+border=#C62828
+
+# Date Time
+[time]
+command=~/.bin/i3blocks/clock.py -c 'gnome-calendar' '%m-%d %l:%M:%S'
+interval=1
+color=#FFFFFF
+border=#F9A825
+
+[volume]
+command=~/.bin/i3blocks/volume-pulseaudio.sh -F 3 -f 3 -C "#c0c0c0" -c "#505050"
+interval=1
+separator_block_width=30
+border=#283593
+
