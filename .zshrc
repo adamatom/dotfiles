@@ -6,12 +6,12 @@
 source ~/.zsh/colors.zsh
 source ~/.zsh/setopt.zsh
 source ~/.zsh/prompt.zsh
-source ~/.zsh/completion.zsh
 source ~/.zsh/aliases.zsh
 source ~/.zsh/history.zsh
 source ~/.zsh/z.sh
 source ~/.zsh/plugins.zsh
 source ~/.zsh/bindkeys.zsh
+source ~/.zsh/completion.zsh
 if [ -f ~/.zsh_local.zsh ]; then
     source ~/.zsh_local.zsh
 fi

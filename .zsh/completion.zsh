@@ -1,4 +1,4 @@
-autoload -U compinit && compinit                                                                                       
+autoload -U compinit && compinit
 zmodload -i zsh/complist
 
 # Enable completion caching, use rehash to clear
