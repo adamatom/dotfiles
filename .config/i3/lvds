@@ -94,12 +94,6 @@ for_window [window_type="menu"] floating enable
 
 for_window [class="^.*"] border pixel 2
 
-# New windows that actively request focus only get marked as urgent.
-focus_on_window_activation none
-
-# New windows do not get focus automatically
-no_focus [class="^.*"]
-
 assign [class="(?i)evolution"]                  $email
 assign [class="(?i)chromium"]   $web
 assign [class="(?i)firefox"]   $web
