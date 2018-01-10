@@ -1,13 +1,17 @@
+function update_plugins() {
+    print -P '%B%F{cyan}Updating plugins%b%f'
+    antibody bundle < ~/.zsh/antibody_plugins.txt  > ~/.zsh/antibody_sourceables.zsh
+    antibody update
+    touch ~/.cache/antibody/timestamp
+}
+
 function periodically_update_plugins() {
     if [ ! -f ~/.cache/antibody/timestamp ]; then
         touch -t 200001010101 ~/.cache/antibody/timestamp
     fi
 
     if [ $(find "$HOME/.cache/antibody/timestamp" -mmin +10080) ]; then
-        print -P '%B%F{cyan}Updating plugins%b%f'
-        antibody bundle < ~/.zsh/antibody_plugins.txt  > ~/.zsh/antibody_sourceables.zsh
-        antibody update
-        touch ~/.cache/antibody/timestamp
+        update_plugins
     fi
 }
 

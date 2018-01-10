@@ -5,6 +5,9 @@ zmodload -i zsh/complist
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path ~/.zsh/cache/$HOST
 
+# Speedup path completion
+zstyle ':completion:*' accept-exact '*(N)'
+
 # Fallback to built in ls colors
 zstyle ':completion:*' list-colors ''
 
@@ -20,7 +23,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-
 # Change to a more verbose process listing so kill<TAB> shows everything for user
 zstyle ':completion:*:processes' command 'ps ux'
 
-zstyle ':completion:*' menu select=1 _complete _ignored _approximate
+zstyle ':completion:*' menu select=1
 
 # match uppercase from lowercase
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
