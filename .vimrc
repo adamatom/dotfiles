@@ -20,6 +20,8 @@ let $PAGER=''
 
 set t_Co=256                        "let terminal vim use 256 colors
 
+let base16colorspace=256  " Access colors present in 256 colorspace
+
 command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> -
 
 " run plugged
@@ -135,7 +137,7 @@ let g:syntastic_mode_map = { 'passive_filetypes': ['python', 'vim', 'rust', 'clo
 
 Plug 'ajh17/VimCompletesMe'
 
-set completeopt+=preview
+set completeopt+=preview,menuone,longest
 "Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
@@ -227,7 +229,12 @@ Plug 'racer-rust/vim-racer', {'for' : 'rust'}
 " color schemes
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'adamatom/papercolor-theme'
-
+Plug 'chriskempson/base16-vim'
+"quickly scroll through colorschemes
+Plug 'qualiabyte/vim-colorstepper'
+nmap <F6> <Plug>ColorstepPrev
+nmap <F7> <Plug>ColorstepNext
+nmap <S-F7> <Plug>ColorstepReload
 
 call plug#end()
 
@@ -288,7 +295,8 @@ set background=dark
 set history=1000                    "Remember a ton of commands
 set mouse=a                         "Allow for better mouse interaction
 
-colorscheme PaperColor
+"colorscheme PaperColor
+colorscheme base16-google-dark
 highlight Cursor guifg=yellow guibg=red
 
 
