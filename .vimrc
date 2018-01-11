@@ -118,34 +118,13 @@ let g:syntastic_c_compiler_options = ''
 let g:syntastic_c_no_default_include_dirs = 1
 let g:syntastic_mode_map = { 'passive_filetypes': ['python', 'vim', 'rust', 'clojure', 'elixir'] }
 
-" autocompleter that uses async
-"Plug 'maralla/completor.vim'
-"function! IfExists(bin)
-"    return !empty(glob(a:bin)) ? a:bin : ''
-"endfunction
-"let g:completor_racer_binary = IfExists('/usr/bin/racer')
-"let g:completer_python_binary = IfExists('/usr/bin/python3')
-"let g:completer_node_binary = IfExists('/usr/bin/node')
-"let g:completer_clang_binary = IfExists('/usr/bin/clang')
-"let g:completer_go_binary = IfExists('/usr/bin/go')
-"let g:completor_auto_close_doc = 0
-"let g:completor_auto_trigger = 0
-"noremap <leader>s :call completor#do('signature')<CR>
-"inoremap <expr> <Tab> pumvisible() ? "<C-N>" : "<C-R>=completor#do('complete')<CR>"
-"inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-"inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
-
+"Very simple completer that basically runs through vim's default completion engine
 Plug 'ajh17/VimCompletesMe'
-
 set completeopt+=preview,menuone,longest
 "Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-
 inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-
-
-
 
 "Automatic tag management
 Plug 'ludovicchabant/vim-gutentags'
@@ -156,10 +135,7 @@ Plug 'krisajenkins/vim-projectlocal'
 
 "Async linting engine
 Plug 'w0rp/ale', {'for': ['python', 'vim', 'rust', 'clojure', 'zsh', 'bash', 'elixir']}
-let g:ale_linters = {
-\   'c': [],
-\   'cpp': [],
-\}
+let g:ale_linters = {'c': [], 'cpp': [],}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Plugins that add keyboard commands
@@ -225,16 +201,18 @@ Plug 'davidhalter/jedi-vim', {'for' : 'python'}
 Plug 'slashmili/alchemist.vim', {'for' : 'elixir'}
 Plug 'justmao945/vim-clang', {'for' : ['cpp', 'c']}
 Plug 'racer-rust/vim-racer', {'for' : 'rust'}
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " color schemes
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'adamatom/papercolor-theme'
 Plug 'chriskempson/base16-vim'
-"quickly scroll through colorschemes
-Plug 'qualiabyte/vim-colorstepper'
-nmap <F6> <Plug>ColorstepPrev
-nmap <F7> <Plug>ColorstepNext
-nmap <S-F7> <Plug>ColorstepReload
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+" other
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Seemless tmux and vim pane navigation
+Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
 
