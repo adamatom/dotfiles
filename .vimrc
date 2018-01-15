@@ -272,6 +272,7 @@ set showbreak=\ \ …\
 set background=dark
 set history=1000                    "Remember a ton of commands
 set mouse=a                         "Allow for better mouse interaction
+set ttymouse=xterm2
 
 "colorscheme PaperColor
 colorscheme base16-google-dark

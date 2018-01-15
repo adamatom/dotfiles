@@ -15,4 +15,6 @@ source ~/.zsh/completion.zsh
 if [ -f ~/.zsh_local.zsh ]; then
     source ~/.zsh_local.zsh
 fi
-
+if which tmux &> /dev/null; then
+    if [ -z $TMUX ] && [ -n $DISPLAY ]; then tmux; fi
+fi

@@ -33,6 +33,7 @@ set $mod Mod1
 #  Startup applications
 ################################################################################
 #early stage startup
+exec_always xrandr --dpi 92
 exec --no-startup-id thunar --daemon
 exec_always --no-startup-id killall gsd-xrandr; /usr/lib/gnome-settings-daemon/gsd-xrandr >/dev/null &
 exec_always --no-startup-id killall gsd-xsettings; /usr/lib/gnome-settings-daemon/gsd-xsettings >/dev/null &
