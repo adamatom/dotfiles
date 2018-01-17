@@ -1,66 +1,87 @@
+# font for window titles and bar
+font pango:EssentialPragmataPro Nerd Font 20
+
+exec_always xrandr --dpi 130
+exec --no-startup-id gsettings set org.gnome.desktop.interface scaling-factor 2
+exec --no-startup-id gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <2>}]"
+set $fourk DP-0
+set $lap DP-2
+set $dell DP-4
+workspace $web output $dell
+workspace $email output $dell
+workspace $work output $fourk
+exec --no-startup-id xset m 3 10
+exec_always --no-startup-id xrandr --output DP-4 --mode 3840x2160 --pos 0x0 --rotate normal --output DP-2 --off --output DP-1 --off --output DP-0 --primary --mode 3840x2160 --pos 3840x0 --rotate normal &> ~/.xrandr_startup
+exec_always --no-startup-id killall dunst; dunst -conf ~/.config/dunst/4K &
+
+bar {
+    output $dell
+    height 65
+    status_command i3blocks -c ~/.config/i3blocks/config4k
+    tray_output $fourk
+    position top
+    strip_workspace_numbers yes
+    separator_symbol        "·"
+    workspace_buttons       yes
+    colors {
+            background  #181818
+            statusline  #DDDDDD
+            separator   #666666
+            # class             border  backgr. text
+            focused_workspace   #2B83A6 #2B83A6 #FFFFFF
+            active_workspace    #181818 #181818 #FFFFFF
+            inactive_workspace  #181818 #181818 #86888C
+            urgent_workspace    #D64E4E #D64E4E #FFFFFF
+      }
+}
+
+bar {
+    output $fourk
+    height 65
+    status_command i3blocks -c ~/.config/i3blocks/config4k
+    tray_output $fourk
+    position top
+    strip_workspace_numbers yes
+    separator_symbol        "·"
+    workspace_buttons       yes
+    colors {
+            background  #181818
+            statusline  #DDDDDD
+            separator   #666666
+            # class             border  backgr. text
+            focused_workspace   #2B83A6 #2B83A6 #FFFFFF
+            active_workspace    #181818 #181818 #FFFFFF
+            inactive_workspace  #181818 #181818 #86888C
+            urgent_workspace    #D64E4E #D64E4E #FFFFFF
+      }
+}
+
 ################################################################################
 #  Variables
 ################################################################################
-set $black       #181818
-set $gray        #606060
-set $darkblack   #000000
-set $red         #C62828
-set $darkred     #B71C1C
-set $green       #2E7D32
-set $darkgreen   #1B5E20
-set $yellow      #F9A825
-set $darkyellow  #F57F17
-set $blue        #205171
-set $darkblue    #268bd2
-set $magenta     #6A1B9A
-set $darkmagenta #4A148C
-set $cyan        #00ACC1
-set $darkcyan    #0097A7
-set $white       #FFFFFF
-set $darkwhite   #FAFAFA
-set $background  #000000
-set $transparent #00000055
-
 # Name the workspaces
 set $work "1:  "
 set $tty "2:  "
 set $email "9:  "
 set $web "10:  "
 
-# use win for mod key
 set $mod Mod1
-
-set $fourk DP-0
-set $lap DP-2
-set $dell DP-4
 
 ################################################################################
 #  Startup applications
 ################################################################################
 #early stage startup
-exec_always --no-startup-id killall compton; compton -b
-# disable the track stick. I dont use it and it sometimes moves the cursor with no input.
-exec --no-startup-id xinput -set-prop "AlpsPS/2 ALPS DualPoint Stick" "Device Enabled" 0
 exec --no-startup-id thunar --daemon
+exec_always --no-startup-id killall compton; compton -b --config /home/adam/.config/compton.conf
+exec --no-startup-id xinput -set-prop "AlpsPS/2 ALPS DualPoint Stick" "Device Enabled" 0
+
 exec_always --no-startup-id killall gsd-xrandr; /usr/lib/gnome-settings-daemon/gsd-xrandr >/dev/null &
 exec_always --no-startup-id killall gsd-xsettings; /usr/lib/gnome-settings-daemon/gsd-xsettings >/dev/null &
 exec_always --no-startup-id killall gsd-clipboard; /usr/lib/gnome-settings-daemon/gsd-clipboard >/dev/null &
-exec --no-startup-id gsettings set org.gnome.desktop.interface scaling-factor 2
-exec --no-startup-id gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <2>}]"
 
-exec --no-startup-id xset m 3 10
-
-#exec_always --no-startup-id xrandr --dpi 192
-exec_always --no-startup-id xrandr --output DP-4 --mode 3840x2160 --pos 0x0 --rotate normal --output DP-2 --off --output DP-1 --off --output DP-0 --primary --mode 3840x2160 --pos 3840x0 --rotate normal &> ~/.xrandr_startup
-exec_always --no-startup-id killall dunst; dunst -conf ~/.config/dunst/4K &
 exec_always --no-startup-id killall parcellite; parcellite &
 exec_always --no-startup-id killall nm-applet; nm-applet &
 exec_always --no-startup-id feh --bg-tile ~/.config/i3/forest.jpg
-
-workspace $web output $dell
-workspace $email output $dell
-workspace $work output $fourk
-#workspace $tty output $dell
 
 ################################################################################
 #  Settings
@@ -69,9 +90,6 @@ workspace $work output $fourk
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
-
-# font for window titles and bar
-font pango:EssentialPragmataPro Nerd Font 20
 
 # Delay hiding the client.urgent color on a window when switching to it
 force_display_urgency_hint 500 ms
@@ -100,7 +118,7 @@ for_window [window_type="dialog"] floating enable, move position mouse
 for_window [window_type="splash"] floating enable
 for_window [window_type="menu"] floating enable
 
-for_window [class="^.*"] border pixel 3
+for_window [class="^.*"] border pixel 2
 
 assign [class="(?i)evolution"]                  $email
 assign [class="(?i)chromium"]   $web
@@ -118,10 +136,16 @@ bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle && killall i3blo
 # calculator button
 bindsym XF86Calculator exec gnome-calculator
 
-# Audio control 
+# audio control
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioPlay exec playerctl play-pause
+
+
+# brightness control
+bindsym $mod+Up exec xbacklight -inc 10 -steps 1 -time 0 && killall i3blocks -s 45
+bindsym $mod+Down exec xbacklight -dec 10 -steps 1 -time 0 && killall i3blocks -s 45
+
 
 # start a terminal
 bindsym $mod+Return exec --no-startup-id rofi -show run
@@ -254,47 +278,4 @@ mode "$mode_gaps_outer" {
 
         bindsym Return mode "default"
         bindsym Escape mode "default"
-}
-
-
-bar {
-    output $dell
-    height 65
-    status_command i3blocks -c ~/.config/i3blocks/config4k
-    tray_output $fourk
-    position top
-    strip_workspace_numbers yes
-    separator_symbol        "·"
-    workspace_buttons       yes
-    colors {
-            background  #181818
-            statusline  #DDDDDD
-            separator   #666666
-            # class             border  backgr. text
-            focused_workspace   #2B83A6 #2B83A6 #FFFFFF
-            active_workspace    #181818 #181818 #FFFFFF
-            inactive_workspace  #181818 #181818 #86888C
-            urgent_workspace    #D64E4E #D64E4E #FFFFFF
-      }
-}
-
-bar {
-    output $fourk
-    height 65
-    status_command i3blocks -c ~/.config/i3blocks/config4k
-    tray_output $fourk
-    position top
-    strip_workspace_numbers yes
-    separator_symbol        "·"
-    workspace_buttons       yes
-    colors {
-            background  #181818
-            statusline  #DDDDDD
-            separator   #666666
-            # class             border  backgr. text
-            focused_workspace   #2B83A6 #2B83A6 #FFFFFF
-            active_workspace    #181818 #181818 #FFFFFF
-            inactive_workspace  #181818 #181818 #86888C
-            urgent_workspace    #D64E4E #D64E4E #FFFFFF
-      }
 }
