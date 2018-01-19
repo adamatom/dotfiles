@@ -1,7 +1,7 @@
 # font for window titles and bar
 font pango:EssentialPragmataPro Nerd Font 20
 
-exec_always xrandr --dpi 130
+exec_always xrandr --dpi 184
 exec --no-startup-id gsettings set org.gnome.desktop.interface scaling-factor 2
 exec --no-startup-id gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <2>}]"
 set $fourk DP-0
