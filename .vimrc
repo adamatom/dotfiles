@@ -24,6 +24,159 @@ let base16colorspace=256  " Access colors present in 256 colorspace
 
 command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> -
 
+syntax enable
+
+set exrc                            "Load .vimrc on a per-project basis
+set secure                          "prevent autocmd, shell, and write commands unless vimrc is owned by you
+set spell spelllang=en_us
+set title                           "set xterm title to vim title
+set titleold=""
+set tabstop=4                       "a tab is four spaces.
+set shiftwidth=4                    "four spaces for autoindenting
+set softtabstop=4
+set expandtab                       "Insert spaces instead of tabs
+set shiftround                      "use multiple of shiftwidth for indenting
+set smartindent                     "Seems to do a decent job with indenting
+set scrolloff=2                     "always show lines of code above/below cursor
+set hidden                          "Dont delete buffers, just hide them. Lets us :e another file without having to s
+set wildmenu                        "improve auto complete menu
+set wildmode=list:longest           "when tab is pressed, show a list similar to ls
+set cursorline                      "highlight the line the cursor is on
+set ttyfast                         "it is fast, this aint no modem
+set ruler
+set nofoldenable                    "I dont like folding text, so disable it everywhere
+set diffopt=filler,context:1000000 " filler is default and inserts empty lines for sync
+set backspace=indent,eol,start      "Backspace over everything
+set laststatus=2                    "always show status bar
+set number
+set showmatch                       "highligh matching [{()}]
+
+set undodir=~/.vim/undo
+set undofile                        "save undo tree when file is closed
+set backupdir=~/.vim/backup
+set backup                          "backup files should be kept out of the working dir
+set directory=~/.vim/tmp
+
+set viminfo+=n~/.vim/viminfo        "get this file out of home
+
+"tame searching
+set ignorecase                      "better searching:
+set smartcase                       "ignore case in a search until there is some capitalization
+set gdefault                        "apply replaces globally, do have to add g to them anymore
+set incsearch                       "Jump to the first instance as you type the search term
+set showmatch                       "always show matching ()'s
+set hlsearch                        "Highlight all of the search terms
+
+"setup line wrapping
+set nowrap
+set textwidth=119
+set formatoptions=qrn1
+set colorcolumn=120
+
+"show unwanted whitespace
+set list
+set list listchars=tab:»·,trail:·,extends:…
+set showbreak=\ \ …\ 
+set background=dark
+set history=1000                    "Remember a ton of commands
+set mouse=a                         "Allow for better mouse interaction
+set ttymouse=xterm2
+
+
+
+" make portmaps and other things indent using shiftwidth value and not location of ( + shiftwidth
+let g:vhdl_indent_genportmap = 0
+
+" change leader to space, nicer to type. You loose some sort of 'move to next char' command. 
+let g:mapleader = "\<Space>"
+
+nmap <silent> <leader>t :TagbarToggle<CR>
+nmap <silent> <leader>g :GundoToggle<CR>
+nmap <silent> <Leader>a :FSHere<cr>
+nnoremap <leader>o :CtrlP<cr>
+
+" use leader {y|d|p} for interacting with the system clipboard
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+
+" enter visual line mode easier
+nmap <leader><leader><leader> V
+
+" typing jj in insert mode gets you out.
+inoremap jj <Esc>
+
+" vim training wheels: dont allow arrow keys!
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+
+" fix direction keys for line wrap, other wise they jump over wrapped lines
+nnoremap j gj
+nnoremap k gk
+
+"remap f1. I'll type :help when I want it
+map <F1> <ESC>
+imap <F1> <ESC>
+
+"keep cursor in the middle of the screen while keyscrolling
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
+" I have never intentionally entered the mode that q: gives.
+map q: :q
+nnoremap Q <nop>
+
+" make it a little harder to start recording a macro. I accidently record more than not
+noremap <Leader>q q
+noremap q <nop>
+
+" Map alt click on an item to jump to definition. Uses tjump for ambiguous tags.
+map <A-2-LeftMouse> :exe "tjump ". expand("<cword>")<CR>
+
+
+" :wq when I meant :w. Nudges towards using :x
+cabbrev wq w
+
+" :W isnt a command, and I usually intend on :w
+cabbrev W w
+
+" :X is a strange crypto thing that I dont care about, intention is :x
+cabbrev X x
+
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cabbrev w!! w !sudo tee > /dev/null %
+
+" Make it a little easier to get into VimShell
+cabbrev shell VimShell
+
+augroup allfiles
+    "Wipe out the allfiles group for when we reload the vimrc. Otherwise we just keep reattaching commands
+    autocmd!
+    "Customize python settings
+    autocmd bufreadpre *.py setlocal textwidth=99
+    autocmd bufreadpre *.py setlocal colorcolumn=100
+
+    "Change lua tabstops to be more lua-esque
+    autocmd FileType lua setl sw=2 sts=2 et
+
+    "Close the preview window if it is open
+    autocmd InsertLeave * pclose
+
+    "Cleanup fugitive buffers automatically
+    autocmd BufReadPost fugitive://* set bufhidden=delete
+
+    " cursorline on active windows only
+    autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+    autocmd WinLeave * setlocal nocursorline
+augroup END
+
+
+
 " run plugged
 call plug#begin('~/.vim/plugged')
 
@@ -120,7 +273,7 @@ let g:syntastic_mode_map = { 'passive_filetypes': ['python', 'vim', 'rust', 'clo
 
 "Very simple completer that basically runs through vim's default completion engine
 Plug 'ajh17/VimCompletesMe'
-set completeopt+=preview,menuone,longest
+set completeopt+=menuone,longest,preview
 "Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
@@ -129,6 +282,7 @@ inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 "Automatic tag management
 Plug 'ludovicchabant/vim-gutentags'
 let g:gutentags_ctags_tagfile = '.tags'
+let g:gutentags_ctags_exclude = ['@.notags']
 
 "Better local vimrc. It'll find it at .git level
 Plug 'krisajenkins/vim-projectlocal'
@@ -136,6 +290,12 @@ Plug 'krisajenkins/vim-projectlocal'
 "Async linting engine
 Plug 'w0rp/ale', {'for': ['python', 'vim', 'rust', 'clojure', 'zsh', 'bash', 'elixir']}
 let g:ale_linters = {'c': [], 'cpp': [],}
+
+"Show preview windows
+Plug 'adamatom/vim-autopreview'
+let g:AutoPreview_enabled=1
+set updatetime=250
+set previewheight=3
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Plugins that add keyboard commands
@@ -216,155 +376,6 @@ Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
 
-syntax enable
-
-set exrc                            "Load .vimrc on a per-project basis
-set secure                          "prevent autocmd, shell, and write commands unless vimrc is owned by you
-set spell spelllang=en_us
-set title                           "set xterm title to vim title
-set titleold=""
-set tabstop=4                       "a tab is four spaces.
-set shiftwidth=4                    "four spaces for autoindenting
-set softtabstop=4
-set expandtab                       "Insert spaces instead of tabs
-set shiftround                      "use multiple of shiftwidth for indenting
-set smartindent                     "Seems to do a decent job with indenting
-set scrolloff=2                     "always show lines of code above/below cursor
-set hidden                          "Dont delete buffers, just hide them. Lets us :e another file without having to s
-set wildmenu                        "improve auto complete menu
-set wildmode=list:longest           "when tab is pressed, show a list similar to ls
-set cursorline                      "highlight the line the cursor is on
-set ttyfast                         "it is fast, this aint no modem
-set ruler
-set nofoldenable                    "I dont like folding text, so disable it everywhere
-set diffopt=filler,context:1000000 " filler is default and inserts empty lines for sync
-set backspace=indent,eol,start      "Backspace over everything
-set laststatus=2                    "always show status bar
-set number
-set showmatch                       "highligh matching [{()}]
-
-set undodir=~/.vim/undo
-set undofile                        "save undo tree when file is closed
-set backupdir=~/.vim/backup
-set backup                          "backup files should be kept out of the working dir
-set directory=~/.vim/tmp
-
-set viminfo+=n~/.vim/viminfo        "get this file out of home
-
-"tame searching
-set ignorecase                      "better searching:
-set smartcase                       "ignore case in a search until there is some capitalization
-set gdefault                        "apply replaces globally, do have to add g to them anymore
-set incsearch                       "Jump to the first instance as you type the search term
-set showmatch                       "always show matching ()'s
-set hlsearch                        "Highlight all of the search terms
-
-"setup line wrapping
-set nowrap
-set textwidth=119
-set formatoptions=qrn1
-set colorcolumn=120
-
-"show unwanted whitespace
-set list
-set list listchars=tab:»·,trail:·,extends:…
-set showbreak=\ \ …\ 
-set background=dark
-set history=1000                    "Remember a ton of commands
-set mouse=a                         "Allow for better mouse interaction
-set ttymouse=xterm2
-
 "colorscheme PaperColor
 colorscheme base16-google-dark
 highlight Cursor guifg=yellow guibg=red
-
-
-" make portmaps and other things indent using shiftwidth value and not location of ( + shiftwidth
-let g:vhdl_indent_genportmap = 0
-
-" change leader to space, nicer to type. You loose some sort of 'move to next char' command. 
-let g:mapleader = "\<Space>"
-
-nmap <silent> <leader>t :TagbarToggle<CR>
-nmap <silent> <leader>g :GundoToggle<CR>
-nmap <silent> <Leader>a :FSHere<cr>
-nnoremap <leader>o :CtrlP<cr>
-
-" use leader {y|d|p} for interacting with the system clipboard
-vmap <Leader>y "+y
-vmap <Leader>d "+d
-nmap <Leader>p "+p
-nmap <Leader>P "+P
-vmap <Leader>p "+p
-vmap <Leader>P "+P
-
-" enter visual line mode easier
-nmap <leader><leader><leader> V
-
-" typing jj in insert mode gets you out.
-inoremap jj <Esc>
-
-" vim training wheels: dont allow arrow keys!
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-nnoremap <left> <nop>
-nnoremap <right> <nop>
-
-" fix direction keys for line wrap, other wise they jump over wrapped lines
-nnoremap j gj
-nnoremap k gk
-
-"remap f1. I'll type :help when I want it
-map <F1> <ESC>
-imap <F1> <ESC>
-
-"keep cursor in the middle of the screen while keyscrolling
-nnoremap <C-d> <C-d>zz
-nnoremap <C-u> <C-u>zz
-
-" I have never intentionally entered the mode that q: gives.
-map q: :q
-nnoremap Q <nop>
-
-" make it a little harder to start recording a macro. I accidently record more than not
-noremap <Leader>q q
-noremap q <nop>
-
-" Map alt click on an item to jump to definition. Uses tjump for ambiguous tags.
-map <A-2-LeftMouse> :exe "tjump ". expand("<cword>")<CR>
-
-" :wq when I meant :w. Nudges towards using :x
-cabbrev wq w
-
-" :W isnt a command, and I usually intend on :w
-cabbrev W w
-
-" :X is a strange crypto thing that I dont care about, intention is :x
-cabbrev X x
-
-" Allow saving of files as sudo when I forgot to start vim using sudo.
-cabbrev w!! w !sudo tee > /dev/null %
-
-" Make it a little easier to get into VimShell
-cabbrev shell VimShell
-
-augroup allfiles
-    "Wipe out the allfiles group for when we reload the vimrc. Otherwise we just keep reattaching commands
-    autocmd!
-    "Customize python settings
-    autocmd bufreadpre *.py setlocal textwidth=99
-    autocmd bufreadpre *.py setlocal colorcolumn=100
-
-    "Change lua tabstops to be more lua-esque
-    autocmd FileType lua setl sw=2 sts=2 et
-
-    "Close the preview window if it is open
-    autocmd InsertLeave * pclose
-
-    "Cleanup fugitive buffers automatically
-    autocmd BufReadPost fugitive://* set bufhidden=delete
-
-    " cursorline on active windows only
-    autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-    autocmd WinLeave * setlocal nocursorline
-augroup END
