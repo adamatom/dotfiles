@@ -358,6 +358,14 @@ Plug 'elixir-editors/vim-elixir'
 " omni completers
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'davidhalter/jedi-vim', {'for' : 'python'}
+let g:jedi#popup_on_dot = 0
+let g:jedi#goto_command = "gD"
+let g:jedi#goto_assignments_command = ""
+let g:jedi#goto_definitions_command = ""
+let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<leader>jn"
+let g:jedi#completions_command = ""
+let g:jedi#rename_command = ""
 Plug 'slashmili/alchemist.vim', {'for' : 'elixir'}
 Plug 'justmao945/vim-clang', {'for' : ['cpp', 'c']}
 Plug 'racer-rust/vim-racer', {'for' : 'rust'}
