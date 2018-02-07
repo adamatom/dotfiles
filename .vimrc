@@ -42,6 +42,7 @@ set hidden                          "Dont delete buffers, just hide them. Lets u
 set wildmenu                        "improve auto complete menu
 set wildmode=list:longest           "when tab is pressed, show a list similar to ls
 set cursorline                      "highlight the line the cursor is on
+set cursorcolumn                    "highlight the column the cursor is on
 set ttyfast                         "it is fast, this aint no modem
 set ruler
 set nofoldenable                    "I dont like folding text, so disable it everywhere
@@ -385,5 +386,5 @@ Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 "colorscheme PaperColor
-colorscheme base16-google-dark
+colorscheme base16-irblack
 highlight Cursor guifg=yellow guibg=red
