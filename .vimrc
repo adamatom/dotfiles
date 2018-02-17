@@ -292,12 +292,6 @@ Plug 'krisajenkins/vim-projectlocal'
 Plug 'w0rp/ale', {'for': ['python', 'vim', 'rust', 'clojure', 'zsh', 'bash', 'elixir']}
 let g:ale_linters = {'c': [], 'cpp': [],}
 
-"Show preview windows
-Plug 'adamatom/vim-autopreview'
-let g:AutoPreview_enabled=1
-set updatetime=250
-set previewheight=3
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Plugins that add keyboard commands
 """""""""""""""""""""""""""""""""""""""""""""""""""""
