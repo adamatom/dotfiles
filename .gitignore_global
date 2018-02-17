@@ -1,0 +1,6 @@
+.tags
+*.zwc
+.vimrc
+.tags*
+.syntastic_*
+.clang_complete
