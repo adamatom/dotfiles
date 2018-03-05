@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Check for arch updates. Click to launch updater."""
-from subprocess import check_output, CalledProcessError, Popen
+from subprocess import check_output, CalledProcessError
 import os
 
 
@@ -23,8 +23,9 @@ def get_aur_update_count():
 
 
 if os.environ.get('BLOCK_BUTTON') == "1":
-    COMMAND = 'terminator -e pacaur -Syu; printf "\npress enter to exit"; read'
-    Popen(COMMAND.split(' ', 1)).wait()
+    CMD = ('alacritty -e sh -c "pacaur -Syu &&'
+           'printf \"\npress enter to exit\" && read"')
+    os.system(CMD)
 
 
 UPDATE_COUNT = get_update_count()
