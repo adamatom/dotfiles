@@ -5,7 +5,8 @@ alias spotify="spotify --force-device-scale-factor=2.0"
 alias acadia_docker="docker run -ti --name acadia --hostname acadia -v /home/adam/projects/idexx:/src -v /home/adam/.ssh:/home/build/.ssh --rm --privileged embedded.idexxi.com:5012/acadia-build bash"
 alias checkbranch='for dir in *; do if [ -d "$dir/.git" ]; then branch=$(git -C $dir branch | grep \* | sed "s/\* //"); printf "%-25s%-12s\n" "$dir" "$branch"; fi; done'
 alias vi="vim"
-alias pvim="PYTHONPATH=. vim"
+alias pvim="PYTHONPATH=$(pwd) vim"
+alias pgvim="PYTHONPATH=$(pwd) gvim"
 alias p="python"
 alias grep="grep --color=auto"
 alias zshcolors='for code in {000..255}; do print -P -- "$code: %F{$code}Test%f"; done'
