@@ -8,29 +8,22 @@
 [[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
 [[ $(command -v xautolock) ]] && xautolock -time 5 -locker lock.sh &
 [[ $(command -v xbanish) ]] && xbanish &
+xinput -set-prop "AlpsPS/2 ALPS DualPoint Stick" "Device Enabled" 0
+killall gsd-xrandr; /usr/lib/gnome-settings-daemon/gsd-xrandr >/dev/null &
+killall gsd-xsettings; /usr/lib/gnome-settings-daemon/gsd-xsettings >/dev/null &
+killall gsd-clipboard; /usr/lib/gnome-settings-daemon/gsd-clipboard >/dev/null &
+
 case "$2" in
-    awesome           ) exec awesome;;
-    bspwm             ) exec bspwm;;
-    catwm             ) exec catwm;;
-    cinnamon          ) exec cinnamon-session;;
-    dwm               ) exec dwm;;
-    enlightenment     ) exec enlightenment_start;;
-    ede               ) exec startede;;
-    fluxbox           ) exec startfluxbox;;
-    gnome             ) exec gnome-session;;
-    gnome-classic     ) exec gnome-session --session=gnome-classic;;
-    i34k              ) exec i3 -c ~/.config/i3/4K;;
-    i3lvds            ) exec i3 -c ~/.config/i3/lvds;;
-    icewm             ) exec icewm-session;;
-    jwm               ) exec jwm;;
-    kde               ) exec startkde;;
-    mate              ) exec mate-session;;
-    monster|monsterwm ) exec monsterwm;;
-    notion            ) exec notion;;
-    openbox           ) exec openbox-session;;
-    unity             ) exec unity;;
-    xfce|xfce4        ) exec startxfce4;;
-    xmonad            ) exec xmonad;;
-    # No known session, try to run it as command
-    *) exec i3 -c ~/.config/i3/lvds;;
+    i34k              )
+        gsettings set org.gnome.desktop.interface scaling-factor 2
+        gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <2>}]"
+        xrandr --dpi 184 --output DP-4 --mode 3840x2160 --pos 0x0 --rotate normal --output DP-2 --off --output DP-1 --off --output DP-0 --primary --mode 3840x2160 --pos 3840x0 --rotate normal
+        xset m 3 10
+        exec i3 -c ~/.config/i3/4K;;
+    *)
+        xrandr --dpi 92
+        gsettings set org.gnome.desktop.interface scaling-factor 1
+        gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <1>}]"
+        xset m 3 5
+        exec i3 -c ~/.config/i3/lvds;;
 esac

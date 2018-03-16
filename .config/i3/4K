@@ -1,17 +1,12 @@
 # font for window titles and bar
 font pango:EssentialPragmataPro Nerd Font 20
 
-exec_always xrandr --dpi 184
-exec --no-startup-id gsettings set org.gnome.desktop.interface scaling-factor 2
-exec --no-startup-id gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <2>}]"
 set $right_fourk DP-0
 set $lap DP-2
 set $left_fourk DP-4
 workspace $web output $left_fourk
 workspace $email output $left_fourk
 workspace $work output $right_fourk
-exec --no-startup-id xset m 3 10
-exec_always --no-startup-id xrandr --output DP-4 --mode 3840x2160 --pos 0x0 --rotate normal --output DP-2 --off --output DP-1 --off --output DP-0 --primary --mode 3840x2160 --pos 3840x0 --rotate normal &> ~/.xrandr_startup
 exec_always --no-startup-id killall dunst; dunst -conf ~/.config/dunst/4K &
 
 set $border_pixel 4
@@ -75,12 +70,6 @@ set $mod Mod4
 #early stage startup
 exec --no-startup-id thunar --daemon
 exec_always --no-startup-id killall compton; compton -b --config /home/adam/.config/compton.conf
-exec --no-startup-id xinput -set-prop "AlpsPS/2 ALPS DualPoint Stick" "Device Enabled" 0
-
-exec_always --no-startup-id killall gsd-xrandr; /usr/lib/gnome-settings-daemon/gsd-xrandr >/dev/null &
-exec_always --no-startup-id killall gsd-xsettings; /usr/lib/gnome-settings-daemon/gsd-xsettings >/dev/null &
-exec_always --no-startup-id killall gsd-clipboard; /usr/lib/gnome-settings-daemon/gsd-clipboard >/dev/null &
-
 exec_always --no-startup-id killall parcellite; parcellite &
 exec_always --no-startup-id killall nm-applet; nm-applet &
 exec_always --no-startup-id feh --bg-tile ~/.config/i3/dark_geometric.png
