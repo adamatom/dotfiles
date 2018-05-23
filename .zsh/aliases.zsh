@@ -1,3 +1,4 @@
+export LANG="en_US.UTF-8"
 alias ls="ls -la --color=always"
 alias gvim="gvim $* 2>/dev/null"
 alias pyclean="find . | grep -E \"(__pycache__|\.pyc|\.pyo$)\" | xargs rm -rf"
@@ -14,6 +15,10 @@ alias sudo="nocorrect sudo"
 alias dirh="dirs -v"
 alias cdh="dirs -v"
 alias reflectarch="sudo /usr/bin/reflector --protocol https --latest 30 --number 20 --sort rate --save /etc/pacman.d/mirrorlist"
+
+function rmkey() {
+    sed -i "$1d" "${HOME}/.ssh/known_hosts"
+}
 
 function config() {
     if [[ $@ =~ "^clean" ]]; then
