@@ -23,7 +23,7 @@ def get_aur_update_count():
 
 
 if os.environ.get('BLOCK_BUTTON') == "1":
-    CMD = ('alacritty -e sh -c "pacaur -Syu &&'
+    CMD = ('alacritty -e sh -c "yay -Syu &&'
            'printf \"\npress enter to exit\" && read"')
     os.system(CMD)
 
