@@ -116,6 +116,9 @@ nnoremap <down> <nop>
 nnoremap <left> <nop>
 nnoremap <right> <nop>
 
+" run make silently and open the quickfix window in case of errors
+nnoremap <leader>m :silent make\|redraw!\|cc<CR>
+
 " fix direction keys for line wrap, other wise they jump over wrapped lines
 nnoremap j gj
 nnoremap k gk
@@ -178,8 +181,8 @@ augroup allfiles
     autocmd BufReadPost fugitive://* set bufhidden=delete
 
     " cursorline on active windows only
-    autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-    autocmd WinLeave * setlocal nocursorline
+    autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline | setlocal cursorcolumn
+    autocmd WinLeave * setlocal nocursorline | setlocal nocursorcolumn
 augroup END
 
 
@@ -258,15 +261,11 @@ command! Greview :Git! diff --staged
 "automatically display markdown view when editing md files
 Plug 'suan/vim-instant-markdown'
 
-"A shell for simple stuff
-Plug 'shougo/vimshell.vim'
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Intellisense, autocompletion, and linting
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "Syntax linting engine
-Plug 'vim-syntastic/syntastic', {'for': ['c', 'cpp']}
+Plug 'vim-syntastic/syntastic', {'for': ['c', 'cpp', 'vhdl']}
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
@@ -276,6 +275,7 @@ let g:syntastic_cpp_checkers = ['clang_check']
 let g:syntastic_c_checkers = ['gcc']
 let g:syntastic_c_compiler_options = ''
 let g:syntastic_c_no_default_include_dirs = 1
+let g:syntastic_vhdl_checkers = ['vimhdl']
 let g:syntastic_mode_map = { 'passive_filetypes': ['python', 'vim', 'rust', 'clojure', 'elixir'] }
 
 "Very simple completer that basically runs through vim's default completion engine
@@ -289,7 +289,7 @@ inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 "Automatic tag management
 Plug 'ludovicchabant/vim-gutentags'
 let g:gutentags_ctags_tagfile = '.tags'
-let g:gutentags_ctags_exclude = ['@.notags']
+let g:gutentags_ctags_exclude = ['.notags']
 
 "Better local vimrc. It'll find it at .git level
 Plug 'krisajenkins/vim-projectlocal'
@@ -298,6 +298,9 @@ Plug 'krisajenkins/vim-projectlocal'
 Plug 'w0rp/ale', {'for': ['python', 'vim', 'rust', 'clojure', 'zsh', 'bash', 'elixir']}
 let g:ale_linters = {'c': [], 'cpp': [],}
 
+"Adhere to linux coding style guidelines
+Plug 'vivien/vim-linux-coding-style'
+let g:linuxsty_patterns = ["/home/adam/projects/idexx/acadia/kernel_modules/"]
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Plugins that add keyboard commands
 """""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -313,9 +316,6 @@ vmap <C-v> <Plug>(expand_region_shrink)
 "nice motion plugin, relieves 'w' spam, lighter weight than easymotion
 Plug 'justinmk/vim-sneak'
 let g:sneak#label = 1
-
-"nice motion plugin, relieves 'w' spam
-Plug 'Lokaltog/vim-easymotion'
 
 "better file switching
 Plug 'derekwyatt/vim-fswitch'
@@ -354,6 +354,7 @@ Plug 'aklt/plantuml-syntax'
 Plug 'rust-lang/rust.vim'
 let g:rustfmt_autosave = 1
 Plug 'elixir-editors/vim-elixir'
+Plug 'suoto/vim-hdl'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " omni completers
