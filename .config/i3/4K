@@ -1,9 +1,9 @@
 # font for window titles and bar
-font pango:EssentialPragmataPro Nerd Font 20
+font pango:EssentialPragmataPro Nerd Font 12
 
-set $right_fourk DP-0
+set $right_fourk DP-4
 set $lap DP-2
-set $left_fourk DP-4
+set $left_fourk DP-0
 workspace $web output $left_fourk
 workspace $email output $left_fourk
 workspace $work output $right_fourk
@@ -105,7 +105,7 @@ smart_borders on
 gaps inner 15
 gaps outer 0
 
-for_window [window_type="dialog"] floating enable, move position mouse
+for_window [window_type="dialog"] floating enable
 for_window [window_type="splash"] floating enable
 for_window [window_type="menu"] floating enable
 
