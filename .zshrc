@@ -8,7 +8,6 @@ source ~/.zsh/setopt.zsh
 source ~/.zsh/prompt.zsh
 source ~/.zsh/aliases.zsh
 source ~/.zsh/history.zsh
-source ~/.zsh/z.sh
 source ~/.zsh/plugins.zsh
 source ~/.zsh/bindkeys.zsh
 source ~/.zsh/completion.zsh
