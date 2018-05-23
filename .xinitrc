@@ -17,13 +17,15 @@ case "$2" in
     i34k              )
         gsettings set org.gnome.desktop.interface scaling-factor 2
         gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <2>}]"
-        xrandr --dpi 184 --output DP-4 --mode 3840x2160 --pos 0x0 --rotate normal --output DP-2 --off --output DP-1 --off --output DP-0 --primary --mode 3840x2160 --pos 3840x0 --rotate normal
+        export GDK_SCALE=2
+        xrandr --dpi 184 --output DP-0 --mode 3840x2160 --pos 0x0 --rotate normal --output DP-2 --off --output DP-1 --off --output DP-4 --primary --mode 3840x2160 --pos 3840x0 --rotate normal
         xset m 3 10
         exec i3 -c ~/.config/i3/4K;;
     *)
         xrandr --dpi 92
         gsettings set org.gnome.desktop.interface scaling-factor 1
         gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <1>}]"
+        export GDK_SCALE
         xset m 3 5
         exec i3 -c ~/.config/i3/lvds;;
 esac
