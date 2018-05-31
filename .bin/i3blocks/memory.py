@@ -6,7 +6,7 @@ from subprocess import Popen
 import psutil
 
 if os.environ.get('BLOCK_BUTTON') == "1":
-    Popen(['alacritty', '-e', 'htop'])
+    Popen(['xfce4-terminal', '-e', 'htop'])
 
 AVAIL = str(int(psutil.virtual_memory().available/(1024*1024*1024))) + "GB"
 print(AVAIL)

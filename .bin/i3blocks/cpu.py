@@ -13,7 +13,7 @@ def get_icon(load):
 
 
 if os.environ.get('BLOCK_BUTTON') == "1":
-    Popen(['alacritty', '-e', 'htop'])
+    Popen(['xfce4-terminal', '-e', 'htop'])
 
 CORES = psutil.cpu_percent(interval=0.2, percpu=True)
 RESULT = ' '.join(map(get_icon, CORES))
