@@ -1,0 +1,57 @@
+scriptencoding utf-8
+
+augroup allfiles
+    "Wipe out the allfiles group for when we reload the vimrc. Otherwise we just keep reattaching commands
+    autocmd!
+    "Customize python settings
+    autocmd FileType python setlocal textwidth=79 | setlocal colorcolumn=80
+
+    "Change lua tabstops to be more lua-esque
+    autocmd FileType lua setlocal sw=2 sts=2 et
+
+    "Close the preview window if it is open
+    autocmd InsertLeave * pclose
+
+    "Cleanup fugitive buffers automatically
+    autocmd BufReadPost fugitive://* set bufhidden=delete
+
+    " cursorline on active windows only
+    autocmd VimEnter,WinEnter,BufWinEnter * setlocal cursorline | setlocal cursorcolumn
+    autocmd WinLeave * setlocal nocursorline | setlocal nocursorcolumn
+augroup END
+
+
+function! SetupEnvironment()
+    " Alternative to this approach is running with exrc, though this has security implications.
+    " This approach is the approach suggested by Braam, and it turns out it is nice to see all of
+    " the project settings in one file.
+    let l:path = expand('%:p')
+
+    " Does path contain the kernel_modules
+    if l:path =~# 'acadia/kernel_modules'
+        let g:linuxsty_patterns = ['/home/adam/projects/idexx/acadia/kernel_modules/']
+        let g:syntastic_c_compiler = 'aarch64-gcc'
+        let g:syntastic_c_config_file = '.syntastic_c_config'
+        setlocal tags=./tags,/home/adam/projects/idexx/acadia/buildroot/output/build/linux-xilinx-v2017.4/tags
+        cs add /home/adam/projects/idexx/acadia/buildroot/output/build/linux-xilinx-v2017.4/cscope.out
+        setlocal cscoperelative
+        setlocal cscopetag
+        setlocal nolist  " kernel style wants tab characters, so hide them for now
+        setlocal textwidth=79
+        setlocal colorcolumn=80
+    elseif l:path =~# 'acadia/applications'
+        let g:gutentags_ctags_exclude = ['node_modules']
+        if &filetype ==? 'python'
+            setlocal textwidth=79
+            setlocal colorcolumn=80
+        endif
+    else
+        let g:linuxsty_patterns = []
+    endif
+endfunction
+
+augroup envswitch
+    " Clean up envswitch group
+    autocmd!
+    autocmd VimEnter,WinEnter,BufWinEnter,BufReadPost,BufNewFile * call SetupEnvironment()
+augroup END

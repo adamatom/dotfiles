@@ -1,0 +1,180 @@
+scriptencoding utf-8
+" run plugged
+call plug#begin('~/.vim/plugged')
+
+let g:ale_emit_conflict_warnings = 0
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plugins that add new windows
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+"fancypants status line
+Plug 'itchyny/lightline.vim'
+let g:lightline = {
+    \ 'colorscheme': 'OldHope',
+    \ 'component': {
+    \   'readonly': "%{&readonly?'⭤':''}",
+    \ },
+    \ 'component_function': {
+    \   'filename': 'LightlineFilename',
+    \ },
+    \ }
+
+function! LightlineFilename()
+    let l:short_filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
+    let l:med_filename = expand('%:t') !=# '' ? fnamemodify(expand('%:p'), ':~:.') : '[No Name]'
+    let l:full_filename = expand('%:t') !=# '' ? fnamemodify(expand('%:p'), ':~') : '[No Name]'
+
+    let l:max_len = 120
+    let l:full_len = len(l:full_filename)
+    let l:med_len = len(l:med_filename)
+
+    let l:use_short = l:full_len > l:max_len && l:med_len > l:max_len
+    let l:use_med = l:full_len > l:max_len && l:med_len <= l:max_len
+
+    return l:use_short ? l:short_filename : l:use_med ? l:med_filename : l:full_filename
+endfunction
+
+"adds a window that shows all of the functions in the current file
+Plug 'majutsushi/tagbar'
+
+"visual undo tree. nice for when you need to go back to a branch
+Plug 'sjl/gundo.vim'
+
+"provides hg/git change status in the left gutter
+Plug 'mhinz/vim-signify'
+
+"vim front end for ack, with support for ag backend
+Plug 'mileszs/ack.vim'
+if executable('ag')
+    let g:ackprg = 'ag --vimgrep'
+endif
+
+"better buffer management
+Plug 'jlanzarotta/bufexplorer'
+
+"display marks
+Plug 'kshenoy/vim-signature'
+
+"Alternative to netrw, which is slow and buggy
+Plug 'jeetsukumaran/vim-filebeagle'
+
+"Git wrapper for doing git things on files in vim
+Plug 'tpope/vim-fugitive'
+command! Greview :Git! diff --staged
+
+"automatically display markdown view when editing md files
+Plug 'suan/vim-instant-markdown'
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Intellisense, autocompletion, and linting
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Syntax linting engine
+Plug 'vim-syntastic/syntastic', {'for': ['c', 'cpp', 'vhdl']}
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_ignore_files = ['\m^/usr/include/']
+let g:syntastic_cpp_checkers = ['clang_check']
+let g:syntastic_c_checkers = ['gcc']
+let g:syntastic_c_compiler_options = ''
+let g:syntastic_c_no_default_include_dirs = 1
+let g:syntastic_vhdl_checkers = ['vimhdl']
+let g:syntastic_mode_map = { 'passive_filetypes': ['python', 'vim', 'rust', 'clojure', 'elixir'] }
+
+"Very simple completer that basically runs through vim's default completion engine
+Plug 'ajh17/VimCompletesMe'
+set completeopt+=menuone,longest,preview
+"Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+
+"Automatic tag management
+Plug 'ludovicchabant/vim-gutentags'
+let g:gutentags_ctags_tagfile = '.tags'
+
+"Async linting engine
+Plug 'w0rp/ale', {'for': ['python', 'vim', 'rust', 'clojure', 'zsh', 'bash', 'elixir']}
+let g:ale_linters = {'c': [], 'cpp': [],}
+
+"Adhere to linux coding style guidelines
+Plug 'vivien/vim-linux-coding-style'
+let g:linuxsty_patterns = []
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Vim Plugins that add keyboard commands
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+"replace {motion} with a register. Faster than typing '"_c[motion]^r"'
+Plug 'vim-scripts/ReplaceWithRegister'
+
+"repeated v's expand out the visually selected region
+Plug 'terryma/vim-expand-region'
+vmap v <Plug>(expand_region_expand)
+vmap <S-v> <Plug>(expand_region_shrink)
+
+"nice motion plugin, relieves 'w' spam, lighter weight than easymotion
+Plug 'justinmk/vim-sneak'
+let g:sneak#label = 1
+
+"better file switching
+Plug 'derekwyatt/vim-fswitch'
+augroup mycppfiles
+    au!
+    au BufEnter *.h let b:fswitchlocs = 'reg:/include/src/,reg:/headers/cpp/,ifrel:|/include/|../src|,./'
+    au BufEnter *.cpp let b:fswitchlocs = 'reg:/src/include/,reg:/cpp/headers/,ifrel:|/src/|../include|,./'
+augroup END
+
+
+"Add numerous [ and ] bindings for naviation
+Plug 'tpope/vim-unimpaired'
+
+"Add Linux command line tools to vim directly, :SudoWrite, :Find are especially nice
+Plug 'tpope/vim-eunuch'
+
+"Add toggle for location and quickfix windows
+Plug 'Valloric/ListToggle'
+let g:lt_height = 10
+let g:lt_location_list_toggle_map = '<leader>l'
+let g:lt_quickfix_list_toggle_map = '<leader>q'
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Vim Syntax Highlighting
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+Plug 'NLKNguyen/c-syntax.vim', {'for': ['c', 'cpp']}
+Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
+let g:cpp_class_scope_highlight = 1
+Plug 'hdima/python-syntax', {'for': 'python'}
+let g:python_highlight_all = 1
+Plug 'fatih/vim-go', {'for': 'go' }
+Plug 'wlangstroth/vim-racket', {'for': ['scheme', 'racket']}
+Plug 'tpope/vim-fireplace', {'for' : 'clojure' }
+Plug 'aklt/plantuml-syntax'
+Plug 'rust-lang/rust.vim', {'for': 'rust'}
+let g:rustfmt_autosave = 1
+Plug 'elixir-editors/vim-elixir', {'for': 'elixir'}
+Plug 'suoto/vim-hdl', {'for': 'vhdl'}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+" omni completers
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+Plug 'davidhalter/jedi-vim', {'for' : 'python'}
+let g:jedi#popup_on_dot = 1
+let g:jedi#goto_command = 'gD'
+let g:jedi#goto_assignments_command = ''
+let g:jedi#goto_definitions_command = ''
+let g:jedi#documentation_command = 'K'
+let g:jedi#usages_command = '<leader>jn'
+let g:jedi#completions_command = ''
+let g:jedi#rename_command = ''
+Plug 'slashmili/alchemist.vim', {'for' : 'elixir'}
+Plug 'justmao945/vim-clang', {'for' : 'cpp'}
+Plug 'racer-rust/vim-racer', {'for' : 'rust'}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+" color schemes
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+Plug 'adamatom/papercolor-theme'
+Plug 'chriskempson/base16-vim'
+
+
+call plug#end()

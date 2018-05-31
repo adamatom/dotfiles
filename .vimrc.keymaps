@@ -1,0 +1,84 @@
+scriptencoding utf-8
+
+" change leader to space, nicer to type. You loose some sort of 'move to next char' command.
+let g:mapleader = "\<Space>"
+
+nnoremap <silent> <leader>t :TagbarToggle<CR>
+nnoremap <silent> <leader>g :GundoToggle<CR>
+nnoremap <silent> <Leader>a :FSHere<cr>
+
+" toggle spelling quickly
+nnoremap <silent> <leader>s :set spell! spell?<CR>
+
+" toggle highlight quickly. runs an expression to test whether a hlsearch is active
+function! ToggleHLS()
+    if &hlsearch && v:hlsearch
+        echo 'nohls'
+        return ':nohls'
+    else
+        echo 'hls'
+        return ':set hls'
+    endif
+endfunction
+
+nnoremap <silent><expr> <Leader>h ToggleHLS()."\n"
+" use leader {y|d|p} for interacting with the system clipboard
+vnoremap <Leader>y "+y
+vnoremap <Leader>d "+d
+nnoremap <Leader>p "+p
+nnoremap <Leader>P "+P
+vnoremap <Leader>p "+p
+vnoremap <Leader>P "+P
+
+" enter visual line mode easier
+nnoremap <leader><leader><leader> V
+
+" typing jj in insert mode gets you out.
+inoremap jj <Esc>
+
+" vim training wheels: dont allow arrow keys!
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+
+" run make silently and open the quickfix window in case of errors
+nnoremap <leader>m :silent make\|redraw!\|cc<CR>
+
+" fix direction keys for line wrap, other wise they jump over wrapped lines
+nnoremap j gj
+nnoremap k gk
+
+"remap f1. I'll type :help when I want it
+noremap <F1> <ESC>
+inoremap <F1> <ESC>
+
+"keep cursor in the middle of the screen while keyscrolling
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
+"move between windows a little easier
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" I have never intentionally entered the mode that q: gives.
+noremap q: :q
+nnoremap Q <nop>
+
+" make it a little harder to start recording a macro. I accidently record more than not
+noremap <leader><leader>q q
+noremap q <nop>
+
+" :wq when I meant :w. Nudges towards using :x
+cabbrev wq w
+
+" :W isnt a command, and I usually intend on :w
+cabbrev W w
+
+" :X is a strange crypto thing that I dont care about, intention is :x
+cabbrev X x
+
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cabbrev w!! w !sudo tee > /dev/null %
