@@ -1,9 +1,4 @@
-# font for window titles and bar
-font pango:EssentialPragmataPro Nerd Font 11
-
 exec_always --no-startup-id killall dunst; dunst -conf ~/.config/dunst/LVDS &
-
-set $border_pixel 2
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -27,6 +22,9 @@ bar {
       }
 }
 
+# font for window titles and bar
+font pango:EssentialPragmataPro Nerd Font 11
+
 ################################################################################
 #  Variables
 ################################################################################
@@ -37,6 +35,7 @@ set $email "9:  "
 set $web "10:  "
 
 set $mod Mod4
+set $border_pixel 2
 
 ################################################################################
 #  Startup applications

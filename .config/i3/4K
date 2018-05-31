@@ -1,6 +1,3 @@
-# font for window titles and bar
-font pango:EssentialPragmataPro Nerd Font 12
-
 set $right_fourk DP-4
 set $lap DP-2
 set $left_fourk DP-0
@@ -8,8 +5,6 @@ workspace $web output $left_fourk
 workspace $email output $left_fourk
 workspace $work output $right_fourk
 exec_always --no-startup-id killall dunst; dunst -conf ~/.config/dunst/4K &
-
-set $border_pixel 4
 
 bar {
     output $left_fourk
@@ -53,6 +48,9 @@ bar {
       }
 }
 
+# font for window titles and bar
+font pango:EssentialPragmataPro Nerd Font 11
+
 ################################################################################
 #  Variables
 ################################################################################
@@ -63,6 +61,7 @@ set $email "9:  "
 set $web "10:  "
 
 set $mod Mod4
+set $border_pixel 2
 
 ################################################################################
 #  Startup applications
