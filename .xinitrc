@@ -26,6 +26,6 @@ case "$2" in
         gsettings set org.gnome.desktop.interface scaling-factor 1
         gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <1>}]"
         export GDK_SCALE
-        xset m 3 5
+        xset m 3 10
         exec i3 -c ~/.config/i3/lvds;;
 esac
