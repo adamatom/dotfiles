@@ -1,17 +1,12 @@
 scriptencoding utf-8
 
-" change leader to space, nicer to type. You loose some sort of 'move to next char' command.
-let g:mapleader = "\<Space>"
-
-nnoremap <silent> <leader>t :TagbarToggle<CR>
-nnoremap <silent> <leader>g :GundoToggle<CR>
-nnoremap <silent> <Leader>a :FSHere<cr>
-
-" toggle spelling quickly
-nnoremap <silent> <leader>s :set spell! spell?<CR>
-
-" toggle highlight quickly. runs an expression to test whether a hlsearch is active
-function! ToggleHLS()
+" ------------------------------------------------------------------------------
+" Support functions for keymaps
+" ------------------------------------------------------------------------------
+function! s:ToggleHLS() abort
+    " Toggling the highlight on a search result is a little funky. We want to hide the highlight
+    " without disabling the hlsearch option. If we simply toggled hlsearch then we would have to
+    " remember to turn it back on anytime we did a search.
     if &hlsearch && v:hlsearch
         echo 'nohls'
         return ':nohls'
@@ -20,8 +15,104 @@ function! ToggleHLS()
         return ':set hls'
     endif
 endfunction
+command! HLSToggle call s:ToggleHLS()
 
-nnoremap <silent><expr> <Leader>h ToggleHLS()."\n"
+function! s:LListToggle() abort
+    let l:buffer_count_before = s:BufferCount()
+    " Location list can't be closed if there's cursor in it, so we need to call lclose twice to
+    " move cursor to the main pane
+    silent! lclose
+    silent! lclose
+
+    if s:BufferCount() == l:buffer_count_before
+        silent! lopen
+    endif
+endfunction
+command! LToggle call s:LListToggle()
+
+function! s:QListToggle() abort
+    let l:buffer_count_before = s:BufferCount()
+    " cclose wont close quickfix windows shown on inactive tabs. The window count doesn't appear to
+    " match reality (quickfix shares a buffer globally). This iterates all tabs and ccloses.
+    let l:working_tab = tabpagenr()
+    silent! tabdo cclose
+
+    execute 'tabnext' l:working_tab
+    if s:BufferCount() == l:buffer_count_before
+        silent! botright copen
+    endif
+endfunction
+
+function! s:BufferCount() abort
+    return len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
+endfunction
+command! QToggle call s:QListToggle()
+
+function! s:CloseWindows() abort
+    " A general clear-the-clutter function to close windows we have mapped
+    let l:working_tab = tabpagenr()
+    tabdo helpclose
+    tabdo cclose
+    tabdo windo if &buftype == 'quickfix' || &buftype == 'locationlist' | lclose | endif
+    tabdo GundoHide
+    tabdo TagbarClose
+    execute 'tabnext' l:working_tab
+endfunction
+command! CloseMyWindows call s:CloseWindows()
+
+
+" ------------------------------------------------------------------------------
+" leader maps for running common actions
+" ------------------------------------------------------------------------------
+
+" change leader to space, nicer to type. You lose some sort of 'move to next char' command.
+let g:mapleader = "\<Space>"
+
+nnoremap <silent> <Leader>a :FSHere<cr>
+
+" toggle spelling quickly
+nnoremap <silent> <leader>os :set spell! spell?<CR>
+
+" toggle highlight quickly
+nnoremap <silent> <Leader>oh :HLSToggle<CR>
+
+" flip between light and dark background
+nnoremap <silent> <leader>ob :set background=<C-R>=&background == "dark" ? "light" : "dark"<CR><CR>
+
+" toggle line numbers
+nnoremap <silent> <leader>on :set number! number?<CR>
+
+" toggle relative number
+nnoremap <silent> <leader>or :set relativenumber! relativenumber?<CR>
+
+" move through buffers
+nnoremap <silent> <leader><leader>b :bnext<CR>
+nnoremap <silent> <leader><leader>B :bprev<CR>
+
+" remap bufexplorer
+nnoremap <silent> <leader>be :BufExplorer<CR>
+nnoremap <silent> <leader>bt :ToggleBufExplorer<CR>
+nnoremap <silent> <leader>bs :BufExplorerHorizontalSplit<CR>
+nnoremap <silent> <leader>bv :BufExplorerVerticalSplit<CR>
+
+" open and close various windows
+nnoremap <silent> <leader>wt :TagbarToggle<CR>
+nnoremap <silent> <leader>wg :GundoToggle<CR>
+nnoremap <silent> <leader>wq :QToggle<CR>
+nnoremap <silent> <leader>wl :LToggle<CR>
+nnoremap <silent> <leader>wc :CloseMyWindows<CR>
+
+" navigate through quickfix and locationlists
+nnoremap <silent> <leader><leader>q :cfirst<CR>
+nnoremap <silent> <leader><leader>Q :clast<CR>
+nnoremap <silent> <leader>q :cnext<CR>
+nnoremap <silent> <leader>Q :cprevious<CR>
+
+nnoremap <silent> <leader><leader>l :lfirst<CR>
+nnoremap <silent> <leader><leader>L :llast<CR>
+nnoremap <silent> <leader>l :lnext<CR>
+nnoremap <silent> <leader>L :lprevious<CR>
+
 " use leader {y|d|p} for interacting with the system clipboard
 vnoremap <Leader>y "+y
 vnoremap <Leader>d "+d
@@ -30,8 +121,20 @@ nnoremap <Leader>P "+P
 vnoremap <Leader>p "+p
 vnoremap <Leader>P "+P
 
+" run make silently and open the quickfix window in case of errors
+nnoremap <leader>m :silent make\|redraw!\|cc<CR>
+
 " enter visual line mode easier
 nnoremap <leader><leader><leader> V
+
+" make it a little harder to start recording a macro. I accidently record more than not
+noremap <leader><leader>q q
+noremap q <nop>
+
+
+" ------------------------------------------------------------------------------
+" Keymaps that alter default behavior.
+" ------------------------------------------------------------------------------
 
 " typing jj in insert mode gets you out.
 inoremap jj <Esc>
@@ -41,9 +144,6 @@ nnoremap <up> <nop>
 nnoremap <down> <nop>
 nnoremap <left> <nop>
 nnoremap <right> <nop>
-
-" run make silently and open the quickfix window in case of errors
-nnoremap <leader>m :silent make\|redraw!\|cc<CR>
 
 " fix direction keys for line wrap, other wise they jump over wrapped lines
 nnoremap j gj
@@ -67,9 +167,10 @@ nnoremap <C-l> <C-w>l
 noremap q: :q
 nnoremap Q <nop>
 
-" make it a little harder to start recording a macro. I accidently record more than not
-noremap <leader><leader>q q
-noremap q <nop>
+
+" ------------------------------------------------------------------------------
+" command mode replacements
+" ------------------------------------------------------------------------------
 
 " :wq when I meant :w. Nudges towards using :x
 cabbrev wq w

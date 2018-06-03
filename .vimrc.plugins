@@ -124,19 +124,6 @@ augroup mycppfiles
     au BufEnter *.cpp let b:fswitchlocs = 'reg:/src/include/,reg:/cpp/headers/,ifrel:|/src/|../include|,./'
 augroup END
 
-
-"Add numerous [ and ] bindings for naviation
-Plug 'tpope/vim-unimpaired'
-
-"Add Linux command line tools to vim directly, :SudoWrite, :Find are especially nice
-Plug 'tpope/vim-eunuch'
-
-"Add toggle for location and quickfix windows
-Plug 'Valloric/ListToggle'
-let g:lt_height = 10
-let g:lt_location_list_toggle_map = '<leader>l'
-let g:lt_quickfix_list_toggle_map = '<leader>q'
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Syntax Highlighting
 """""""""""""""""""""""""""""""""""""""""""""""""""""
