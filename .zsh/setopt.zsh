@@ -30,11 +30,11 @@ setopt extended_glob # treat #, ~, and ^ as part of patterns for filename genera
 # ===== History
 setopt append_history # Allow multiple terminal sessions to all append to one zsh command history
 setopt extended_history # save timestamp of command and duration
-setopt inc_append_history # Add commands as they are typed, dont wait until shell exit
 setopt hist_expire_dups_first # when trimming history, lose oldest duplicates first
+setopt hist_fcntl_lock # Dont use zsh adhoc locking mechanism, use OS's fcntl for HISTFILE lock
+setopt hist_find_no_dups # When searching history dont display results already cycled through twice
 setopt hist_ignore_dups # Do not write events to history that are duplicates of previous events
 setopt hist_ignore_space # remove command line from history list when first character on the line is a space
-setopt hist_find_no_dups # When searching history dont display results already cycled through twice
 setopt hist_reduce_blanks # Remove extra blanks from each command line being added to history
 setopt hist_verify # dont execute, just expand history
 setopt share_history # imports new commands and appends typed commands to history

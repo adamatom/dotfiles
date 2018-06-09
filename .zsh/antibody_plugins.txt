@@ -1,6 +1,7 @@
 zsh-users/zsh-syntax-highlighting
-tymm/zsh-directory-history
-adamatom/zsh-autosuggestions
+zsh-users/zsh-history-substring-search
+zsh-users/zsh-autosuggestions
 zsh-users/zsh-completions
+/home/adam/projects/zsh-cwd-history/
 # requires https://github.com/jhawthorn/fzy or https://github.com/junegunn/fzf
 b4b4r07/enhancd

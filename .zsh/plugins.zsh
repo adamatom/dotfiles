@@ -21,13 +21,11 @@ function load_plugins() {
     # history-substring-search options
     HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=white,bold'
     # zsh-autosuggestions options
-    ZSH_AUTOSUGGEST_STRATEGY=directory_history
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=239'
 
     # zsh-syntax-highlighting
     # Turn a lot of the highlighting off
     ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=red,bold
-    ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=blue
     ZSH_HIGHLIGHT_STYLES[builtin]=none
     ZSH_HIGHLIGHT_STYLES[function]=none
     ZSH_HIGHLIGHT_STYLES[alias]=none

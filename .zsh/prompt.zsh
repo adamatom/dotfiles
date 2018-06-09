@@ -67,17 +67,37 @@ function git_prompt_string() {
   echo "$ZSH_THEME_GIT_PROMPT_PREFIX${git_where} $STATUS$ZSH_THEME_GIT_PROMPT_SUFFIX"
 }
 
+if [[ $__PROFILE__ -eq 1 ]]; then
+    # set type of SECONDS and start to float to increase precision
+    typeset -F SECONDS start
+    # define zle-line-init function
+    zle-line-init () {
+        # print time since start was set after prompt
+        PREDISPLAY="[$(( $SECONDS - $start ))] "
+    }
+    # link the zle-line-init widget to the function of the same name
+    zle -N zle-line-init
+fi
 
 ASYNC_PROC=0
+
 function precmd() {
 
-    function async() {
-        local hoststyle=''
-        $(config diff --no-ext-diff --quiet --exit-code 2> /dev/null) && hoststyle='%F{239}' || hoststyle='%F{009}'
+    # save time since start of zsh in start
+    start=$SECONDS
 
+    function async() {
         local gitinfo=''
+        local hoststyle=''
+        if $(config diff --no-ext-diff --quiet --exit-code 2> /dev/null); then
+            hoststyle='%F{239}'
+        else
+            hoststyle='%F{009}'
+        fi
+
         local pend=$'%F{255}]%f\n'$PROMPT_CHAR
         local pstart="%F{255}[${hoststyle}%M%F{255} %F{255}%B›%b%f %F{074}%~%f"
+
         # If in a git repo, asynchronously fill in the git details into PROMPT
         if git rev-parse --git-dir > /dev/null 2>&1; then
             gitinfo="$(git_prompt_string)"
@@ -101,12 +121,15 @@ function precmd() {
     # start background computation
     async &!
     ASYNC_PROC=$!
-
 }
 
 function TRAPUSR1() {
     # read from temp file
-    PROMPT="$(cat /tmp/zsh_prompt_$$)"
+    local timing=""
+    if [[ $__PROFILE__ -eq 1 ]]; then
+        timing="{$(( $SECONDS - $start ))}"  #PROFILE
+    fi
+    PROMPT="$(cat /tmp/zsh_prompt_$$)$timing"
     # reset proc number
     ASYNC_PROC=0
 

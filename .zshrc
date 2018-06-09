@@ -1,7 +1,10 @@
 # Automatically sourced by zsh on interactive shells
 # .zshenv → [.zprofile if login] → [.zshrc if interactive] → [.zlogin if login] → [.zlogout sometimes]
 # Enable profiling
-#zmodload zsh/zprof  # launch shell then run 'zprof'
+__PROFILE__=0
+if [[ $__PROFILE__ -eq 1 ]]; then
+    zmodload zsh/zprof  # launch shell then run 'zprof'
+fi
 
 source ~/.zsh/colors.zsh
 source ~/.zsh/setopt.zsh
