@@ -109,6 +109,7 @@ gaps outer 0
 for_window [window_type="dialog"] floating enable
 for_window [window_type="splash"] floating enable
 for_window [window_type="menu"] floating enable
+for_window [class="Gnome-calculator"] floating enable
 
 for_window [class="^.*"] border pixel $border_pixel
 
