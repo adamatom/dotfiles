@@ -17,12 +17,17 @@ function! s:ToggleHLS() abort
 endfunction
 command! HLSToggle call s:ToggleHLS()
 
-function! s:LListToggle() abort
-    let l:buffer_count_before = s:BufferCount()
+function! s:LListClose() abort
     " Location list can't be closed if there's cursor in it, so we need to call lclose twice to
     " move cursor to the main pane
     silent! lclose
     silent! lclose
+endfunction
+
+function! s:LListToggle() abort
+    let l:buffer_count_before = s:BufferCount()
+
+    call s:LListClose()
 
     if s:BufferCount() == l:buffer_count_before
         silent! lopen
@@ -30,32 +35,36 @@ function! s:LListToggle() abort
 endfunction
 command! LToggle call s:LListToggle()
 
-function! s:QListToggle() abort
-    let l:buffer_count_before = s:BufferCount()
+function! s:QListClose() abort
     " cclose wont close quickfix windows shown on inactive tabs. The window count doesn't appear to
     " match reality (quickfix shares a buffer globally). This iterates all tabs and ccloses.
-    let l:working_tab = tabpagenr()
     silent! tabdo cclose
+endfunction
+
+function! s:QListToggle() abort
+    let l:buffer_count_before = s:BufferCount()
+    let l:working_tab = tabpagenr()
+    call s:QListClose()
 
     execute 'tabnext' l:working_tab
     if s:BufferCount() == l:buffer_count_before
         silent! botright copen
     endif
 endfunction
+command! QToggle call s:QListToggle()
 
 function! s:BufferCount() abort
     return len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
 endfunction
-command! QToggle call s:QListToggle()
 
 function! s:CloseWindows() abort
     " A general clear-the-clutter function to close windows we have mapped
     let l:working_tab = tabpagenr()
-    tabdo helpclose
-    tabdo cclose
-    tabdo windo if &buftype == 'quickfix' || &buftype == 'locationlist' | lclose | endif
-    tabdo GundoHide
-    tabdo TagbarClose
+    tabdo call s:QListClose()
+    tabdo bufdo call s:LListClose()
+    silent! tabdo helpclose
+    silent! tabdo GundoHide
+    silent! tabdo TagbarClose
     execute 'tabnext' l:working_tab
 endfunction
 command! CloseMyWindows call s:CloseWindows()

@@ -18,7 +18,25 @@ let g:lightline = {
     \ },
     \ }
 
+function! IsQFLLFocused()
+    silent! exec 'redir @a | ls | redir END'
+    if match(@a,'%a-  "\[Location List\]"') >= 0
+        return 1
+    elseif match(@a,'%a-  "\[Quickfix List\]"') >= 0
+        return 2
+    else
+        return 0
+    endif
+endfunction
+
 function! LightlineFilename()
+    let l:is_special_focused = IsQFLLFocused()
+    if l:is_special_focused == 1
+        return '[Local/Location List]'
+    elseif l:is_special_focused == 2
+        return '[Global/QuickFix]'
+    endif
+
     let l:short_filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
     let l:med_filename = expand('%:t') !=# '' ? fnamemodify(expand('%:p'), ':~:.') : '[No Name]'
     let l:full_filename = expand('%:t') !=# '' ? fnamemodify(expand('%:p'), ':~') : '[No Name]'
