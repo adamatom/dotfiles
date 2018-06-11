@@ -6,6 +6,7 @@ function update_plugins() {
 }
 
 function periodically_update_plugins() {
+    mkdir -p ~/.cache/antibody
     if [ ! -f ~/.cache/antibody/timestamp ]; then
         touch -t 200001010101 ~/.cache/antibody/timestamp
     fi
