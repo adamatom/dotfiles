@@ -1,4 +1,4 @@
-set $right_fourk DP-4
+set $right_fourk DP-3
 set $lap DP-2
 set $left_fourk DP-0
 workspace $web output $left_fourk

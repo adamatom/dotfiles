@@ -18,7 +18,7 @@ case "$2" in
         gsettings set org.gnome.desktop.interface scaling-factor 2
         gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <2>}]"
         export GDK_SCALE=2
-        xrandr --dpi 184 --output DP-0 --mode 3840x2160 --pos 0x0 --rotate normal --output DP-2 --off --output DP-1 --off --output DP-4 --primary --mode 3840x2160 --pos 3840x0 --rotate normal
+        xrandr --dpi 184 --output DP-0 --mode 3840x2160 --pos 0x0 --rotate normal --output DP-2 --off --output DP-1 --off --output DP-3 --primary --mode 3840x2160 --pos 3840x0 --rotate normal
         xset m 3 10
         exec i3 -c ~/.config/i3/4K;;
     *)
