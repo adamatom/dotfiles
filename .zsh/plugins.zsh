@@ -5,17 +5,6 @@ function update_plugins() {
     touch ~/.cache/antibody/timestamp
 }
 
-function periodically_update_plugins() {
-    mkdir -p ~/.cache/antibody
-    if [ ! -f ~/.cache/antibody/timestamp ]; then
-        touch -t 200001010101 ~/.cache/antibody/timestamp
-    fi
-
-    if [ $(find "$HOME/.cache/antibody/timestamp" -mmin +10080) ]; then
-        update_plugins
-    fi
-}
-
 function load_plugins() {
     source ~/.zsh/antibody_sourceables.zsh
 
@@ -54,12 +43,19 @@ function update_and_load() {
         return 1
     fi
 
-    if [[ ! -f ~/.zsh/antibody_sourceables.zsh ]]; then
+    if [[ ! -d ~/.cache/antibody ]]; then
+        mkdir -p ~/.cache/antibody
+    fi
+
+    if [[ ! -f ~/.zsh/antibody_sourceables.zsh ]] || [[ ! -f ~/.cache/antibody/timestamp ]]; then
         print -P '%B%F{cyan}Initializing antibody_sourceables%b%f'
         touch -t 200001010101 ~/.cache/antibody/timestamp
     fi
 
-    periodically_update_plugins
+    if [ $(find "$HOME/.cache/antibody/timestamp" -mmin +10080) ]; then
+        update_plugins
+    fi
+
     load_plugins
 }
 
