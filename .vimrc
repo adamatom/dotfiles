@@ -58,6 +58,7 @@ set list listchars=tab:»·,trail:·,extends:…
 set showbreak=\ \ …\ 
 set autoindent                  " copy indent from current line when starting a new line
 set shiftround                  " round to shiftwidth instead of inserting tabstop characters
+set iskeyword+=-                " treat dashes as part of word motion
 
 " Line wrapping, cursors, cursor lines
 set nowrap                      " dont display long-lines as wrapped

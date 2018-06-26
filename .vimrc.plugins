@@ -79,41 +79,12 @@ Plug 'jeetsukumaran/vim-filebeagle'
 Plug 'tpope/vim-fugitive'
 command! Greview :Git! diff --staged
 
-"automatically display markdown view when editing md files
-Plug 'suan/vim-instant-markdown'
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-" Intellisense, autocompletion, and linting
+" linting
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-"Syntax linting engine
-Plug 'vim-syntastic/syntastic', {'for': ['c', 'cpp', 'vhdl']}
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_ignore_files = ['\m^/usr/include/']
-let g:syntastic_cpp_checkers = ['clang_check']
-let g:syntastic_c_checkers = ['gcc']
-let g:syntastic_c_compiler_options = ''
-let g:syntastic_c_no_default_include_dirs = 1
-let g:syntastic_vhdl_checkers = ['vimhdl']
-let g:syntastic_mode_map = { 'passive_filetypes': ['python', 'vim', 'rust', 'clojure', 'elixir'] }
-
-"Very simple completer that basically runs through vim's default completion engine
-Plug 'ajh17/VimCompletesMe'
-set completeopt+=menuone,longest,preview
-"Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-
-"Automatic tag management
-Plug 'ludovicchabant/vim-gutentags'
-let g:gutentags_ctags_tagfile = '.tags'
-
 "Async linting engine
-Plug 'w0rp/ale', {'for': ['python', 'vim', 'rust', 'clojure', 'zsh', 'bash', 'elixir']}
-let g:ale_linters = {'c': [], 'cpp': [],}
+Plug 'w0rp/ale', {'for': ['vim', 'rust', 'clojure', 'zsh', 'bash', 'elixir']}
+let g:ale_linters = {'c': [], 'cpp': [], 'python': []}
 
 "Adhere to linux coding style guidelines
 Plug 'vivien/vim-linux-coding-style'
@@ -125,7 +96,7 @@ let g:linuxsty_patterns = []
 "replace {motion} with a register. Faster than typing '"_c[motion]^r"'
 Plug 'vim-scripts/ReplaceWithRegister'
 
-"repeated v's expand out the visually selected region
+"repeated v's expand cut the visually selected region
 Plug 'terryma/vim-expand-region'
 vmap v <Plug>(expand_region_expand)
 vmap <S-v> <Plug>(expand_region_shrink)
@@ -143,7 +114,7 @@ augroup mycppfiles
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-" Vim Syntax Highlighting
+" Extra language support, such as syntax highlighting, repl interaction
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'NLKNguyen/c-syntax.vim', {'for': ['c', 'cpp']}
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
@@ -157,29 +128,101 @@ Plug 'aklt/plantuml-syntax'
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
 let g:rustfmt_autosave = 1
 Plug 'elixir-editors/vim-elixir', {'for': 'elixir'}
-Plug 'suoto/vim-hdl', {'for': 'vhdl'}
+
+"automatically display markdown view when editing md files
+Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+let g:instant_markdown_autostart = 0
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " omni completers
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-Plug 'davidhalter/jedi-vim', {'for' : 'python'}
-let g:jedi#popup_on_dot = 1
-let g:jedi#goto_command = 'gD'
-let g:jedi#goto_assignments_command = ''
-let g:jedi#goto_definitions_command = ''
-let g:jedi#documentation_command = 'K'
-let g:jedi#usages_command = '<leader>jn'
-let g:jedi#completions_command = ''
-let g:jedi#rename_command = ''
+
+"Very simple completer that basically runs through vim's default completion engine
+Plug 'ajh17/VimCompletesMe'
+set completeopt+=menuone,longest,preview
+"Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+
+" Autocompleters for non-LSP languages
 Plug 'slashmili/alchemist.vim', {'for' : 'elixir'}
-Plug 'justmao945/vim-clang', {'for' : 'cpp'}
 Plug 'racer-rust/vim-racer', {'for' : 'rust'}
+
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+
+let g:lsp_signs_enabled = 1         " enable signs
+let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+
+if executable('pyls')
+    " yay -S python-jedi python-language-server python-rope python-pyflakes python-mccabe
+    " yay -S python-pycodestyle python-pydocstyle yapf
+    " Also recommend disabling ALE for python:
+    "     let g:ale_linters = {'c': [], 'cpp': [], 'python': []}
+    augroup lsp_pyls
+        autocmd!
+        autocmd User lsp_setup call lsp#register_server({
+            \ 'name': 'pyls',
+            \ 'cmd': {server_info->['pyls']},
+            \ 'whitelist': ['python'],
+            \ 'workspace_config': {'pyls': {'plugins': {'pydocstyle': {'enabled': v:true}}}}
+            \ })
+        autocmd Filetype python setlocal completefunc=lsp#complete
+        autocmd FileType python let b:vcm_tab_complete = 'user'
+        autocmd Filetype python nnoremap <buffer><silent> <c-]> :LspDefinition<CR>
+        autocmd Filetype python nnoremap <buffer><silent> K :LspHover<CR>
+        autocmd BufWritePost python :LspDocumentDiagnostics<CR>
+    augroup end
+endif
+
+if executable('cquery')
+    " yay -S cquery bear-git
+    augroup lsp_cquery
+        autocmd!
+        autocmd User lsp_setup call lsp#register_server({
+                    \ 'name': 'cquery',
+                    \ 'cmd': {server_info->['cquery']},
+                    \ 'root_uri': {server_info->lsp#utils#path_to_uri(
+                    \   lsp#utils#find_nearest_parent_file_directory(
+                    \     lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+                    \ 'initialization_options': { 'cacheDirectory': '/tmp/cquery/cache' },
+                    \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+                    \ })
+        autocmd FileType c,cpp,objc,objcpp setlocal completefunc=lsp#complete
+        autocmd FileType c,cpp,objc,objcpp let b:vcm_tab_complete = 'user'
+        autocmd Filetype c,cpp,objc,objcpp nnoremap <buffer><silent> <c-]> :LspDefinition<CR>
+        autocmd Filetype c,cpp,objc,objcpp nnoremap <buffer><silent> K :LspHover<CR>
+        autocmd BufWritePost c,cpp,objc,objcpp :LspDocumentDiagnostics<CR>
+    augroup end
+endif
+
+if executable('vhdl-tool')
+    " Unfortunately, not an open source project, download from:
+    " https://www.vhdltool.com/download
+    augroup lsp_vhdl
+        autocmd!
+        autocmd User lsp_setup call lsp#register_server({
+            \ 'name': 'vhdl-tool',
+            \ 'cmd': {server_info->['vhdl-tool', 'lsp']},
+            \ 'whitelist': ['vhdl'],
+            \ 'root_uri':{server_info->lsp#utils#path_to_uri(
+            \   lsp#utils#find_nearest_parent_file_directory(
+            \     lsp#utils#get_buffer_path(), 'vhdltool-config.yaml'))},
+            \ })
+        autocmd FileType vhdl setlocal completefunc=lsp#complete
+        autocmd FileType vhdl let b:vcm_tab_complete = 'user'
+        autocmd Filetype vhdl nnoremap <buffer><silent> <c-]> :LspDefinition<CR>
+        autocmd Filetype vhdl nnoremap <buffer><silent> K :LspHover<CR>
+        autocmd BufWritePost vhdl :LspDocumentDiagnostics<CR>
+    augroup end
+endif
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " color schemes
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'adamatom/papercolor-theme'
 Plug 'chriskempson/base16-vim'
-
 
 call plug#end()

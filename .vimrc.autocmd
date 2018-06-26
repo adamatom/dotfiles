@@ -30,12 +30,7 @@ function! SetupEnvironment()
     " Does path contain the kernel_modules
     if l:path =~# 'acadia/kernel_modules'
         let g:linuxsty_patterns = ['/home/adam/projects/idexx/acadia/kernel_modules/']
-        let g:syntastic_c_compiler = 'aarch64-gcc'
-        let g:syntastic_c_config_file = '.syntastic_c_config'
-        setlocal tags=./tags,/home/adam/projects/idexx/acadia/buildroot/output/build/linux-xilinx-v2017.4/tags
-        cs add /home/adam/projects/idexx/acadia/buildroot/output/build/linux-xilinx-v2017.4/cscope.out
-        setlocal cscoperelative
-        setlocal cscopetag
+"        setlocal tags=./tags,/home/adam/projects/idexx/acadia/buildroot/output/build/linux-xilinx-v2017.4/tags
         setlocal nolist  " kernel style wants tab characters, so hide them for now
         setlocal textwidth=79
         setlocal colorcolumn=80
