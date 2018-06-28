@@ -1,4 +1,9 @@
 export LANG="en_US.UTF-8"
+
+export GOPATH=$HOME/.go
+export RUBYGEMPATH=$HOME/.gem/ruby/2.5.0/
+export PATH=$PATH:$HOME/.bin:$GOPATH/bin:$RUBYGEMPATH/bin:/opt/Xilinx/Vivado/2016.2/bin/
+
 alias ls="ls -la --color=always"
 alias gvim="gvim $* 2>/dev/null"
 alias pyclean="find . | grep -E \"(__pycache__|\.pyc|\.pyo$)\" | xargs rm -rf"
