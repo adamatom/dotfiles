@@ -83,8 +83,8 @@ command! Greview :Git! diff --staged
 " linting
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "Async linting engine
-Plug 'w0rp/ale', {'for': ['vim', 'clojure', 'zsh', 'bash', 'elixir']}
-let g:ale_linters = {'c': [], 'cpp': [], 'python': [], 'go': [], 'rust': []}
+Plug 'w0rp/ale'
+let g:ale_linters = {'c': [], 'cpp': []}
 
 "Adhere to linux coding style guidelines
 Plug 'vivien/vim-linux-coding-style'
@@ -127,6 +127,7 @@ Plug 'aklt/plantuml-syntax'
 Plug 'rust-lang/rust.vim', {'for': 'rust'}
 let g:rustfmt_autosave = 1
 Plug 'elixir-editors/vim-elixir', {'for': 'elixir'}
+Plug 'leafgarland/typescript-vim'
 
 "automatically display markdown view when editing md files
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
@@ -226,6 +227,17 @@ call LanguageServer('go-langserver', 'go',
             \ 'name': 'go-langserver',
             \ 'cmd': {server_info->['go-langserver', '-mode', 'stdio']},
             \ 'whitelist': ['go'],
+            \ }")
+
+" yay -S typescript-language-server-bin
+call LanguageServer('typescript-language-server', 'javascript,typescript',
+            \ "{
+            \ 'name': 'typescript-language-server',
+            \ 'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+            \ 'root_uri': { server_info->lsp#utils#path_to_uri(
+            \   lsp#utils#find_nearest_parent_directory(
+            \     lsp#utils#get_buffer_path(), '.git/..'))},
+            \ 'whitelist': ['typescript', 'javascript', 'javascript.jsx']
             \ }")
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
