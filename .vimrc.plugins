@@ -137,6 +137,10 @@ let g:instant_markdown_autostart = 0
 " omni completers
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 
+"display function signature after autocompletion item is selected
+Plug 'Shougo/echodoc.vim'
+let g:echodoc#enable_at_startup=1
+
 "Very simple completer that basically runs through vim's default completion engine
 Plug 'ajh17/VimCompletesMe'
 set completeopt+=menuone,longest,preview
@@ -147,7 +151,6 @@ inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 
 " Autocompleters for non-LSP languages
 Plug 'slashmili/alchemist.vim', {'for' : 'elixir'}
-Plug 'racer-rust/vim-racer', {'for' : 'rust'}
 
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
@@ -183,15 +186,14 @@ call LanguageServer('pyls', 'python',
             \ 'workspace_config': {'pyls': {'plugins': {'pydocstyle': {'enabled': v:true}}}}
             \ }")
 
-" yay -S cquery bear-git
-call LanguageServer('cquery', 'c,cpp,objc,objcpp',
+" yay -S clang-tools-extra
+call LanguageServer('clangd', 'c,cpp,objc,objcpp',
             \ "{
-            \ 'name': 'cquery',
-            \ 'cmd': {server_info->['cquery']},
+            \ 'name': 'clangd',
+            \ 'cmd': {server_info->['clangd']},
             \ 'root_uri': {server_info->lsp#utils#path_to_uri(
             \   lsp#utils#find_nearest_parent_file_directory(
             \     lsp#utils#get_buffer_path(), 'compile_commands.json'))},
-            \ 'initialization_options': { 'cacheDirectory': '/tmp/cquery/cache' },
             \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
             \ }")
 

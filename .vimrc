@@ -91,6 +91,7 @@ set nofoldenable                "I dont like folding text, so disable it everywh
 set diffopt=filler,context:1000000 " filler is default and inserts empty lines for sync
 set backspace=indent,eol,start  " Backspace over everything
 set laststatus=2                " always show status bar
+set noshowmode                  " dont display addition '-- INSERT --' below airline
 set number                      " display line numbers
 set ruler                       " display cursor location, only applies when no airline plugin
 set mouse=a                     " mouse can be used to move and select windows, select text
