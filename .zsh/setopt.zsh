@@ -7,17 +7,6 @@ setopt interactive_comments # Allow comments even in interactive shells
 setopt auto_cd # If you type foo, and it isnt a command, and it is a directory in your cdpath, go there
 setopt cdablevarS # if argument to cd is the name of a parameter whose value is a valid directory, it will become the current directory
 setopt pushd_ignore_dups # dont push multiple copies of the same directory onto the directory stack
-# save directoy stack to a file so we can reload it when opening a new terminal
-DIRSTACKSIZE=15
-DIRSTACKFILE=~/.zdirs
-if [[ -f $DIRSTACKFILE ]] && [[ $#dirstack -eq 0 ]]; then
-  dirstack=( ${(f)"$(< $DIRSTACKFILE)"} )
-  [[ -d $dirstack[1] ]] && cd $dirstack[1] && cd $OLDPWD
-fi
-function chpwd() {
-    print -Pn "\e]2;%~\a"
-    print -l $PWD ${(u)dirstack} >$DIRSTACKFILE
-}
 
 setopt autopushd  # make cd act like pushd automatically
 setopt pushdminus  # swap the +/- meaning in cd -1, it matches the output of dirs better

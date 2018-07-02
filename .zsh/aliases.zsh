@@ -3,6 +3,7 @@ export LANG="en_US.UTF-8"
 export GOPATH=$HOME/.go
 export RUBYGEMPATH=$HOME/.gem/ruby/2.5.0/
 export PATH=$PATH:$HOME/.bin:$GOPATH/bin:$RUBYGEMPATH/bin:/opt/Xilinx/Vivado/2016.2/bin/
+export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
 
 alias ls="ls -la --color=always"
 alias gvim="gvim $* 2>/dev/null"
@@ -20,6 +21,8 @@ alias sudo="nocorrect sudo"
 alias dirh="dirs -v"
 alias cdh="dirs -v"
 alias reflectarch="sudo /usr/bin/reflector --protocol https --latest 30 --number 20 --sort rate --save /etc/pacman.d/mirrorlist"
+
+
 
 function rmkey() {
     sed -i "$1d" "${HOME}/.ssh/known_hosts"
