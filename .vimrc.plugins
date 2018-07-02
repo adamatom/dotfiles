@@ -141,22 +141,35 @@ let g:instant_markdown_autostart = 0
 Plug 'Shougo/echodoc.vim'
 let g:echodoc#enable_at_startup=1
 
-"Very simple completer that basically runs through vim's default completion engine
-Plug 'ajh17/VimCompletesMe'
-set completeopt+=menuone,longest,preview
+"Enable language server support
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+
+"Faster, async-based completion menu
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
 "Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 
-" Autocompleters for non-LSP languages
-Plug 'slashmili/alchemist.vim', {'for' : 'elixir'}
+set completeopt+=menuone,longest,preview
 
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
+let g:asyncomplete_auto_popup = 0
 
-let g:lsp_signs_enabled = 1         " enable signs
-let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+function! s:check_back_space() abort
+   let l:col = col('.') - 1
+   return !l:col || getline('.')[l:col - 1]  =~# '\s'
+endfunction
+
+"Map tab to autocomplete
+inoremap <silent><expr> <TAB>
+ \ pumvisible() ? "\<C-n>" :
+ \ <SID>check_back_space() ? "\<TAB>" :
+ \ asyncomplete#force_refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
 
 " Helper macro for declaring language servers.
 "   [string] exe: the executable name to check for
