@@ -6,7 +6,7 @@
 
 [[ -f ~/.xprofile ]] && source ~/.xprofile
 [[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
-[[ $(command -v xautolock) ]] && xautolock -time 5 -locker lock.sh &
+[[ $(command -v xautolock) ]] && xautolock -time 15 -locker lock.sh &
 [[ $(command -v xbanish) ]] && xbanish &
 xinput -set-prop "AlpsPS/2 ALPS DualPoint Stick" "Device Enabled" 0
 killall gsd-xrandr; /usr/lib/gnome-settings-daemon/gsd-xrandr >/dev/null &
