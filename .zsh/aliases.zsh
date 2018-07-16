@@ -21,6 +21,7 @@ alias sudo="nocorrect sudo"
 alias dirh="dirs -v"
 alias cdh="dirs -v"
 alias reflectarch="sudo /usr/bin/reflector --protocol https --latest 30 --number 20 --sort rate --save /etc/pacman.d/mirrorlist"
+alias did="vim +'normal Go' +'r!date' ~/did.txt"
 
 
 
