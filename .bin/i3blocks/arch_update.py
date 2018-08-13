@@ -23,9 +23,8 @@ def get_aur_update_count():
 
 
 if os.environ.get('BLOCK_BUTTON') == "1":
-    CMD = ('xfce4-terminal -e sh -c "yay -Syu &&'
-           'printf \"\npress enter to exit\" && read"')
-    os.system(CMD)
+    cmd = '\'sh -c \"yay -Syu && printf \"\npress enter to exit\" && read\"\''
+    os.system(f'xfce4-terminal -e {cmd}')
 
 
 UPDATE_COUNT = get_update_count()
