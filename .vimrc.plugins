@@ -62,8 +62,8 @@ Plug 'mhinz/vim-signify'
 
 "vim front end for ack, with support for ag backend
 Plug 'mileszs/ack.vim'
-if executable('ag')
-    let g:ackprg = 'ag --vimgrep'
+if executable('rg')
+    let g:ackprg = 'rg --vimgrep --no-heading'
 endif
 
 "better buffer management
@@ -79,12 +79,18 @@ Plug 'jeetsukumaran/vim-filebeagle'
 Plug 'tpope/vim-fugitive'
 command! Greview :Git! diff --staged
 
+"Blink the hlsearch item we just jumped to
+Plug 'ivyl/vim-bling'
+
+" This must be set to no, otherwise this breaks cabbrev working on <cr>
+let g:bling_no_expr = 1
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " linting
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "Async linting engine
 Plug 'w0rp/ale'
-let g:ale_linters = {'c': [], 'cpp': []}
+let g:ale_linters = {'c': [], 'cpp': [], 'python': []}
 
 "Adhere to linux coding style guidelines
 Plug 'vivien/vim-linux-coding-style'
@@ -119,8 +125,6 @@ augroup END
 Plug 'NLKNguyen/c-syntax.vim', {'for': ['c', 'cpp']}
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
 let g:cpp_class_scope_highlight = 1
-Plug 'hdima/python-syntax', {'for': 'python'}
-let g:python_highlight_all = 1
 Plug 'wlangstroth/vim-racket', {'for': ['scheme', 'racket']}
 Plug 'tpope/vim-fireplace', {'for' : 'clojure' }
 Plug 'aklt/plantuml-syntax'
@@ -145,30 +149,32 @@ let g:echodoc#enable_at_startup=1
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 
-"Faster, async-based completion menu
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'ajh17/VimCompletesMe'
+let g:vcm_tab_complete = 'user'
 
 "Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 
-set completeopt+=menuone,longest,preview
+set completeopt=menuone,longest,preview
 
-let g:asyncomplete_auto_popup = 0
+" Shut off completion messages
+set shortmess+=c
 
-function! s:check_back_space() abort
-   let l:col = col('.') - 1
-   return !l:col || getline('.')[l:col - 1]  =~# '\s'
-endfunction
+" enable signs
+let g:lsp_signs_enabled = 1
 
-"Map tab to autocomplete
-inoremap <silent><expr> <TAB>
- \ pumvisible() ? "\<C-n>" :
- \ <SID>check_back_space() ? "\<TAB>" :
- \ asyncomplete#force_refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" enable echo under cursor when in normal mode
+let g:lsp_diagnostics_echo_cursor = 1
+
+" Logging is helpful
+let g:lsp_log_verbose = 0
+let g:lsp_log_file = expand('/tmp/vim-lsp.log')
+
+" for asyncomplete.vim log
+let g:asyncomplete_log_file = expand('/tmp/asyncomplete.log')
+let g:asyncompletelsp_log_file = expand('/tmp/asyncomplete.log')
 
 
 " Helper macro for declaring language servers.
@@ -194,7 +200,7 @@ endfunction
 call LanguageServer('pyls', 'python',
             \ "{
             \ 'name': 'pyls',
-            \ 'cmd': {server_info->['pyls']},
+            \ 'cmd': {server_info->['pyls', '-vv', '--log-file', '/tmp/pyls.log']},
             \ 'whitelist': ['python'],
             \ 'workspace_config': {'pyls': {'plugins': {'pydocstyle': {'enabled': v:true}}}}
             \ }")
