@@ -62,12 +62,12 @@ set iskeyword+=-                " treat dashes as part of word motion
 
 " Line wrapping, cursors, cursor lines
 set nowrap                      " dont display long-lines as wrapped
-set textwidth=99                " automatically try to break long lines as they are typed
+set textwidth=79                " automatically try to break long lines as they are typed
 set scrolloff=2                 " always show lines of code above/below cursor
 set sidescroll=5                " always show extra context chracters horizontally
 set cursorline                  " highlight the line the cursor is on
 set cursorcolumn                " highlight the column the cursor is on
-set colorcolumn=100             " show a column indicating max line length
+set colorcolumn=80            " show a column indicating max line length
 
 
 " Tame auto formating, see :h fo-table
