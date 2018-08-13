@@ -7,7 +7,7 @@ workspace $work output $right_fourk
 exec_always --no-startup-id killall dunst; dunst -conf ~/.config/dunst/4K &
 
 bar {
-    font pango:EssentialPragmataPro Nerd Font 11
+    font pango:EssentialPragmataPro Nerd Font 10
     output $left_fourk
     height 65
     status_command i3blocks -c ~/.config/i3blocks/config4k
@@ -29,7 +29,7 @@ bar {
 }
 
 bar {
-    font pango:EssentialPragmataPro Nerd Font 11
+    font pango:EssentialPragmataPro Nerd Font 10
     output $right_fourk
     height 65
     status_command i3blocks -c ~/.config/i3blocks/config4k
@@ -51,7 +51,7 @@ bar {
 }
 
 # font for window titles and bar
-font pango:EssentialPragmataPro Nerd Font 11
+font pango:EssentialPragmataPro Nerd Font 10
 
 ################################################################################
 #  Variables
@@ -74,6 +74,7 @@ exec_always --no-startup-id killall compton; compton -b --config /home/adam/.con
 exec_always --no-startup-id killall parcellite; parcellite &
 exec_always --no-startup-id killall nm-applet; nm-applet &
 exec_always --no-startup-id feh --bg-tile ~/.config/i3/dark_geometric.png
+exec_always --no-startup-id killall blueman-applet; blueman-applet &
 
 ################################################################################
 #  Settings
