@@ -20,9 +20,12 @@ command! HLSToggle call s:ToggleHLS()
 function! s:LListClose() abort
     " Location list can't be closed if there's cursor in it, so we need to call lclose twice to
     " move cursor to the main pane
-    silent! lclose
+    if IsQFLLFocused() == 1
+        silent! lclose
+    endif
     silent! lclose
 endfunction
+command! LLClose call s:LListClose()
 
 function! s:LListToggle() abort
     let l:buffer_count_before = s:BufferCount()
@@ -36,10 +39,9 @@ endfunction
 command! LToggle call s:LListToggle()
 
 function! s:QListClose() abort
-    " cclose wont close quickfix windows shown on inactive tabs. The window count doesn't appear to
-    " match reality (quickfix shares a buffer globally). This iterates all tabs and ccloses.
-    silent! tabdo cclose
+    silent! cclose
 endfunction
+command! QLClose call s:QListClose()
 
 function! s:QListToggle() abort
     let l:buffer_count_before = s:BufferCount()
@@ -53,19 +55,34 @@ function! s:QListToggle() abort
 endfunction
 command! QToggle call s:QListToggle()
 
+function! s:_IsQFLLFocused()
+    silent! exec 'redir @a | ls | redir END'
+    if match(@a,'%a-  "\[Location List\]"') >= 0
+        return 1
+    elseif match(@a,'%a-  "\[Quickfix List\]"') >= 0
+        return 2
+    else
+        return 0
+    endif
+endfunction
+command! IsQFLLFocused call s:_IsQFLLFocused()
+
 function! s:BufferCount() abort
     return len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
 endfunction
 
 function! s:CloseWindows() abort
     " A general clear-the-clutter function to close windows we have mapped
-    let l:working_tab = tabpagenr()
-    tabdo call s:QListClose()
-    tabdo bufdo call s:LListClose()
-    silent! tabdo helpclose
-    silent! tabdo GundoHide
-    silent! tabdo TagbarClose
-    execute 'tabnext' l:working_tab
+    if IsQFLLFocused() == 1
+        LLClose
+    endif
+    let l:working_buffer = bufnr('%')
+    silent! QLClose
+    silent! bufdo LLClose
+    silent! helpclose
+    silent! GundoHide
+    silent! TagbarClose
+    execute 'buffer' l:working_buffer
 endfunction
 command! CloseMyWindows call s:CloseWindows()
 
@@ -111,6 +128,10 @@ nnoremap <silent> <leader>wq :QToggle<CR>
 nnoremap <silent> <leader>wl :LToggle<CR>
 nnoremap <silent> <leader>wc :CloseMyWindows<CR>
 
+
+" run diagnostics if available
+noremap <leader>d :LspDocumentDiagnostics<CR>
+
 " navigate through quickfix and locationlists
 nnoremap <silent> <leader><leader>q :cfirst<CR>
 nnoremap <silent> <leader><leader>Q :clast<CR>
@@ -124,7 +145,6 @@ nnoremap <silent> <leader>L :lprevious<CR>
 
 " use leader {y|d|p} for interacting with the system clipboard
 vnoremap <Leader>y "+y
-vnoremap <Leader>d "+d
 nnoremap <Leader>p "+p
 nnoremap <Leader>P "+P
 vnoremap <Leader>p "+p
@@ -192,6 +212,9 @@ cabbrev X x
 
 " :Q enters modal ex mode, I'm happy with just ex command line. Generally mistyped :q
 cabbrev Q q
+
+" Similar to above, I generally mean :qa
+cabbrev Qa qa
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cabbrev w!! w !sudo tee > /dev/null %
