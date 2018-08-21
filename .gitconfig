@@ -9,8 +9,8 @@
     trustExitCode = false
     cmd = "kdiff3" $BASE $LOCAL --qall
 [core]
-	pager = cat
 	excludesfile = ~/.gitignore_global
+	pager = less -+X
 
 [merge]
 	tool = vimdiff
