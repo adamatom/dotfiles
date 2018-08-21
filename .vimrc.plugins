@@ -90,7 +90,13 @@ let g:bling_no_expr = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "Async linting engine
 Plug 'w0rp/ale'
-let g:ale_linters = {'c': [], 'cpp': [], 'python': []}
+" enable flake8 checker because pyls refuses to support it. Flake8 has useful
+" plugins that check more than the binaries pyls will use.
+let g:ale_linters = {
+            \ 'c': [],
+            \ 'cpp': [],
+            \ 'python': ['flake8']
+\ }
 
 "Adhere to linux coding style guidelines
 Plug 'vivien/vim-linux-coding-style'
@@ -159,9 +165,6 @@ inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 
 set completeopt=menuone,longest,preview
 
-" Shut off completion messages
-set shortmess+=c
-
 " enable signs
 let g:lsp_signs_enabled = 1
 
@@ -197,12 +200,18 @@ endfunction
 " yay -S python-pycodestyle python-pydocstyle yapf
 " Also recommend disabling ALE for python:
 " let g:ale_linters = {'c': [], 'cpp': [], 'python': []}
+" \ 'cmd': {server_info->['pyls', '-vv', '--log-file', '/tmp/pyls.log']},
 call LanguageServer('pyls', 'python',
             \ "{
-            \ 'name': 'pyls',
-            \ 'cmd': {server_info->['pyls', '-vv', '--log-file', '/tmp/pyls.log']},
-            \ 'whitelist': ['python'],
-            \ 'workspace_config': {'pyls': {'plugins': {'pydocstyle': {'enabled': v:true}}}}
+            \   'name': 'pyls',
+            \   'cmd': {server_info->['python', '-m', 'pyls', '-vv', '--log-file', '/tmp/pyls.log']},
+            \   'whitelist': ['python'],
+            \   'workspace_config': {
+            \     'pyls': {
+            \         'configurationSources': ['flake8', 'pycodestyle'],
+            \         'plugins': {'pydocstyle': {'enabled': v:true}}
+            \     }
+            \   }
             \ }")
 
 " yay -S clang-tools-extra
