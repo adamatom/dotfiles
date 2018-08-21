@@ -85,7 +85,7 @@ set spelllang=en_us             " when spelling is enabled, use US english dicti
 set title                       "set xterm title to vim title
 set titleold=""
 set wildmenu                    " improve auto complete menu
-set wildmode=list:longest       " when tab is pressed, show a list similar to ls
+set wildmode=longest:full,full  " when tab is pressed, show a list similar to ls
 set wildignore+=*.pyc,*.o,*.zwc " hide certain files form wildmenu
 set nofoldenable                "I dont like folding text, so disable it everywhere
 set diffopt=filler,context:1000000 " filler is default and inserts empty lines for sync
