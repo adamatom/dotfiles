@@ -76,6 +76,9 @@ function! s:CloseWindows() abort
     if IsQFLLFocused() == 1
         LLClose
     endif
+    if IsQFLLFocused() == 2
+        QLClose
+    endif
     let l:working_buffer = bufnr('%')
     silent! QLClose
     silent! bufdo LLClose
@@ -100,7 +103,7 @@ nnoremap <silent> <Leader>a :FSHere<cr>
 nnoremap <silent> <leader>os :set spell! spell?<CR>
 
 " toggle highlight quickly
-nnoremap <silent> <Leader>oh :HLSToggle<CR>
+nnoremap <silent> <expr><Leader>oh :HLSToggle<CR>
 
 " flip between light and dark background
 nnoremap <silent> <leader>ob :set background=<C-R>=&background == "dark" ? "light" : "dark"<CR><CR>
@@ -159,6 +162,10 @@ nnoremap <leader><leader><leader> V
 " make it a little harder to start recording a macro. I accidently record more than not
 noremap <leader><leader>q q
 noremap q <nop>
+
+" prefer gq to format current line over gqgq. The default is gq{motion}, which
+" I dont care to keep
+nnoremap gq gqgq
 
 
 " ------------------------------------------------------------------------------
