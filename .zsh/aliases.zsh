@@ -4,6 +4,7 @@ export GOPATH=$HOME/.go
 export RUBYGEMPATH=$HOME/.gem/ruby/2.5.0/
 export PATH=$PATH:$HOME/.bin:$GOPATH/bin:$RUBYGEMPATH/bin:/opt/Xilinx/Vivado/2016.2/bin/
 export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
+export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4'
 
 alias ls="ls -la --color=always"
 alias gvim="gvim $* 2>/dev/null"
