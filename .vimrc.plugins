@@ -205,6 +205,9 @@ call LanguageServer('pyls', 'python',
             \ "{
             \   'name': 'pyls',
             \   'cmd': {server_info->['python', '-m', 'pyls', '-vv', '--log-file', '/tmp/pyls.log']},
+            \   'root_uri': { server_info->lsp#utils#path_to_uri(
+            \     lsp#utils#find_nearest_parent_directory(
+            \       lsp#utils#get_buffer_path(), '.git/..'))},
             \   'whitelist': ['python'],
             \   'workspace_config': {
             \     'pyls': {
