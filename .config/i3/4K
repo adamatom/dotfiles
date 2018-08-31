@@ -74,7 +74,6 @@ exec_always --no-startup-id killall compton; compton -b --config /home/adam/.con
 exec_always --no-startup-id killall parcellite; parcellite &
 exec_always --no-startup-id killall nm-applet; nm-applet &
 exec_always --no-startup-id feh --bg-tile ~/.config/i3/dark_geometric.png
-exec_always --no-startup-id killall blueman-applet; blueman-applet &
 
 ################################################################################
 #  Settings
