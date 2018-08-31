@@ -32,13 +32,16 @@ function! SetupEnvironment()
         let g:linuxsty_patterns = ['/home/adam/projects/idexx/acadia/kernel_modules/']
 "        setlocal tags=./tags,/home/adam/projects/idexx/acadia/buildroot/output/build/linux-xilinx-v2017.4/tags
         setlocal nolist  " kernel style wants tab characters, so hide them for now
-        setlocal textwidth=79
-        setlocal colorcolumn=80
+        setlocal noexpandtab
+        setlocal tabstop=8
+        setlocal shiftwidth=8
+        setlocal textwidth=80
+        setlocal colorcolumn=81
     elseif l:path =~# 'acadia/applications'
         let g:gutentags_ctags_exclude = ['node_modules']
         if &filetype ==? 'python'
-            setlocal textwidth=79
-            setlocal colorcolumn=80
+            setlocal textwidth=100
+            setlocal colorcolumn=101
         endif
     else
         let g:linuxsty_patterns = []
