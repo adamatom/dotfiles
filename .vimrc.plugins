@@ -128,6 +128,9 @@ augroup END
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Extra language support, such as syntax highlighting, repl interaction
 """""""""""""""""""""""""""""""""""""""""""""""""""""
+" Improved python syntax highlighting
+Plug 'hdima/python-syntax'
+let python_highlight_all = 1
 Plug 'NLKNguyen/c-syntax.vim', {'for': ['c', 'cpp']}
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
 let g:cpp_class_scope_highlight = 1
