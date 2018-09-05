@@ -113,6 +113,7 @@ if filereadable(expand($HOME.'/.vimrc.plugins'))
         set termguicolors
     endif
     set background=dark
-    colorscheme PaperColor
-    highlight CursorLine term=none cterm=none
+    let g:onedark_terminal_italics = 1
+    colorscheme onedark
+    let g:lightline['colorscheme'] = 'onedark'
 endif

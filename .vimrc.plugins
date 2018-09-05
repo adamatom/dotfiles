@@ -129,8 +129,10 @@ augroup END
 " Extra language support, such as syntax highlighting, repl interaction
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Improved python syntax highlighting
-Plug 'hdima/python-syntax'
-let python_highlight_all = 1
+Plug 'adamatom/python-syntax'
+let g:python_slow_sync = 0
+let g:python_highlight_all = 1
+
 Plug 'NLKNguyen/c-syntax.vim', {'for': ['c', 'cpp']}
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
 let g:cpp_class_scope_highlight = 1
@@ -145,6 +147,10 @@ Plug 'leafgarland/typescript-vim'
 "automatically display markdown view when editing md files
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
 let g:instant_markdown_autostart = 0
+
+"Sort python includes with isort
+Plug 'fisadev/vim-isort'
+let g:vim_isort_python_version = 'python3'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " omni completers
@@ -279,7 +285,9 @@ call LanguageServer('typescript-language-server', 'javascript,typescript',
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " color schemes
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-Plug 'adamatom/papercolor-theme'
+Plug 'NLKNguyen/papercolor-theme'
 Plug 'chriskempson/base16-vim'
+Plug 'liuchengxu/space-vim-dark'
+Plug 'joshdick/onedark.vim'
 
 call plug#end()
