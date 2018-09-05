@@ -6,10 +6,9 @@ bar {
     font pango:EssentialPragmataPro Nerd Font 10
     height 35
     status_command i3blocks -c ~/.config/i3blocks/config
-    #status_command py3status -c ~/.config/i3status/config
     position top
     strip_workspace_numbers yes
-    separator_symbol        "·"
+    separator_symbol        "|"
     workspace_buttons       yes
     colors {
             background  #181818

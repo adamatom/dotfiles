@@ -27,7 +27,7 @@
 command=/usr/lib/i3blocks/$BLOCK_NAME
 
 separator=false
-separator_block_width=5
+separator_block_width=15
 border_top=0
 border_left=0
 border_right=0
@@ -36,7 +36,7 @@ border_bottom=2
 [focused window]
 command=xtitle -s
 interval=persist
-color=#c0c0c0
+color=#FFFFFF
 separator_block_width=40
 
 
@@ -45,7 +45,7 @@ separator_block_width=40
 label=
 command=~/.bin/i3blocks/cpu.py
 interval=1
-color=#c0c0c0
+color=#FFFFFF
 border=#1B5E20
 
 # Memory usage
@@ -53,31 +53,31 @@ border=#1B5E20
 command=~/.bin/i3blocks/memory.py
 label=
 interval=30
-color=#c0c0c0
+color=#FFFFFF
 border=#0277BD
 
 # Battery indicator
 [battery]
 command=~/.bin/i3blocks/battery.sh
 interval=5
-color=#c0c0c0
+color=#FFFFFF
 border=#9E9D24
 
 [Weather]
 command=~/.bin/i3blocks/weather_yahoo.py -u f -c 'firefox-beta http://bit.ly/2shHHJl' 2518005
 interval=60
-color=#c0c0c0
+color=#FFFFFF
 border=#D84315
 
 [pacman-updates]
 command=~/.bin/i3blocks/arch_update.py
-color=#c0c0c0
+color=#FFFFFF
 border=#FF8F00
 interval= 120
 
 [tinc]
 command=~/.bin/i3blocks/tinc.py
-color=#c0c0c0
+color=#FFFFFF
 interval=2
 border=#2E7D32
 
@@ -88,7 +88,7 @@ color=#2E7D32
 
 
 [volume]
-command=~/.bin/i3blocks/volume-pulseaudio.sh -F 3 -f 3 -C "#c0c0c0" -c "#505050"
+command=~/.bin/i3blocks/volume-pulseaudio.sh -F 3 -f 3 -C "#FFFFFF" -c "#505050"
 interval=1
 separator_block_width=30
 border=#283593

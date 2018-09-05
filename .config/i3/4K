@@ -9,12 +9,13 @@ exec_always --no-startup-id killall dunst; dunst -conf ~/.config/dunst/4K &
 bar {
     font pango:EssentialPragmataPro Nerd Font 10
     output $left_fourk
-    height 65
+    height 45
     status_command i3blocks -c ~/.config/i3blocks/config4k
     tray_output $right_fourk
     position top
+
     strip_workspace_numbers yes
-    separator_symbol        "·"
+    separator_symbol        "|"
     workspace_buttons       yes
     colors {
             background  #181818
@@ -31,12 +32,12 @@ bar {
 bar {
     font pango:EssentialPragmataPro Nerd Font 10
     output $right_fourk
-    height 65
+    height 45
     status_command i3blocks -c ~/.config/i3blocks/config4k
     tray_output $right_fourk
     position top
     strip_workspace_numbers yes
-    separator_symbol        "·"
+    separator_symbol        "|"
     workspace_buttons       yes
     colors {
             background  #181818
