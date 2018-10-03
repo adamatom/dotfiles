@@ -5,8 +5,9 @@ export RUBYGEMPATH=$HOME/.gem/ruby/2.5.0/
 export PATH=$PATH:$HOME/.bin:$GOPATH/bin:$RUBYGEMPATH/bin:/opt/Xilinx/Vivado/2016.2/bin/
 export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
 export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4'
+export ENHANCD_DISABLE_DOT=1
 
-alias ls="ls -la --color=always"
+alias ls="ls -lA --color=always --group-directories-first"
 alias gvim="gvim $* 2>/dev/null"
 alias pyclean="find . | grep -E \"(__pycache__|\.pyc|\.pyo$)\" | xargs rm -rf"
 alias spotify="spotify --force-device-scale-factor=2.0"
@@ -23,6 +24,7 @@ alias dirh="dirs -v"
 alias cdh="dirs -v"
 alias reflectarch="sudo /usr/bin/reflector --protocol https --latest 30 --number 20 --sort rate --save /etc/pacman.d/mirrorlist"
 alias did="vim +'normal Go' +'r!date' ~/did.txt"
+alias dockbuild="nocorrect docker run --hostname build --name build --rm -it -v /home/adam/projects/idexx/acadia/:/acadia -v /home/adam/projects/idexx/acadia/.buildroot-ccache:/.buildroot-ccache -u 1000:1000 buildroot/base:20180925.1553 /bin/bash -c "
 
 
 
