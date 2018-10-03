@@ -12,7 +12,7 @@ env:
   # Note that some xterm terminfo databases don't declare support for italics.
   # You can verify this by checking for the presence of `smso` and `sitm` in
   # `infocmp xterm-256color`.
-  TERM: alacritty
+  TERM: xterm-256color
 
 window:
   # Window dimensions in character columns and lines
@@ -32,6 +32,29 @@ window:
   # Window decorations
   # Setting this to false will result in window without borders and title bar.
   decorations: true
+
+scrolling:
+  # How many lines of scrollback to keep,
+  # '0' will disable scrolling.
+  history: 20000
+
+  # Number of lines the viewport will move for every line
+  # scrolled when scrollback is enabled (history > 0).
+  multiplier: 3
+
+  # Faux Scrolling
+  #
+  # The `faux_multiplier` setting controls the number
+  # of lines the terminal should scroll when the alternate
+  # screen buffer is active. This is used to allow mouse
+  # scrolling for applications like `man`.
+  #
+  # To disable this completely, set `faux_multiplier` to 0.
+  faux_multiplier: 3
+
+  # Automatically scroll to the bottom when new text is written
+  # to the terminal.
+  auto_scroll: false
 
 # Display tabs using this many cells (changes require restart)
 tabspaces: 8
@@ -78,20 +101,26 @@ font:
     style: Italic
 
   # Point size of the font
-  size: 10.0
+  size: 12.0
 
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
   offset:
-    x: 0.0
-    y: 0.0
+    x: 0
+    y: 0
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increase the x offset to move the glyph to
   # the right, increase the y offset to move the glyph upward.
   glyph_offset:
-    x: 0.0
-    y: 0.0
+    x: 0
+    y: 0
+
+  # Scale the font size based on the monitor's DPI. This will lead to bigger text on HiDPI
+  # screens and make reading text a little easier.
+  # On X11 it is possible to change the DPI for each instance of alacritty by using
+  # `WINIT_HIDPI_FACTOR=1.0 alacritty` to scale the font.
+  scale_with_dpi: true
 
   # OS X only: use thin stroke font rendering. Thin strokes are suitable
   # for retina displays, but for non-retina you probably want this set to
@@ -111,6 +140,15 @@ colors:
   primary:
     background: '0x000000'
     foreground: '0xeaeaea'
+
+    # (Optional) Bright and Dim foreground colors
+    #
+    # The dimmed foreground color is calculated automatically if it is not present.
+    # If the bright foreground color is not set, or `draw_bold_text_with_bright_colors`
+    # is `false`, the normal foreground color will be used.
+    #
+    # dim_foreground: '0x9a9a9a'
+    # bright_foreground: '0xffffff'
 
   # Colors the cursor will use if `custom_cursor_colors` is true
   cursor:
@@ -206,16 +244,6 @@ mouse:
   double_click: { threshold: 300 }
   triple_click: { threshold: 300 }
 
-  # Faux Scrollback
-  #
-  # The `faux_scrollback_lines` setting controls the number
-  # of lines the terminal should scroll when the alternate
-  # screen buffer is active. This is used to allow mouse
-  # scrolling for applications like `man`.
-  #
-  # To disable this completely, set `faux_scrollback_lines` to 0.
-  faux_scrollback_lines: 1
-
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
 
@@ -230,6 +258,9 @@ hide_cursor_when_typing: false
 # - Underline
 # - Beam
 cursor_style: Block
+
+# Whether the cursor should be a hollow block on window focus loss
+unfocused_hollow_cursor: true
 
 # Live config reload (changes require restart)
 live_config_reload: true
@@ -272,7 +303,18 @@ live_config_reload: true
 # around them.
 #
 # Either an `action`, `chars`, or `command` field must be present.
-#   `action` must be one of `Paste`, `PasteSelection`, `Copy`, or `Quit`.
+#   `action` must be one of the following:
+#       - `Paste`
+#       - `PasteSelection`
+#       - `Copy`
+#       - `IncreaseFontSize`
+#       - `DecreaseFontSize`
+#       - `ResetFontSize`
+#       - `ScrollPageUp`
+#       - `ScrollPageDown`
+#       - `ScrollToTop`
+#       - `ScrollToBottom`
+#       - `Quit`
 #   `chars` writes the specified string every time that binding is activated.
 #     These should generally be escape sequences, but they can be configured to
 #     send arbitrary strings of bytes.
@@ -286,6 +328,8 @@ live_config_reload: true
 key_bindings:
   - { key: V,        mods: Control|Shift,    action: Paste               }
   - { key: C,        mods: Control|Shift,    action: Copy                }
+  - { key: Paste,                   action: Paste                        }
+  - { key: Copy,                    action: Copy                         }
   - { key: Q,        mods: Command, action: Quit                         }
   - { key: W,        mods: Command, action: Quit                         }
   - { key: Insert,   mods: Shift,   action: PasteSelection               }
@@ -298,10 +342,10 @@ key_bindings:
   - { key: End,                     chars: "\x1b[F",   mode: ~AppCursor  }
   - { key: PageUp,   mods: Shift,   chars: "\x1b[5;2~"                   }
   - { key: PageUp,   mods: Control, chars: "\x1b[5;5~"                   }
-  - { key: PageUp,                  chars: "\x1b[5~"                     }
+  - { key: PageUp,                  action: ScrollPageUp                 }
   - { key: PageDown, mods: Shift,   chars: "\x1b[6;2~"                   }
   - { key: PageDown, mods: Control, chars: "\x1b[6;5~"                   }
-  - { key: PageDown,                chars: "\x1b[6~"                     }
+  - { key: PageDown,                action: ScrollPageDown               }
   - { key: Tab,      mods: Shift,   chars: "\x1b[Z"                      }
   - { key: Back,                    chars: "\x7f"                        }
   - { key: Back,     mods: Alt,     chars: "\x1b\x7f"                    }
