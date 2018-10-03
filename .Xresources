@@ -1,0 +1,44 @@
+! ------------------------------------------------------------------------------
+! ROFI Color theme
+! ------------------------------------------------------------------------------
+rofi.color-enabled: true
+rofi.color-window: #212121, #212121, #268bd2
+rofi.color-normal: #212121, #ffffff, #212121, #268bd2, #ffffff
+rofi.color-active: #212121, #268bd2, #212121, #268bd2, #205171
+rofi.color-urgent: #212121, #f3843d, #212121, #268bd2, #ffc39c
+
+
+!Xft.scale: 1.0
+!Xft.dpi: 130x130
+Xft.autohint: 0
+Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+
+! do not scroll with output
+URxvt*scrollTtyOutput: false
+
+! scroll in relation to buffer (with mouse scroll or Shift+Page Up)
+URxvt*scrollWithBuffer: true
+
+! scroll back to the bottom on keypress
+URxvt*scrollTtyKeypress: true
+
+URxvt.scrollBar: false
+URxvt.visualBell: false
+
+URxvt.font: xft:EssentialPragmataPro\ Nerd\ Font\ Mono:size=10
+
+! disable scrollback when in pagers
+URxvt.secondaryScreen: 1
+URxvt.secondaryScroll: 0
+
+urxvt*foreground: white
+urxvt*background: black
+
+! special
+*.foreground:   #ffffff
+*.background:   #000000
+*.cursorColor:  #ffffff

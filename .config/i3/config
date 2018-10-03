@@ -1,43 +1,18 @@
-set $right_fourk DP-3
-set $lap DP-2
-set $left_fourk DP-0
-workspace $web output $left_fourk
-workspace $email output $left_fourk
-workspace $work output $right_fourk
-exec_always --no-startup-id killall dunst; dunst -conf ~/.config/dunst/4K &
+set_from_resource $right monitor.right DP-2
+set_from_resource $left monitor.left DP-2
+
+workspace $web output $left
+workspace $email output $left
+workspace $work output $right
 
 bar {
     font pango:EssentialPragmataPro Nerd Font 10
-    output $left_fourk
-    height 45
-    status_command i3blocks -c ~/.config/i3blocks/config4k
-    tray_output $right_fourk
-    position top
-
-    strip_workspace_numbers yes
-    separator_symbol        "|"
-    workspace_buttons       yes
-    colors {
-            background  #181818
-            statusline  #DDDDDD
-            separator   #666666
-            # class             border  backgr. text
-            focused_workspace   #2B83A6 #2B83A6 #FFFFFF
-            active_workspace    #181818 #181818 #FFFFFF
-            inactive_workspace  #181818 #181818 #86888C
-            urgent_workspace    #D64E4E #D64E4E #FFFFFF
-      }
-}
-
-bar {
-    font pango:EssentialPragmataPro Nerd Font 10
-    output $right_fourk
-    height 45
-    status_command i3blocks -c ~/.config/i3blocks/config4k
-    tray_output $right_fourk
+    height 35
+    status_command i3blocks -c ~/.config/i3blocks/config
+    tray_output $right
     position top
     strip_workspace_numbers yes
-    separator_symbol        "|"
+    separator_symbol        " "
     workspace_buttons       yes
     colors {
             background  #181818
@@ -69,12 +44,12 @@ set $border_pixel 2
 ################################################################################
 #  Startup applications
 ################################################################################
-#early stage startup
-exec --no-startup-id thunar --daemon
-exec_always --no-startup-id killall compton; compton -b --config /home/adam/.config/compton.conf
-exec_always --no-startup-id killall parcellite; parcellite &
+exec_always --no-startup-id killall dunst; dunst -conf ~/.config/dunst/config >> /tmp/start_dunst.log 2>&1 &
+exec_always --no-startup-id killall compton; compton -b --config /home/adam/.config/compton.conf >> /tmp/start_compton.log 2>&1 &
+exec_always --no-startup-id killall parcellite; parcellite >>/tmp/start_parcellite.log 2>&1 &
 exec_always --no-startup-id killall nm-applet; nm-applet &
-exec_always --no-startup-id feh --bg-tile ~/.config/i3/dark_geometric.png
+exec_always --no-startup-id killall blueman-applet; blueman-applet &
+exec_always --no-startup-id feh --bg-tile ~/.config/i3/stardust.png
 
 ################################################################################
 #  Settings
