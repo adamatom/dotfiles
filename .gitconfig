@@ -19,6 +19,7 @@
 	prompt = false
 [alias]
     lg = log --graph --abbrev-commit --decorate   --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(auto)%d%C(reset)%n''          %C(bold white)%s%C(reset)%n''          %C(white)- %an <%ae> %C(reset)' --all
+    delcheck = log --graph --left-right --cherry-pick --oneline master...
 [rerere]
 	enabled = 1
 [rebase]
