@@ -72,7 +72,6 @@ set colorcolumn=80            " show a column indicating max line length
 
 " Tame auto formating, see :h fo-table
 set formatoptions=
-set formatoptions+=t            " auto-wrap text using textwidth
 set formatoptions+=c            " auto-wrap comments using textwidth
 set formatoptions+=r            " insert current comment leader when hitting <enter>
 set formatoptions+=q            " allow reformating of comments with gq

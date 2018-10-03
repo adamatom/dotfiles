@@ -3,6 +3,12 @@ scriptencoding utf-8
 augroup allfiles
     "Wipe out the allfiles group for when we reload the vimrc. Otherwise we just keep reattaching commands
     autocmd!
+
+    autocmd FileType markdown setlocal formatoptions+=t
+
+    "Customize PlantUML file settings
+    autocmd FileType plantuml nnoremap <buffer> <leader>b :!plantuml -o %:p:h %<cr>
+
     "Customize python settings
     autocmd FileType python setlocal textwidth=79 | setlocal colorcolumn=80
 
@@ -30,7 +36,7 @@ function! SetupEnvironment()
     " Does path contain the kernel_modules
     if l:path =~# 'acadia/kernel_modules'
         let g:linuxsty_patterns = ['/home/adam/projects/idexx/acadia/kernel_modules/']
-"        setlocal tags=./tags,/home/adam/projects/idexx/acadia/buildroot/output/build/linux-xilinx-v2017.4/tags
+        " use `bear make` for autocompletion and syntax checks
         setlocal nolist  " kernel style wants tab characters, so hide them for now
         setlocal noexpandtab
         setlocal tabstop=8
