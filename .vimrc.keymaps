@@ -95,7 +95,8 @@ command! CloseMyWindows call s:CloseWindows()
 " ------------------------------------------------------------------------------
 
 " change leader to space, nicer to type. You lose some sort of 'move to next char' command.
-let g:mapleader = "\<Space>"
+"let g:mapleader = "\<Space>"
+let g:mapleader = "\\"
 
 nnoremap <silent> <Leader>a :FSHere<cr>
 
@@ -113,10 +114,6 @@ nnoremap <silent> <leader>on :set number! number?<CR>
 
 " toggle relative number
 nnoremap <silent> <leader>or :set relativenumber! relativenumber?<CR>
-
-" move through buffers
-nnoremap <silent> <leader><leader>b :bnext<CR>
-nnoremap <silent> <leader><leader>B :bprev<CR>
 
 " remap bufexplorer
 nnoremap <silent> <leader>be :BufExplorer<CR>
@@ -136,13 +133,9 @@ nnoremap <silent> <leader>wc :CloseMyWindows<CR>
 noremap <leader>d :LspDocumentDiagnostics<CR>
 
 " navigate through quickfix and locationlists
-nnoremap <silent> <leader><leader>q :cfirst<CR>
-nnoremap <silent> <leader><leader>Q :clast<CR>
 nnoremap <silent> <leader>q :cnext<CR>
 nnoremap <silent> <leader>Q :cprevious<CR>
 
-nnoremap <silent> <leader><leader>l :lfirst<CR>
-nnoremap <silent> <leader><leader>L :llast<CR>
 nnoremap <silent> <leader>l :lnext<CR>
 nnoremap <silent> <leader>L :lprevious<CR>
 
@@ -156,11 +149,8 @@ vnoremap <Leader>P "+P
 " run make silently and open the quickfix window in case of errors
 nnoremap <leader>m :silent make\|redraw!\|cc<CR>
 
-" enter visual line mode easier
-nnoremap <leader><leader><leader> V
-
 " make it a little harder to start recording a macro. I accidently record more than not
-noremap <leader><leader>q q
+noremap <leader>qq q
 noremap q <nop>
 
 " prefer gq to format current line over gqgq. The default is gq{motion}, which
@@ -224,4 +214,4 @@ cabbrev Q q
 cabbrev Qa qa
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
-cabbrev w!! w !sudo tee > /dev/null %
+cabbrev w!! w !sudo tee > /dev/null % <bar> edit!
