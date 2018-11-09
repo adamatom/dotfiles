@@ -1,3 +1,5 @@
 monitor.left: DP-2
 monitor.right: DP-2
+polybar.dpi: 92
+polybar.bar: 28
 

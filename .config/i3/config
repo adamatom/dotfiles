@@ -5,26 +5,27 @@ workspace $web output $left
 workspace $email output $left
 workspace $work output $right
 
-bar {
-    font pango:EssentialPragmataPro Nerd Font 10
-    height 35
-    status_command i3blocks -c ~/.config/i3blocks/config
-    tray_output $right
-    position top
-    strip_workspace_numbers yes
-    separator_symbol        " "
-    workspace_buttons       yes
-    colors {
-            background  #181818
-            statusline  #DDDDDD
-            separator   #666666
-            # class             border  backgr. text
-            focused_workspace   #2B83A6 #2B83A6 #FFFFFF
-            active_workspace    #181818 #181818 #FFFFFF
-            inactive_workspace  #181818 #181818 #86888C
-            urgent_workspace    #D64E4E #D64E4E #FFFFFF
-      }
-}
+
+#bar {
+#    font pango:EssentialPragmataPro Nerd Font 10
+#    height 35
+#    status_command i3blocks -c ~/.config/i3blocks/config
+#    tray_output none
+#    position top
+#    strip_workspace_numbers yes
+#    separator_symbol        " "
+#    workspace_buttons       yes
+#    colors {
+#            background  #181818
+#            statusline  #DDDDDD
+#            separator   #666666
+#            # class             border  backgr. text
+#            focused_workspace   #2B83A6 #2B83A6 #FFFFFF
+#            active_workspace    #181818 #181818 #FFFFFF
+#            inactive_workspace  #181818 #181818 #86888C
+#            urgent_workspace    #D64E4E #D64E4E #FFFFFF
+#      }
+#}
 
 # font for window titles and bar
 font pango:EssentialPragmataPro Nerd Font 10
@@ -46,10 +47,10 @@ set $border_pixel 2
 ################################################################################
 exec_always --no-startup-id killall dunst; dunst -conf ~/.config/dunst/config >> /tmp/start_dunst.log 2>&1 &
 exec_always --no-startup-id killall compton; compton -b --config /home/adam/.config/compton.conf >> /tmp/start_compton.log 2>&1 &
-exec_always --no-startup-id killall parcellite; parcellite >>/tmp/start_parcellite.log 2>&1 &
-exec_always --no-startup-id killall nm-applet; nm-applet &
+exec_always --no-startup-id ~/.config/polybar/launch_polybar.sh &
+exec_always --no-startup-id killall greenclip; greenclip daemon &
 exec_always --no-startup-id killall blueman-applet; blueman-applet &
-exec_always --no-startup-id feh --bg-tile ~/.config/i3/stardust.png
+exec_always --no-startup-id feh --bg-fill ~/.config/i3/forest.jpg
 
 ################################################################################
 #  Settings
@@ -86,6 +87,7 @@ for_window [window_type="dialog"] floating enable
 for_window [window_type="splash"] floating enable
 for_window [window_type="menu"] floating enable
 for_window [class="Gnome-calculator"] floating enable
+for_window [class="Evolution-alarm-notify"] floating enable
 
 for_window [class="^.*"] border pixel $border_pixel
 
@@ -121,6 +123,7 @@ bindsym $mod+Return exec --no-startup-id rofi -show run
 
 bindsym $mod+space exec --no-startup-id rofi -show run
 bindsym $mod+Tab exec --no-startup-id rofi -show window
+bindsym $mod+grave exec --no-startup-id rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
 # Lock the session
 bindsym $mod+Shift+Escape exec lock.sh
@@ -179,6 +182,18 @@ bindsym $mod+7 workspace number 7
 bindsym $mod+8 workspace number 8
 bindsym $mod+9 workspace $email
 bindsym $mod+0 workspace $web
+
+bindsym $mod+F1 workspace number 11
+bindsym $mod+F2 workspace number 12
+bindsym $mod+F3 workspace number 13
+bindsym $mod+F4 workspace number 14
+bindsym $mod+F5 workspace number 15
+bindsym $mod+F6 workspace number 16
+bindsym $mod+F7 workspace number 17
+bindsym $mod+F8 workspace number 18
+bindsym $mod+F9 workspace number 19
+bindsym $mod+F10 workspace number 20
+
 
 bindsym $mod+n exec i3-input -F 'rename workspace to "%s"' -P 'New name for this workspace: '
 
