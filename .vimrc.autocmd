@@ -6,6 +6,9 @@ augroup allfiles
 
     autocmd FileType markdown setlocal formatoptions+=t
 
+    "consider '-' as part of the same word
+    autocmd FileType markdown setlocal iskeyword+=-
+
     "Customize PlantUML file settings
     autocmd FileType plantuml nnoremap <buffer> <leader>b :!plantuml -o %:p:h %<cr>
 
@@ -17,6 +20,9 @@ augroup allfiles
 
     "Close the preview window if it is open
     autocmd InsertLeave * pclose
+
+    "Consdier .md files to be markdown and not modula2
+    autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
     "Cleanup fugitive buffers automatically
     autocmd BufReadPost fugitive://* set bufhidden=delete
@@ -37,7 +43,7 @@ function! SetupEnvironment()
     if l:path =~# 'acadia/kernel_modules'
         let g:linuxsty_patterns = ['/home/adam/projects/idexx/acadia/kernel_modules/']
         " use `bear make` for autocompletion and syntax checks
-        setlocal nolist  " kernel style wants tab characters, so hide them for now
+        setlocal listchars=tab:\»\ ,trail:·,extends:…
         setlocal noexpandtab
         setlocal tabstop=8
         setlocal shiftwidth=8

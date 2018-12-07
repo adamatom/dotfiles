@@ -10,10 +10,19 @@ let g:ale_emit_conflict_warnings = 0
 Plug 'itchyny/lightline.vim'
 let g:lightline = {
     \ 'colorscheme': 'OldHope',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ],
+    \             [ 'fugitive', 'filename', 'readonly' ] ],
+    \   'right': [ [ 'lineinfo', 'ale' ],
+    \              [ 'percent' ],
+    \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
+    \ },
     \ 'component': {
     \   'readonly': "%{&readonly?'⭤':''}",
     \ },
     \ 'component_function': {
+    \   'ale': 'LightLineAle',
+    \   'fugitive': 'LightlineFugitive',
     \   'filename': 'LightlineFilename',
     \ },
     \ }
@@ -29,6 +38,25 @@ function! IsQFLLFocused()
     endif
 endfunction
 
+function! LightlineFugitive()
+    if &ft !~? 'vimfiler' && exists('*fugitive#head')
+        return fugitive#head()
+    endif
+    return ''
+endfunction
+
+function! LightLineAle() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+
+    return l:counts.total == 0 ? 'OK' : printf(
+    \   '%dW %dE',
+    \   all_non_errors,
+    \   all_errors
+    \)
+endfunction
 function! LightlineFilename()
     let l:is_special_focused = IsQFLLFocused()
     if l:is_special_focused == 1
@@ -53,8 +81,6 @@ endfunction
 
 "spacemacs like window to show next key
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!', 'WhichKeyVisual'] }
-nnoremap <silent> <Space> :WhichKey '\'<CR>
-vnoremap <silent> <Space> :WhichKeyVisual '\'<CR>
 
 "adds a window that shows all of the functions in the current file
 Plug 'majutsushi/tagbar'
@@ -109,14 +135,45 @@ let g:linuxsty_patterns = []
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Plugins that add keyboard commands
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""
+"vimwiki provides a personal wiki
+"Plug 'adamatom/vimwiki'
+
+Plug '~/projects/wikidown'
+let g:wikidown_debug = 0
+let g:wikidown_default_maps = 1
+let g:wikidown_wikis = {
+  \ 'notes': {
+  \     'path': '~/projects/notes_wiki',
+  \     'path_html': '~/projects/notes_wiki/html',
+  \     'index_file': 'index.md',
+  \     'log_subdir': 'log',
+  \     'ignore_html': '',
+  \     'author': 'Adam',
+  \     'css': ''},
+  \ 'home': {
+  \     'path': '~/projects/home_wiki',
+  \     'path_html': '~/projects/home_wiki/html',
+  \     'index_file': 'index.md',
+  \     'log_subdir': 'log',
+  \     'ignore_html': '',
+  \     'author': 'Adam',
+  \     'css': ''},
+  \ 'adamatom': {
+  \     'path': '~/projects/wiki',
+  \     'path_html': '~/projects/wiki/html',
+  \     'index_file': 'index.md',
+  \     'log_subdir': 'log',
+  \     'ignore_html': '',
+  \     'author': 'Adam Labbe',
+  \     'css': ''} }
+
 "replace {motion} with a register. Faster than typing '"_c[motion]^r"'
 Plug 'vim-scripts/ReplaceWithRegister'
 
 "repeated v's expand cut the visually selected region
 Plug 'terryma/vim-expand-region'
-vmap v <Plug>(expand_region_expand)
-vmap <S-v> <Plug>(expand_region_shrink)
 
 "nice motion plugin, relieves 'w' spam, lighter weight than easymotion
 Plug 'justinmk/vim-sneak'
@@ -157,6 +214,12 @@ let g:instant_markdown_autostart = 0
 Plug 'fisadev/vim-isort'
 let g:vim_isort_python_version = 'python3'
 
+"graphviz support
+Plug 'wannesm/wmgraphviz.vim'
+
+"Linux kernel/Buildroot Kconfig syntax
+Plug 'chrisbra/vim-kconfig'
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " omni completers
 """""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -171,11 +234,6 @@ Plug 'prabirshrestha/vim-lsp'
 
 Plug 'ajh17/VimCompletesMe'
 let g:vcm_tab_complete = 'user'
-
-"Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 
 set completeopt=menuone,longest,preview
 

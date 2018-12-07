@@ -95,8 +95,9 @@ command! CloseMyWindows call s:CloseWindows()
 " ------------------------------------------------------------------------------
 
 " change leader to space, nicer to type. You lose some sort of 'move to next char' command.
-"let g:mapleader = "\<Space>"
-let g:mapleader = "\\"
+let g:mapleader = "\<Space>"
+nnoremap <silent> <Space> :WhichKey '<Space>'<CR>
+vnoremap <silent> <Space> :WhichKeyVisual '<Space>'<CR>
 
 nnoremap <silent> <Leader>a :FSHere<cr>
 
@@ -122,12 +123,11 @@ nnoremap <silent> <leader>bs :BufExplorerHorizontalSplit<CR>
 nnoremap <silent> <leader>bv :BufExplorerVerticalSplit<CR>
 
 " open and close various windows
-nnoremap <silent> <leader>wt :TagbarToggle<CR>
-nnoremap <silent> <leader>wg :GundoToggle<CR>
-nnoremap <silent> <leader>wq :QToggle<CR>
-nnoremap <silent> <leader>wl :LToggle<CR>
-nnoremap <silent> <leader>wc :CloseMyWindows<CR>
-
+nnoremap <silent> <leader>Wt :TagbarToggle<CR>
+nnoremap <silent> <leader>Wg :GundoToggle<CR>
+nnoremap <silent> <leader>Wq :QToggle<CR>
+nnoremap <silent> <leader>Wl :LToggle<CR>
+nnoremap <silent> <leader>Wc :CloseMyWindows<CR>
 
 " run diagnostics if available
 noremap <leader>d :LspDocumentDiagnostics<CR>
@@ -157,6 +157,8 @@ noremap q <nop>
 " I dont care to keep
 nnoremap gq gqgq
 
+" Insert date on f12
+nnoremap <F12> "=strftime("%c")<CR>P
 
 " ------------------------------------------------------------------------------
 " Keymaps that alter default behavior.
@@ -193,6 +195,17 @@ nnoremap <C-l> <C-w>l
 noremap q: :q
 nnoremap Q <nop>
 
+"Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+
+vmap v <Plug>(expand_region_expand)
+vmap <S-v> <Plug>(expand_region_shrink)
+
+nmap <silent><unique> <leader>w1 :WikiDown 'notes'<CR>
+nmap <silent><unique> <leader>w2 :WikiDown 'adamatom'<CR>
+nmap <silent><unique> <leader>w3 :WikiDown 'home'<CR>
 
 " ------------------------------------------------------------------------------
 " command mode replacements
