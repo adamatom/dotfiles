@@ -1,56 +1,31 @@
-[colors]
-black = #2b2b2b
-white = #e6e1dc
-bright_black = #5a647e
-bright_white = #f9f7f3
-tan = #bc9458
-darkblue = #272935
-darkpurble = #3a4055
-whitish = #f4f1ed
-
-; i3
-blue = #6d9cbe
-; cpu
-green = #a5c261
-; mem
-yellow = #ffc66d
-magenta = #b6b3eb
-cyan = #519f50
-orange = #cc7833
-
-red = #da4939
-gray = #d4cfc9
-darkgray = #363748
-
-gray_1 = #454A4F
-gray_2 = #606070
-
-gray_sep = #c0c0c0
-
-foreground = #e6e1dc
-background = #2b2b2b
-
-
 [global/wm]
 margin-top = 0
 margin-bottom = 0
 
-[bar/main]
+[section/common]
 monitor = ${env:MONITOR}
 monitor-strict = true
 
-background = ${colors.background}
-foreground = ${colors.foreground}
+background = ${env:BG}
+foreground = ${env:FG}
 
 font-0 = EssentialPragmataPro Nerd Font:pixelsize=14
 font-1 = EssentialPragmataPro Nerd Font Mono:size=40
 font-2 = EssentialPragmataPro Nerd Font:pixelsize=20
-dpi = ${xrdb:polybar.dpi:92}
+font-3 = EssentialPragmataPro Nerd Font:pixelsize=16
+dpi = ${xrdb:polybar.dpi}
 
+; Dimensiosn defined as pixel value (e.g. 35) or percentage (e.g. 50%)
+width = 100%
+height = ${xrdb:polybar.bar}
+
+
+[bar/main]
+inherit = section/common
 ; Modules are added to one of the available blocks
 modules-left = i3 arrowleft window
 modules-center =
-modules-right = arrowright cpu memory filesystem pkg battery date
+modules-right = arrowright audio_out pkg wireguard bluetooth battery date
 
 ; Put the bar at the bottom of the screen
 bottom = false
@@ -59,9 +34,19 @@ bottom = false
 ; When false, the center position will be based on the size of the other blocks.
 fixed-center = true
 
-; Dimensiosn defined as pixel value (e.g. 35) or percentage (e.g. 50%)
-width = 100%
-height = ${xrdb:polybar.bar:40}
+[bar/bottom]
+inherit = section/common
+; Modules are added to one of the available blocks
+modules-left = network-wired network-wireless
+modules-center = openweathermap-fullfeatured
+modules-right = arrowright filesystem cpu memory
+
+; Put the bar at the bottom of the screen
+bottom = true
+
+; Prefer fixed center position for the `modules-center` block
+; When false, the center position will be based on the size of the other blocks.
+fixed-center = true
 
 [module/i3]
 type = internal/i3
@@ -73,28 +58,22 @@ enable-click = true
 
 format = <label-state> <label-mode>
 
-label-focused 			   = %{T2}%{F#363748 B#6d9cbe}%{T-}%{F#e6e1dc}%name%%{T2}%{B#363748 F#6d9cbe}%{F-B-}%{T-}
-
-label-unfocused 		   = " %name% "
-label-unfocused-foreground = ${colors.blue}
-label-unfocused-background = ${colors.darkgray}
-
-label-visible 			   = %{T2}%{F#363748 B#6d9cbe}%{T-}%name%%{T2}%{B#363748 F#6d9cbe}%{F-B-}%{T-}
-
-label-urgent 			   = %{T2}%{F#ffc66d B#ff000f}%{T-}%name%%{T2}%{B#363748 F#ffc66d}%{F-B-}%{T-}
+label-focused 			   = ${env:I3_FOCUSED}
+label-unfocused 		   = ${env:I3_UNFOCUSED}
+label-visible 			   = ${env:I3_VISIBLE}
+label-urgent 			   = ${env:I3_URGENT}
 
 [module/arrowleft]
 type = custom/text
-content = "%{T2}%{B#2b2b2b F#363748}%{F-B-}%{T-}"
+content = ${env:ARROWLEFT}
 
 [module/window]
 type = internal/xwindow
-format-foreground = ${colors.foreground}
-label = "%title:0:100:...%"
+label = ${env:WINDOWTEXT}
 
 [module/arrowright]
 type = custom/text
-content = "%{T2}%{B#c0c0c0 F#2b2b2b}%{F-B-}%{T-}"
+content = ${env:ARROWRIGHT}
 
 [module/cpu]
 type = internal/cpu
@@ -107,7 +86,7 @@ interval = 1
 ;   <bar-load>
 ;   <ramp-load>
 ;   <ramp-coreload>
-format = "%{T2}%{F#c0c0c0 B#454A4F}%{B-F-}%{T-}%{T1}%{F#e6e1dc B#454A4F} <ramp-coreload>%{T-}%{B-F-}"
+format = ${env:CPU}
 
 ramp-coreload-0 = ▁
 ramp-coreload-1 = ▂
@@ -129,7 +108,7 @@ interval = 3
 ;   <label> (default)
 ;   <bar-used>
 ;   <bar-free>
-format = "%{T2}%{F#454A4F B#606070}%{B-F-}%{T-}%{T1}%{F#e6e1dc B#606070} <label>%{T-}%{B-F-}"
+format = ${env:MEM}
 
 ; Available tokens:
 ;   %percentage_used% (default)
@@ -142,21 +121,56 @@ format = "%{T2}%{F#454A4F B#606070}%{B-F-}%{T-}%{T1}%{F#e6e1dc B#606070} <
 ;   %mb_total%
 label = "%gb_used%/%gb_total%"
 
+[module/filesystem]
+type = internal/fs
+
+mount-0 = /home
+interval = 30
+fixed-values = true
+spacing = 0
+; Available tags:
+;   <label-mounted> (default)
+;   <bar-free>
+;   <bar-used>
+;   <ramp-capacity>
+format-mounted = ${env:FS_MOUNTED}
+
+; Available tags:
+;   <label-unmounted> (default)
+format-unmounted = ${env:FS_UNMOUNTED}
+
+; Available tokens:
+;   %mountpoint%
+;   %type%
+;   %fsname%
+;   %percentage_free%
+;   %percentage_used%
+;   %total%
+;   %free%
+;   %used%
+; Default: %mountpoint% %percentage_free%%
+label-mounted = "%mountpoint% %used%/%free% "
+
+[module/pkg]
+type = custom/script
+interval = 120
+format = ${env:PKG}
+label = "%output:0:30%"
+exec = ~/.config/polybar/arch_update_count.py
+click-left = xfce4-terminal -e 'sh -c "yay -Syu && printf \"\npress enter to exit\" && read"'
+
 [module/battery]
 type = internal/battery
 battery = BAT0
 adapter = AC
 full-at = 98
 
-ramp-capacity-foreground = ${colors.orange}
-animation-charging-foreground = ${colors.green}
+ramp-capacity-foreground = ${env:BATTERY_DISCHARGING_FG}
+animation-charging-foreground = ${env:BATTERY_CHARGING_FG}
 
-
-format-full = "%{T2}%{F#606070 B#454A4F}%{B-F-}%{T-}%{T1}%{F#e6e1dc B#454A4F}  <label-full>%{T-}%{B-F-}"
-
-format-charging = "%{T2}%{F#606070 B#454A4F}%{B-F-}%{T-}%{T1}%{F#e6e1dc B#454A4F} <animation-charging> <label-charging>%{T-}%{B-F-}"
-
-format-discharging = "%{T2}%{F#606070 B#454A4F}%{B-F-}%{T-}%{T1}%{F#cc7833 B#454A4F} <ramp-capacity> <label-discharging>%{T-}%{B-F-}"
+format-full = ${env:BATTERY_FULL}
+format-charging = ${env:BATTERY_CHARGING}
+format-discharging = ${env:BATTERY_DISCHARGING}
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
@@ -171,79 +185,66 @@ animation-charging-3 = 
 animation-charging-4 = 
 animation-charging-framerate = 200
 
-[module/pkg]
-type = custom/script
-interval = 120
-format = "%{T2}%{F#454A4F B#606070}%{B-F-}%{T-}%{T1}%{F#e6e1dc B#606070} <label>%{T-}%{B-F-}"
-label = "%output:0:30%"
-exec = ~/.bin/arch_update_count.py
-click-left = xfce4-terminal -e 'sh -c "yay -Syu && printf \"\npress enter to exit\" && read"'
-
-[module/music]
-type = internal/mpd
-
-format-playing = <icon-prev><toggle><icon-next>
-format-paused  = <icon-prev><toggle><icon-next>
-format-stopped = <icon-prev><toggle><icon-next>
-
-icon-play             = %{T5}%{T-}
-icon-play-foreground  = ${colors.foreground}
-icon-pause            = %{T5}%{T-}
-icon-pause-foreground = ${colors.custom_foreground}
-icon-prev             = %{T5}%{T-}
-icon-prev-foreground  = ${colors.custom_foreground}
-icon-next             = %{T5}%{T-}
-icon-next-foreground  = ${colors.custom_foreground}
-
-[module/filesystem]
-type = internal/fs
-
-format-mounted-foreground = ${colors.foreground}
-; Mountpoints to display
-mount-0 = /home
-
-; Seconds to sleep between updates
-; Default: 30
-interval = 30
-
-; Display fixed precision values
-; Default: false
-fixed-values = true
-
-; Spacing between entries
-; Default: 2
-spacing = 0
-; Available tags:
-;   <label-mounted> (default)
-;   <bar-free>
-;   <bar-used>
-;   <ramp-capacity>
-
-format-mounted = "%{T2}%{F#606070 B#454A4F}%{B-F-}%{T-}%{T1}%{F#e6e1dc B#454A4F}<label-mounted>%{T-}%{B-F-}"
-
-; Available tags:
-;   <label-unmounted> (default)
-format-unmounted = "%{T2}%{F#606070 B#454A4F}%{B-F-}%{T-}%{T1}%{F#e6e1dc B#454A4F}<label-unmounted>%{T-}%{B-F-}"
-
-; Available tokens:
-;   %mountpoint%
-;   %type%
-;   %fsname%
-;   %percentage_free%
-;   %percentage_used%
-;   %total%
-;   %free%
-;   %used%
-; Default: %mountpoint% %percentage_free%%
-label-mounted = "%mountpoint% %used%/%free% "
-
 [module/date]
 type = internal/date
 interval = 1
 date = "%Y-%m-%d"
 time = "%a %b %d, %I:%M %p "
-format = "%{T2}%{F#454A4F B#2b2b2b}%{B-F-}%{T-}%{T1}%{F#e6e1dc B#2b2b2b}<label>%{T-}%{B-F-}"
+format = ${env:TIME}
 label = %time%
 
+[module/audio_out]
+type = custom/script
+exec = ~/.config/polybar/pulseaudio-rofi.sh --output_volume_listener
+tail = true
+click-right = ~/.config/polybar/pulseaudio-rofi.sh --output
+click-middle = pavucontrol &
+click-left = ~/.config/polybar/pulseaudio-rofi.sh --mute
+scroll-up =  ~/.config/polybar/pulseaudio-rofi.sh --volume_up
+scroll-down = ~/.config/polybar/pulseaudio-rofi.sh --volume_down
+format = ${env:AUDIO_OUT}
+label = " %output:0:100%"
+
+[module/network-wired]
+type = internal/network
+interface = enp0s31f6
+format-disconnected-foreground = ${env:ORANGE}
+format-connected-foreground = ${env:GREEN}
+label-disconnected = "[%ifname%]  "
+label-connected = "[%ifname%] %local_ip% "
+click-right = alacritty -e 'nmtui'
+
+[module/network-wireless]
+type = internal/network
+interface = wlp3s0
+interval = 10
+format-disconnected-foreground = ${env:ORANGE}
+format-connected-foreground = ${env:GREEN}
+label-disconnected = "[%ifname%]  "
+label-connected = "[%ifname%-%essid% (%signal%%)] %local_ip% "
+click-right = alacritty -e 'nmtui'
+
+[module/bluetooth]
+type = custom/script
+interval = 0.1
+exec = ~/.config/polybar/isactive-bluetooth.sh ${env:BLUE} ${env:BG}
+format = ${env:BLUETOOTH}
+label = %output%
+click-right = blueman-manager &
+click-left = ~/.config/polybar/toggle-bluetooth.sh
+
+[module/wireguard]
+type = custom/script
+interval = 0.5
+exec = ~/.config/polybar/isactive-wireguard.sh wg0-client
+format = ${env:WG0_CLIENT}
+label = %output%
+click-left = ~/.config/polybar/toggle-wireguard.sh wg0-client
+
+[module/openweathermap-fullfeatured]
+type = custom/script
+exec = ~/.config/polybar/weather.sh
+interval = 300
+label-font = 4
 
 ; vim: set ft=dosini:

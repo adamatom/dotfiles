@@ -5,28 +5,6 @@ workspace $web output $left
 workspace $email output $left
 workspace $work output $right
 
-
-#bar {
-#    font pango:EssentialPragmataPro Nerd Font 10
-#    height 35
-#    status_command i3blocks -c ~/.config/i3blocks/config
-#    tray_output none
-#    position top
-#    strip_workspace_numbers yes
-#    separator_symbol        " "
-#    workspace_buttons       yes
-#    colors {
-#            background  #181818
-#            statusline  #DDDDDD
-#            separator   #666666
-#            # class             border  backgr. text
-#            focused_workspace   #2B83A6 #2B83A6 #FFFFFF
-#            active_workspace    #181818 #181818 #FFFFFF
-#            inactive_workspace  #181818 #181818 #86888C
-#            urgent_workspace    #D64E4E #D64E4E #FFFFFF
-#      }
-#}
-
 # font for window titles and bar
 font pango:EssentialPragmataPro Nerd Font 10
 

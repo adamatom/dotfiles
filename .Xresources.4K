@@ -1,4 +1,4 @@
 monitor.left: DP-0
 monitor.right: DP-3
-polybar.dpi: 160
+polybar.dpi: 100
 polybar.bar: 40
