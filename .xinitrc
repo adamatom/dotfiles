@@ -28,7 +28,7 @@ setup_for_lvds() {
     gsettings set org.gnome.desktop.interface scaling-factor 1
     gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <1>}]"
     export GDK_SCALE
-    xrandr --dpi 130
+    xrandr --dpi 96
     xrdb -merge ~/.Xresources.lvds
 }
 
