@@ -1,22 +1,12 @@
 set_from_resource $right monitor.right DP-2
 set_from_resource $left monitor.left DP-2
 
-workspace $web output $left
-workspace $email output $left
-workspace $work output $right
-
 # font for window titles and bar
 font pango:EssentialPragmataPro Nerd Font 10
 
 ################################################################################
 #  Variables
 ################################################################################
-# Name the workspaces
-set $work "1:  "
-set $tty "2:  "
-set $email "9:  "
-set $web "10:  "
-
 set $mod Mod4
 set $border_pixel 2
 
@@ -29,6 +19,7 @@ exec_always --no-startup-id ~/.config/polybar/launch_polybar.sh &
 exec_always --no-startup-id killall greenclip; greenclip daemon &
 exec_always --no-startup-id killall blueman-applet; blueman-applet &
 exec_always --no-startup-id feh --bg-fill ~/.config/i3/forest.jpg
+exec_always --no-startup-id killall i3_workspace_names.py; i3_workspace_names.py &
 
 ################################################################################
 #  Settings
@@ -68,10 +59,6 @@ for_window [class="Gnome-calculator"] floating enable
 for_window [class="Evolution-alarm-notify"] floating enable
 
 for_window [class="^.*"] border pixel $border_pixel
-
-assign [class="(?i)evolution"]                  $email
-assign [class="(?i)chromium"]   $web
-assign [class="(?i)firefox"]   $web
 
 ################################################################################
 #  Bindings
@@ -150,16 +137,16 @@ bindsym $mod+p focus parent
 bindsym $mod+c focus child
 
 # switch to workspace
-bindsym $mod+1 workspace $work
-bindsym $mod+2 workspace $tty
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
 bindsym $mod+3 workspace number 3
 bindsym $mod+4 workspace number 4
 bindsym $mod+5 workspace number 5
 bindsym $mod+6 workspace number 6
 bindsym $mod+7 workspace number 7
 bindsym $mod+8 workspace number 8
-bindsym $mod+9 workspace $email
-bindsym $mod+0 workspace $web
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
 
 bindsym $mod+F1 workspace number 11
 bindsym $mod+F2 workspace number 12
@@ -176,16 +163,27 @@ bindsym $mod+F10 workspace number 20
 bindsym $mod+n exec i3-input -F 'rename workspace to "%s"' -P 'New name for this workspace: '
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $work
-bindsym $mod+Shift+2 move container to workspace $tty
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
 bindsym $mod+Shift+3 move container to workspace number 3
 bindsym $mod+Shift+4 move container to workspace number 4
 bindsym $mod+Shift+5 move container to workspace number 5
 bindsym $mod+Shift+6 move container to workspace number 6
 bindsym $mod+Shift+7 move container to workspace number 7
 bindsym $mod+Shift+8 move container to workspace number 8
-bindsym $mod+Shift+9 move container to workspace $email
-bindsym $mod+Shift+0 move container to workspace $web
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+bindsym $mod+Shift+F1 move container to workspace number 11
+bindsym $mod+Shift+F2 move container to workspace number 12
+bindsym $mod+Shift+F3 move container to workspace number 13
+bindsym $mod+Shift+F4 move container to workspace number 14
+bindsym $mod+Shift+F5 move container to workspace number 15
+bindsym $mod+Shift+F6 move container to workspace number 16
+bindsym $mod+Shift+F7 move container to workspace number 17
+bindsym $mod+Shift+F8 move container to workspace number 18
+bindsym $mod+Shift+F9 move container to workspace number 19
+bindsym $mod+Shift+F10 move container to workspace number 20
 
 # reload the configuration file
 bindsym $mod+Shift+c reload

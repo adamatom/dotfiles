@@ -25,7 +25,7 @@ alias reflectarch="sudo /usr/bin/reflector --protocol https --latest 30 --number
 alias did="vim +'normal Go' +'r!date' ~/did.txt"
 alias gitlines="git ls-files | while read f; do git blame -w -M -C -C --line-porcelain "$f" | grep -I '^author '; done | sort -f | uniq -ic | sort -nr"
 alias open="xdg-open"
-alias ssh-weechat="ssh adam@adamatom.com -t screen -D -RR weechat weechat"
+alias ssh-weechat="echo -e '\033]2;'weechat'\007'; ssh adam@adamatom.com -t screen -D -RR weechat weechat"
 
 # -u 1000:1000 buildroot/publish:latest \
 # -u 1000:1000 buildroot/base:latest \
