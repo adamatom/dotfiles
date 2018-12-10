@@ -19,8 +19,15 @@ DEFAULT_APP_ICON_CONFIG = {
     "thunar": "folder-open",
     "spotify": "music",
     "vim": "vim",
+    "todo": "todo",
     "weechat": "weechat"
 }
+
+FILTERS = [
+    (re.compile('todo.md.*'), 'todo'),
+    (re.compile('.* - VIM$'), 'vim'),
+    (re.compile('weechat'), 'weechat'),
+]
 
 
 def build_rename(i3, app_icons, delim):
@@ -35,14 +42,9 @@ def build_rename(i3, app_icons, delim):
 
     returns func: The rename callback.
     """
-    filters = [
-        (re.compile('.* - VIM$'), 'vim'),
-        (re.compile('.*weechat.*'), 'weechat'),
-    ]
-
     def filter_title(name):
         # look for specific window titles and reinterpret if match found
-        for filter_re, new_name in filters:
+        for filter_re, new_name in FILTERS:
             if filter_re.match(name):
                 return True, new_name
         return False, name

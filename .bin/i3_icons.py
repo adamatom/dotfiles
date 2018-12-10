@@ -1103,6 +1103,7 @@ icons = {
     "tint": "\uf043",
     "tint-slash": "\uf5c7",
     "tired": "\uf5c8",
+    "todo": "\ue29a",
     "toggle-off": "\uf204",
     "toggle-on": "\uf205",
     "toilet-paper": "\uf71e",
