@@ -185,6 +185,13 @@ bindsym $mod+Shift+F8 move container to workspace number 18
 bindsym $mod+Shift+F9 move container to workspace number 19
 bindsym $mod+Shift+F10 move container to workspace number 20
 
+
+# Resizing by 10
+bindsym $mod+Ctrl+Shift+h resize shrink width 10 px or 10 ppt
+bindsym $mod+Ctrl+Shift+k resize grow height 10 px or 10 ppt
+bindsym $mod+Ctrl+Shift+j resize shrink height 10 px or 10 ppt
+bindsym $mod+Ctrl+Shift+l resize grow width 10 px or 10 ppt
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
