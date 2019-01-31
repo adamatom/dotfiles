@@ -33,12 +33,12 @@ alias ssh-weechat="echo -e '\033]2;'weechat'\007'; ssh adam@adamatom.com -t scre
 dockbuild() {
     docker run --hostname build --name build --rm -it \
         -v /home/adam/.ssh:/home/br-user/.ssh \
-        -v /home/adam/projects/idexx/acadia:/acadia \
+        -v /home/adam/projects/idexx/acadia:/tmpfs \
         -v /home/adam/projects/idexx/acadia/.buildroot-ccache:/.buildroot-ccache \
         -v $SSH_AUTH_SOCK:/ssh-agent \
         -e SSH_AUTH_SOCK=/ssh-agent \
         -u 1000:1000 docker.is.idexx.com/buildroot-minimal:1.2.0 \
-        /bin/bash -c "ssh-add -l; cd /acadia/buildroot; $1"
+        /bin/bash -c "ssh-add -l; cd /tmpfs/buildroot; $1"
 }
 
 checkbranch() {
