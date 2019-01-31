@@ -164,6 +164,9 @@ nnoremap <F12> "=strftime("%c")<CR>P
 " Keymaps that alter default behavior.
 " ------------------------------------------------------------------------------
 
+" Advance to next misspelling after adding a word to the spellfile.
+noremap zg zg]s
+
 " typing jj in insert mode gets you out.
 inoremap jj <Esc>
 

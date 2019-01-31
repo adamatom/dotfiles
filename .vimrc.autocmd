@@ -7,7 +7,7 @@ augroup allfiles
     autocmd FileType markdown setlocal formatoptions+=t
 
     "consider '-' as part of the same word
-    autocmd FileType markdown setlocal iskeyword+=-
+    autocmd FileType markdown setlocal iskeyword+=- | setlocal spell
 
     "Customize PlantUML file settings
     autocmd FileType plantuml nnoremap <buffer> <leader>b :!plantuml -o %:p:h %<cr>
