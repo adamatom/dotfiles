@@ -6,7 +6,8 @@ autoload add-zsh-hook
 
 # Stolen from oh-my-zsh
 ZSH_THEME_GIT_PROMPT_PREFIX="%B%F{255} › %b%F{green}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%f"
+ZSH_THEME_VENV_PROMPT_PREFIX="%B%F{255} › %b%F{yellow}"
+ZSH_THEME_SUFFIX="%f"
 
 ZSH_THEME_GIT_PROMPT_MERGING="%B%F{magenta}⚡︎%f%b"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%B%F{yellow}… %f%b"
@@ -64,7 +65,7 @@ function git_prompt_string() {
   local git_where="$(git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD 2> /dev/null)"
   git_where=${git_where/refs\/heads\//}
   git_where=${git_where/tags\//}
-  echo "$ZSH_THEME_GIT_PROMPT_PREFIX${git_where} $STATUS$ZSH_THEME_GIT_PROMPT_SUFFIX"
+  echo "$ZSH_THEME_GIT_PROMPT_PREFIX${git_where} $STATUS$ZSH_THEME_SUFFIX"
 }
 
 if [[ $__PROFILE__ -eq 1 ]]; then
@@ -103,8 +104,17 @@ function precmd() {
             gitinfo="$(git_prompt_string)"
         fi
 
+        # Support python virtualenvwrapper, show the active env if there is one
+        
+        if [[ ! -z $VIRTUAL_ENV ]]; then
+            env=$(basename "$VIRTUAL_ENV")
+            env_info="$ZSH_THEME_VENV_PROMPT_PREFIX$env$ZSH_THEME_SUFFIX"
+        else
+            env_info=''
+        fi
+
         # save to temp file
-        printf "%s" $pstart$gitinfo$pend > "/tmp/zsh_prompt_$$"
+        printf "%s" $pstart$gitinfo$env_info$pend > "/tmp/zsh_prompt_$$"
 
         # Update the title while we are at it
         print -Pn "\e]0;%~\a"
@@ -140,6 +150,6 @@ function TRAPUSR1() {
 PROMPT_CHAR='%(?.%F{white}.%F{red})%(1j.%Uλ%u.λ)%f %F{255}%B›%b%f '
 
 PROMPT=$'%F{255}[%F{239}%M%F{255} %F{255}%B›%b%f %F{074}%~%f%F{255}]%f\n'$PROMPT_CHAR
-RPROMPT='' # no initial prompt, set dynamically
+RPROMPT=''
 
 export SPROMPT="Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color [(y)es (n)o (a)bort (e)dit]? "
