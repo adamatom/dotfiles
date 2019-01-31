@@ -50,7 +50,7 @@ def build_rename(i3, app_icons, delim):
         return False, name
 
     def get_icon_or_name(leaf):
-        filtered, new_name = filter_title(leaf.name)
+        filtered, new_name = filter_title(str(leaf.name))  # coerce to string
 
         if filtered:
             name = new_name
