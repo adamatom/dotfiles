@@ -186,12 +186,19 @@ animation-charging-4 = 
 animation-charging-framerate = 200
 
 [module/date]
-type = internal/date
-interval = 1
-date = "%Y-%m-%d"
-time = "%a %b %d, %I:%M %p "
+type = custom/script
+exec = ~/.config/polybar/datetime_calendar.sh
+interval = 5
+click-left = ~/.config/polybar/datetime_calendar.sh --popup
 format = ${env:TIME}
-label = %time%
+label = %output%
+
+# type = internal/date
+# interval = 1
+# date = "%Y-%m-%d"
+# time = "%a %b %d, %I:%M %p "
+# format = ${env:TIME}
+# label = %time%
 
 [module/audio_out]
 type = custom/script
@@ -246,5 +253,6 @@ type = custom/script
 exec = ~/.config/polybar/weather.sh
 interval = 300
 label-font = 4
+click-left = firefox https://www.wunderground.com/hourly/us/me/westbrook/43.68%2C-70.33?cm_ven=localwx_hour
 
 ; vim: set ft=dosini:
