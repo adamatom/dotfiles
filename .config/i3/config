@@ -30,6 +30,8 @@ exec_always --no-startup-id killall i3_workspace_names.py; i3_workspace_names.py
 #  Settings
 ################################################################################
 
+# Open new windows in stacked mode
+workspace_layout stacking
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
