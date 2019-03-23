@@ -139,10 +139,8 @@ let g:linuxsty_patterns = []
 " Vim Plugins that add keyboard commands
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-"vimwiki provides a personal wiki
-"Plug 'adamatom/vimwiki'
-
-Plug '~/projects/wikidown'
+" Wikidown provides a personal wiki implemented with markdown files.
+Plug 'adamatom/wikidown'
 let g:wikidown_debug = 0
 let g:wikidown_default_maps = 1
 let g:wikidown_wikis = {
