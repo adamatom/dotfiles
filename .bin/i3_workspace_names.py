@@ -20,6 +20,9 @@ DEFAULT_APP_ICON_CONFIG = {
     "spotify": "music",
     "vim": "vim",
     "todo": "todo",
+    "libreoffice-writer": "file-word",
+    "libreoffice-impress": "file-powerpoint",
+    "libreoffice-calc": "file-excel",
     "weechat": "weechat"
 }
 
