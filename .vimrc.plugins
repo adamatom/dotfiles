@@ -352,7 +352,17 @@ call LanguageServer('typescript-language-server', 'javascript,typescript',
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'chriskempson/base16-vim'
-Plug 'liuchengxu/space-vim-dark'
+Plug 'connorholyday/vim-snazzy'
+Plug 'dracula/vim'
+Plug 'jacoborus/tender.vim'
 Plug 'joshdick/onedark.vim'
+Plug 'liuchengxu/space-vim-theme'
+Plug 'marcopaganini/termschool-vim-theme'
+Plug 'mhartington/oceanic-next'
+Plug 'mkarmona/materialbox'
+Plug 'morhetz/gruvbox'
+Plug 'nightsense/carbonized'
+Plug 'rakr/vim-one'
+
 
 call plug#end()

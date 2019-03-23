@@ -13,7 +13,7 @@ if has('gui_running')
     set guioptions-=b
     set guioptions-=h
     set guioptions-=e  "I dont like the gui tabs, use ascii
-    set guifont=EssentialPragmataPro\ Nerd\ Font\ Mono\ 10
+    set guifont=EssentialPragmataPro\ Nerd\ Font\ Mono\ 14
 endif
 
 function! s:CreateDir(name)
@@ -112,6 +112,18 @@ if filereadable(expand($HOME.'/.vimrc.plugins'))
     endif
     set background=dark
     let g:onedark_terminal_italics = 1
-    colorscheme onedark
-    let g:lightline['colorscheme'] = 'onedark'
+    let g:gruvbox_italic = 1
+    let g:gruvbox_contrast_dark='hard'
+    let g:lightline['colorscheme'] = 'tender'
+
+    " colorscheme tender
+    " colorscheme PaperColor
+    " colorscheme snazzy
+    " colorscheme dracula
+    " colorscheme space_vim_theme
+    colorscheme termschool
+    " colorscheme OceanicNext
+    " colorscheme materialbox
+    " colorscheme carbonized-dark
+    " colorscheme one-dark
 endif
