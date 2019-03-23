@@ -149,10 +149,6 @@ vnoremap <Leader>P "+P
 " run make silently and open the quickfix window in case of errors
 nnoremap <leader>m :silent make\|redraw!\|cc<CR>
 
-" make it a little harder to start recording a macro. I accidently record more than not
-noremap <leader>qq q
-noremap q <nop>
-
 " prefer gq to format current line over gqgq. The default is gq{motion}, which
 " I dont care to keep
 nnoremap gq gqgq
@@ -185,8 +181,8 @@ noremap <F1> <ESC>
 inoremap <F1> <ESC>
 
 "keep cursor in the middle of the screen while keyscrolling
-nnoremap <C-d> <C-d>zz
-nnoremap <C-u> <C-u>zz
+"nnoremap <C-d> <C-d>zz
+"nnoremap <C-u> <C-u>zz
 
 "move between windows a little easier
 nnoremap <C-h> <C-w>h

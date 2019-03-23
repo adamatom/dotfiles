@@ -171,6 +171,12 @@ let g:wikidown_wikis = {
   \     'author': 'Adam Labbe',
   \     'css': ''} }
 
+
+"smooth scroll on ctrl-u ctrl-d
+Plug 'terryma/vim-smooth-scroll'
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 30, 4)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 30, 4)<CR>
+
 "replace {motion} with a register. Faster than typing '"_c[motion]^r"'
 Plug 'vim-scripts/ReplaceWithRegister'
 
