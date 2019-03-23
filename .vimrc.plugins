@@ -196,21 +196,9 @@ augroup END
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Extra language support, such as syntax highlighting, repl interaction
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-" Improved python syntax highlighting
-Plug 'adamatom/python-syntax'
-let g:python_slow_sync = 0
-let g:python_highlight_all = 1
-
-Plug 'NLKNguyen/c-syntax.vim', {'for': ['c', 'cpp']}
-Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
 let g:cpp_class_scope_highlight = 1
 Plug 'wlangstroth/vim-racket', {'for': ['scheme', 'racket']}
 Plug 'tpope/vim-fireplace', {'for' : 'clojure' }
-Plug 'aklt/plantuml-syntax'
-Plug 'rust-lang/rust.vim', {'for': 'rust'}
-let g:rustfmt_autosave = 1
-Plug 'elixir-editors/vim-elixir', {'for': 'elixir'}
-Plug 'leafgarland/typescript-vim'
 
 "automatically display markdown view when editing md files
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
@@ -226,6 +214,9 @@ Plug 'wannesm/wmgraphviz.vim'
 "Linux kernel/Buildroot Kconfig syntax
 Plug 'chrisbra/vim-kconfig'
 
+"Syntax, indent, ftplugin for a bunch of languages
+Plug 'sheerun/vim-polyglot'
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " omni completers
 """""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -234,14 +225,14 @@ Plug 'chrisbra/vim-kconfig'
 Plug 'Shougo/echodoc.vim'
 let g:echodoc#enable_at_startup=1
 
-"Enable language server support
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-
 Plug 'ajh17/VimCompletesMe'
 let g:vcm_tab_complete = 'user'
 
 set completeopt=menuone,longest,preview
+
+"Enable language server support
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
 
 " enable signs
 let g:lsp_signs_enabled = 1
