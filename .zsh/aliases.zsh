@@ -10,7 +10,7 @@ export ENHANCD_DOT_ARG="../.."
 
 alias ls="ls -lA --color=always --group-directories-first"
 alias gvim="gvim $* 2>/dev/null"
-alias pyclean="find . | grep -E \"(__pycache__|\.pyc|\.pyo$)\" | xargs rm -rf"
+alias pyclean="find . | grep -E \"(\.mypy_cache|\.pytest_cache|__pycache__|\.pyc|\.pyo$)\" | xargs rm -rf"
 alias spotify="spotify --force-device-scale-factor=2.0"
 alias vi="vim"
 alias pvim="PYTHONPATH=$(pwd) vim"
@@ -26,18 +26,23 @@ alias did="vim +'normal Go' +'r!date' ~/did.txt"
 alias gitlines="git ls-files | while read f; do git blame -w -M -C -C --line-porcelain "$f" | grep -I '^author '; done | sort -f | uniq -ic | sort -nr"
 alias open="xdg-open"
 alias ssh-weechat="echo -e '\033]2;'weechat'\007'; ssh adam@adamatom.com -t screen -D -RR weechat weechat"
+alias vl="vault login -method=ldap username=alabbe"
+alias vv="vault write -field=signed_key ssh-iscm-signer/sign/ca-sign public_key=@$HOME/.ssh/id_rsa.pub > ~/.ssh/id_rsa-cert.pub"
+alias gitfmr="git fetch -Ppat && git checkout master && git rebase"
+alias pipenv="nocorrect pipenv"
+alias tmux="TERM=screen-256color-bce tmux"
 
-# -u 1000:1000 buildroot/publish:latest \
-# -u 1000:1000 buildroot/base:latest \
 # -u 1000:1000 docker.is.idexx.com/buildroot-minimal:1.2.0 \
 dockbuild() {
     docker run --hostname build --name build --rm -it \
         -v /home/adam/.ssh:/home/br-user/.ssh \
         -v /home/adam/projects/idexx/acadia:/tmpfs \
-        -v /home/adam/projects/idexx/acadia/.buildroot-ccache:/.buildroot-ccache \
+        -v /home/adam/.buildroot-ccache:/home/br-user.buildroot-ccache \
+        -v /home/adam/.buildroot-autoconf-cache/:/home/br-user/.buildroot-autoconf-cache \
+        -v /home/adam/.buildroot-dl-cache/:/home/br-user/.buildroot-dl-cache \
         -v $SSH_AUTH_SOCK:/ssh-agent \
         -e SSH_AUTH_SOCK=/ssh-agent \
-        -u 1000:1000 docker.is.idexx.com/buildroot-minimal:1.2.0 \
+        -u 1000:1000 docker.is.idexx.com/buildroot-publish:1.1.1 \
         /bin/bash -c "ssh-add -l; cd /tmpfs/buildroot; $1"
 }
 
@@ -114,23 +119,4 @@ zshrecompile() {
     [[ -f ~/.zcompdump.zwc.old ]] && rm -f ~/.zcompdump.zwc.old
 
     source ~/.zshrc
-}
-
-colors_esc() {
-    T='gYw'   # The test text
-
-    echo -e "\n                 40m     41m     42m     43m\
-        44m     45m     46m     47m";
-
-    for FGs in '    m' '   1m' '  30m' '1;30m' '  31m' '1;31m' '  32m' \
-            '1;32m' '  33m' '1;33m' '  34m' '1;34m' '  35m' '1;35m' \
-            '  36m' '1;36m' '  37m' '1;37m';
-    do FG=${FGs// /}
-    echo -en " $FGs \033[$FG  $T  "
-    for BG in 40m 41m 42m 43m 44m 45m 46m 47m;
-        do echo -en "$EINS \033[$FG\033[$BG  $T  \033[0m";
-    done
-    echo;
-    done
-    echo
 }
