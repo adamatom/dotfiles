@@ -6,3 +6,4 @@ tags
 .syntastic_*
 .clang_complete
 .venv
+.mypy_cache
