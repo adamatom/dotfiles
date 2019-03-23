@@ -15,8 +15,8 @@ ZSH_THEME_GIT_PROMPT_ADDED="%B%F{green}✚ %f%b"
 ZSH_THEME_GIT_PROMPT_MODIFIED="%F{yellow}✹ %f"
 ZSH_THEME_GIT_PROMPT_DELETED="%B%F{red}✖ %f%b"
 ZSH_THEME_GIT_PROMPT_UNMERGED="%B%F{blue}§ %f%b"
-ZSH_THEME_GIT_PROMPT_AHEAD="%B%F{cyan}⇡NUM %f%b"
-ZSH_THEME_GIT_PROMPT_BEHIND="%B%F{cyan}⇣NUM %f%b"
+ZSH_THEME_GIT_PROMPT_AHEAD="%B%F{cyan}⇣NUM %f%b"
+ZSH_THEME_GIT_PROMPT_BEHIND="%B%F{cyan}⇡NUM %f%b"
 
 # Get the status of the working tree
 function git_prompt_string() {
