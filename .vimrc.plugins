@@ -39,7 +39,7 @@ function! IsQFLLFocused()
 endfunction
 
 function! LightlineFugitive()
-    if &ft !~? 'vimfiler' && exists('*fugitive#head')
+    if &filetype !~? 'vimfiler' && exists('*fugitive#head')
         return fugitive#head()
     endif
     return ''
@@ -67,7 +67,7 @@ function! LightlineFilename()
 
     let l:short_filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
     let l:med_filename = expand('%:t') !=# '' ? fnamemodify(expand('%:p'), ':~:.') : '[No Name]'
-    let l:full_filename = expand('%:t') !=# '' ? fnamemodify(expand('%:p'), ':~') : '[No Name]'
+    let l:full_filename = expand('%:t') !=# '' ? fnamemodify(expand('%:p'), ':~:.') : '[No Name]'
 
     let l:max_len = 120
     let l:full_len = len(l:full_filename)
