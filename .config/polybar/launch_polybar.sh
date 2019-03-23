@@ -2,7 +2,6 @@
 
 export GREEN="#a5c261"
 export ORANGE="#cc7833"
-export BLUE="#6d9cbe"
 gray1_1="#353A3F"
 gray1_2="#404b50"
 gray1_3="#455255"
@@ -10,15 +9,16 @@ gray1_3="#455255"
 gray2_1="#353A3F"
 gray2_2="#404b50"
 
-export FG=#e6e1dc
-export BG=#2b2b2b
+export FG=${1:-#e6e1dc}
+export BG=${2:-#2b2b2b}
+export ACTIVE=${3:-#6d9cbe}
 
 i3_bg=#363748
 i3_focused_fg=${FG}
-i3_focused_bg=${BLUE}
+i3_focused_bg=${ACTIVE}
 i3_visible_fg=${i3_bg}
-i3_visible_bg=${BLUE}
-i3_unfocused_fg=${BLUE}
+i3_visible_bg=${ACTIVE}
+i3_unfocused_fg=${ACTIVE}
 i3_urgent_fg=${FG}
 i3_urgent_bg=#ff000f
 
