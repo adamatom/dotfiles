@@ -156,6 +156,18 @@ nnoremap gq gqgq
 " Insert date on f12
 nnoremap <F12> "=strftime("%c")<CR>P
 
+" Spell check the last error.
+" <ctrl-g>u     create undo marker (before fix) so we can undo/redo this
+"               change. Otherwise vim treats the spelling correction as the
+"               same change as our edit.
+" esc           enter normal mode
+" [s            jump back to previous spelling mistake
+" 1z=           take the first correction
+" `]            jump back
+" a             continue editing
+" <ctrl-g>u     create another undo marker
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+
 " ------------------------------------------------------------------------------
 " Keymaps that alter default behavior.
 " ------------------------------------------------------------------------------
