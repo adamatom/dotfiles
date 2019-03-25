@@ -116,12 +116,12 @@ if filereadable(expand($HOME.'/.vimrc.plugins'))
     let g:gruvbox_contrast_dark='hard'
     let g:lightline['colorscheme'] = 'tender'
 
-    " colorscheme tender
+    colorscheme tender
     " colorscheme PaperColor
     " colorscheme snazzy
     " colorscheme dracula
     " colorscheme space_vim_theme
-    colorscheme termschool
+    " colorscheme termschool
     " colorscheme OceanicNext
     " colorscheme materialbox
     " colorscheme carbonized-dark
