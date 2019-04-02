@@ -5,13 +5,14 @@ from qutebrowser.config.config import ConfigContainer  # noqa: F401
 config = config  # type: ConfigAPI # noqa: F821 pylint: disable=E0602,C0103
 c = c  # type: ConfigContainer # noqa: F821 pylint: disable=E0602,C0103
 
+c.content.webgl = False
 
 # Uncomment this to still load settings configured via autoconfig.yml
 # config.load_autoconfig()
 
 # Load a restored tab as soon as it takes focus.
 # Type: Bool
-c.session.lazy_restore = True
+c.session.lazy_restore = False
 
 # Always restore open sites when qutebrowser is reopened.
 # Type: Bool
@@ -46,54 +47,6 @@ c.hints.chars = 'fasdghjkl'
 # Type: Bool
 c.scrolling.smooth = True
 
-# Languages to use for spell checking. You can check for available
-# languages and install dictionaries using scripts/dictcli.py. Run the
-# script with -h/--help for instructions.
-# Type: List of String
-# Valid values:
-#   - af-ZA: Afrikaans (South Africa)
-#   - bg-BG: Bulgarian (Bulgaria)
-#   - ca-ES: Catalan (Spain)
-#   - cs-CZ: Czech (Czech Republic)
-#   - da-DK: Danish (Denmark)
-#   - de-DE: German (Germany)
-#   - el-GR: Greek (Greece)
-#   - en-AU: English (Australia)
-#   - en-CA: English (Canada)
-#   - en-GB: English (United Kingdom)
-#   - en-US: English (United States)
-#   - es-ES: Spanish (Spain)
-#   - et-EE: Estonian (Estonia)
-#   - fa-IR: Farsi (Iran)
-#   - fo-FO: Faroese (Faroe Islands)
-#   - fr-FR: French (France)
-#   - he-IL: Hebrew (Israel)
-#   - hi-IN: Hindi (India)
-#   - hr-HR: Croatian (Croatia)
-#   - hu-HU: Hungarian (Hungary)
-#   - id-ID: Indonesian (Indonesia)
-#   - it-IT: Italian (Italy)
-#   - ko: Korean
-#   - lt-LT: Lithuanian (Lithuania)
-#   - lv-LV: Latvian (Latvia)
-#   - nb-NO: Norwegian (Norway)
-#   - nl-NL: Dutch (Netherlands)
-#   - pl-PL: Polish (Poland)
-#   - pt-BR: Portuguese (Brazil)
-#   - pt-PT: Portuguese (Portugal)
-#   - ro-RO: Romanian (Romania)
-#   - ru-RU: Russian (Russia)
-#   - sh: Serbo-Croatian
-#   - sk-SK: Slovak (Slovakia)
-#   - sl-SI: Slovenian (Slovenia)
-#   - sq: Albanian
-#   - sr: Serbian
-#   - sv-SE: Swedish (Sweden)
-#   - ta-IN: Tamil (India)
-#   - tg-TG: Tajik (Tajikistan)
-#   - tr-TR: Turkish (Turkey)
-#   - uk-UA: Ukrainian (Ukraine)
-#   - vi-VN: Vietnamese (Viet Nam)
 c.spellcheck.languages = ['en-US']
 
 # Switch between tabs using the mouse wheel.
@@ -108,12 +61,54 @@ c.tabs.mousewheel_switching = False
 #   - multiple: Hide the tab bar if only one tab is open.
 #   - switching: Show the tab bar when switching tabs.
 c.tabs.show = 'always'
-
 c.tabs.position = 'left'
 c.tabs.width = '10%'
 
 # Open a new window for every tab.
 # Type: Bool
 c.tabs.tabs_are_windows = False
-config.bind(',p', 'spawn --userscript qute-pass')
-config.bind(',P', 'spawn --userscript qute-pass --password-only')
+
+# Support hidpi
+c.qt.highdpi = True
+
+# Fonts
+c.fonts.completion.entry = '12pt EssentialPragmataPro Nerd Font'
+c.fonts.completion.category = 'bold 12pt EssentialPragmataPro Nerd Font'
+c.fonts.debug_console = '12pt EssentialPragmataPro Nerd Font'
+c.fonts.downloads = '12pt EssentialPragmataPro Nerd Font'
+c.fonts.hints = '14pt EssentialPragmataPro Nerd Font'
+c.fonts.keyhint = '12pt EssentialPragmataPro Nerd Font'
+c.fonts.messages.error = '12pt EssentialPragmataPro Nerd Font'
+c.fonts.messages.info = '12pt EssentialPragmataPro Nerd Font'
+c.fonts.messages.warning = '12pt EssentialPragmataPro Nerd Font'
+c.fonts.prompts = '12pt EssentialPragmataPro Nerd Font'
+c.fonts.statusbar = '12pt EssentialPragmataPro Nerd Font'
+c.fonts.tabs = '12pt EssentialPragmataPro Nerd Font'
+
+
+# Colors
+config.source('dracula_theme.py')
+
+# Minimize fingerprinting
+c.content.canvas_reading = False
+
+# Autoplay videos on load?
+c.content.autoplay = False
+
+# Key binds
+config.bind('<Space>r', 'restart')
+config.bind('<Space>p', 'spawn --userscript qute-pass')
+config.bind('<Space>P', 'spawn --userscript qute-pass --password-only')
+
+
+def link_bind(chars: str, uri):
+    """Generate a binding to a uri."""
+    config.bind(f'<Space>g{chars}', f'open {uri}')
+    config.bind(f'<Space>G{chars}', f'open -t {uri}')
+
+
+link_bind('c', 'http://confluence.is.idexx.com')
+link_bind('j', 'http://jira.is.idexx.com')
+link_bind('ba', 'http://bamboo.is.idexx.com')
+link_bind('bi', 'http://bitbucket.is.idexx.com')
+link_bind('a', 'http://bitbucket.is.idexx.com')

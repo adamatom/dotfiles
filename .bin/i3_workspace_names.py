@@ -14,6 +14,7 @@ I3_CONFIG_PATHS = (os.path.expanduser("~/.i3"),
 DEFAULT_APP_ICON_CONFIG = {
     "chromium-browser": "chrome",
     "firefox": "firefox",
+    "qutebrowser": "pills",
     "alacritty": "terminal",
     "evolution": "envelope",
     "thunar": "folder-open",
