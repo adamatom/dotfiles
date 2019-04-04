@@ -95,10 +95,14 @@ c.content.canvas_reading = False
 # Autoplay videos on load?
 c.content.autoplay = False
 
+# Close window on last tab close
+c.tabs.last_close = 'close'
+
 # Key binds
 config.bind('<Space>r', 'restart')
 config.bind('<Space>p', 'spawn --userscript qute-pass')
 config.bind('<Space>P', 'spawn --userscript qute-pass --password-only')
+config.bind('<Ctrl-Shift-p>', 'open --private')
 
 
 def link_bind(chars: str, uri):
