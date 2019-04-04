@@ -253,6 +253,6 @@ type = custom/script
 exec = ~/.config/polybar/weather.sh
 interval = 300
 label-font = 4
-click-left = firefox https://www.wunderground.com/hourly/us/me/westbrook/43.68%2C-70.33?cm_ven=localwx_hour
+click-left = xdg-open https://www.wunderground.com/hourly/us/me/westbrook/43.68%2C-70.33?cm_ven=localwx_hour
 
 ; vim: set ft=dosini:
