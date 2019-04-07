@@ -6,6 +6,7 @@ c = c  # type: ConfigContainer # noqa: F821 pylint: disable=E0602,C0103
 
 palette = {
         'background': '#282a36',
+        'background-translucent': 'rgba(40, 32, 54, 0.8)',
         'background-alt': '#282a36',
         'background-attention': '#181920',
         'border': '#282a36',
@@ -88,7 +89,7 @@ c.colors.downloads.system.bg = 'none'
 
 # Background color for hints. Note that you can use a `rgba(...)` value
 # for transparency.
-c.colors.hints.bg = palette['background']
+c.colors.hints.bg = palette['background-translucent']
 
 # Font color for hints.
 c.colors.hints.fg = palette['purple']

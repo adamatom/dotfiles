@@ -5,7 +5,6 @@ from qutebrowser.config.config import ConfigContainer  # noqa: F401
 config = config  # type: ConfigAPI # noqa: F821 pylint: disable=E0602,C0103
 c = c  # type: ConfigContainer # noqa: F821 pylint: disable=E0602,C0103
 
-c.content.webgl = False
 
 # Uncomment this to still load settings configured via autoconfig.yml
 # config.load_autoconfig()
@@ -47,6 +46,10 @@ c.hints.chars = 'fasdghjkl'
 # Type: Bool
 c.scrolling.smooth = True
 
+c.tabs.title.format = "{audio}{private}{index}: {perc} {title}"
+
+c.tabs.title.format_pinned = "{audio}{private}{index}: {perc} {title}"
+
 c.spellcheck.languages = ['en-US']
 
 # Switch between tabs using the mouse wheel.
@@ -64,6 +67,10 @@ c.tabs.show = 'always'
 c.tabs.position = 'left'
 c.tabs.width = '10%'
 
+# Open tabs launched from a current tab at the end of the list.
+# Default = 'next'
+c.tabs.new_position.related = 'last'
+
 # Open a new window for every tab.
 # Type: Bool
 c.tabs.tabs_are_windows = False
@@ -76,7 +83,7 @@ c.fonts.completion.entry = '12pt EssentialPragmataPro Nerd Font'
 c.fonts.completion.category = 'bold 12pt EssentialPragmataPro Nerd Font'
 c.fonts.debug_console = '12pt EssentialPragmataPro Nerd Font'
 c.fonts.downloads = '12pt EssentialPragmataPro Nerd Font'
-c.fonts.hints = '14pt EssentialPragmataPro Nerd Font'
+c.fonts.hints = '8pt EssentialPragmataPro Nerd Font'
 c.fonts.keyhint = '12pt EssentialPragmataPro Nerd Font'
 c.fonts.messages.error = '12pt EssentialPragmataPro Nerd Font'
 c.fonts.messages.info = '12pt EssentialPragmataPro Nerd Font'
@@ -90,7 +97,10 @@ c.fonts.tabs = '12pt EssentialPragmataPro Nerd Font'
 config.source('dracula_theme.py')
 
 # Minimize fingerprinting
-c.content.canvas_reading = False
+# unfortunately, artifactory needs canvas reading and we cant whitelist just
+# one site.
+# c.content.canvas_reading = False
+c.content.webgl = False
 
 # Autoplay videos on load?
 c.content.autoplay = False
@@ -104,11 +114,12 @@ config.bind('<Space>p', 'spawn --userscript qute-pass')
 config.bind('<Space>P', 'spawn --userscript qute-pass --password-only')
 config.bind('<Ctrl-Shift-p>', 'open --private')
 
+c.aliases['tabnew'] = 'open -t'
 
 def link_bind(chars: str, uri):
     """Generate a binding to a uri."""
-    config.bind(f'<Space>g{chars}', f'open {uri}')
-    config.bind(f'<Space>G{chars}', f'open -t {uri}')
+    config.bind(f'<Space>G{chars}', f'open {uri}')
+    config.bind(f'<Space>g{chars}', f'open -t {uri}')
 
 
 link_bind('c', 'http://confluence.is.idexx.com')
