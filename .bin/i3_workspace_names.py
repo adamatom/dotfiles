@@ -17,6 +17,7 @@ DEFAULT_APP_ICON_CONFIG = {
     "qutebrowser": "pills",
     "alacritty": "terminal",
     "evolution": "envelope",
+    "thunderbird": "envelope",
     "thunar": "folder-open",
     "spotify": "music",
     "vim": "vim",
