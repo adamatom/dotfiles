@@ -2,7 +2,6 @@
 """Check for arch updates. Click to launch updater."""
 from subprocess import check_output
 
-
 UPDATE_COUNT = int(check_output('yay -Qu | wc -l', shell=True).decode("utf-8"))
 
 
