@@ -1,7 +1,8 @@
 """qutebrowser config."""
+from qutebrowser.config.config import ConfigContainer  # noqa: F401
 # pylint: disable=C0111
 from qutebrowser.config.configfiles import ConfigAPI  # noqa: F401
-from qutebrowser.config.config import ConfigContainer  # noqa: F401
+
 config = config  # type: ConfigAPI # noqa: F821 pylint: disable=E0602,C0103
 c = c  # type: ConfigContainer # noqa: F821 pylint: disable=E0602,C0103
 
@@ -66,10 +67,6 @@ c.tabs.mousewheel_switching = False
 c.tabs.show = 'always'
 c.tabs.position = 'left'
 c.tabs.width = '10%'
-
-# Open tabs launched from a current tab at the end of the list.
-# Default = 'next'
-c.tabs.new_position.related = 'last'
 
 # Open a new window for every tab.
 # Type: Bool
