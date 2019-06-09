@@ -192,13 +192,6 @@ bindsym $mod+Shift+F8 move container to workspace number 18
 bindsym $mod+Shift+F9 move container to workspace number 19
 bindsym $mod+Shift+F10 move container to workspace number 20
 
-
-# Resizing by 10
-bindsym $mod+Ctrl+Shift+h resize shrink width 10 px or 10 ppt
-bindsym $mod+Ctrl+Shift+k resize grow height 10 px or 10 ppt
-bindsym $mod+Ctrl+Shift+j resize shrink height 10 px or 10 ppt
-bindsym $mod+Ctrl+Shift+l resize grow width 10 px or 10 ppt
-
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -216,6 +209,20 @@ mode "$exit" {
         bindsym Escape mode "default"
 }
 bindsym $mod+Shift+e mode "$exit"
+
+mode "resize" {
+    bindsym h           resize shrink width 10 px or 10 ppt
+    bindsym j           resize grow height 10 px or 10 ppt
+    bindsym k           resize shrink height 10 px or 10 ppt
+    bindsym l           resize grow width 10 px or 10 ppt
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+# Enter resize mode
+bindsym $mod+Shift+w mode "resize"
 
 set $mode_gaps Gaps: (o) outer, (i) inner
 set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
