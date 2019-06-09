@@ -105,6 +105,7 @@ Plug 'kshenoy/vim-signature'
 
 "Alternative to netrw, which is slow and buggy
 Plug 'jeetsukumaran/vim-filebeagle'
+let g:filebeagle_show_hidden=1
 
 "Git wrapper for doing git things on files in vim
 Plug 'tpope/vim-fugitive'
