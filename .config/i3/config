@@ -56,7 +56,7 @@ hide_edge_borders   none
 # configure an outside gap of 20 pixels with an inner gap of 10
 smart_gaps on
 smart_borders on
-gaps inner 15
+gaps inner 0
 gaps outer 0
 
 for_window [window_type="dialog"] floating enable

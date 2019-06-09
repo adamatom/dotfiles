@@ -13,15 +13,13 @@
 xinput -set-prop "AlpsPS/2 ALPS DualPoint Stick" "Device Enabled" 0
 xset m 3 10
 
-xrandr > /tmp/xrandr.log
-
 monitors=$(xrandr | grep " connected" | cut -d " " -f 1 | sort -h | tr '\n' ' ' | sed 's/ $/\n/')
 
 setup_for_fourk() {
     gsettings set org.gnome.desktop.interface scaling-factor 2
     gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <2>}]"
     export GDK_SCALE=2
-    xrandr --dpi 158 --output DP-0 --mode 3840x2160 --pos 0x0 --rotate normal --output DP-2 --primary --mode 3840x2160 --pos 3840x0 --rotate normal --output eDP-1-1 --off
+    xrandr --dpi 158 --output DP-0 --mode 3840x2160 --pos 0x0 --rotate normal --output DP-2 --off --output DP-1 --off --output DP-3 --primary --mode 3840x2160 --pos 3840x0 --rotate normal
     xset m 3 10
     xrdb -merge ~/.Xresources.4K
 }
@@ -30,7 +28,9 @@ setup_for_lvds() {
     gsettings set org.gnome.desktop.interface scaling-factor 1
     gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <1>}]"
     export GDK_SCALE
-    xrandr --dpi 96 --output eDP-1-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DP-2 --off --output DP-0 -off
+    # DPI calulcated from: https://www.sven.de/dpi/
+    # 1920x1080x17.25 inch = 127.7 ppi
+    xrandr --dpi 128
     xrdb -merge ~/.Xresources.lvds
 }
 
@@ -39,7 +39,7 @@ case "$2" in
     i34k) setup_for_fourk;;
     lvds) setup_for_lvds;;
     *) # Auto-detect
-        if [ "$monitors" = "DP-0 DP-2 eDP-1-1" ]; then
+        if [ "$monitors" = "DP-0 DP-2 DP-3" ]; then
             setup_for_fourk
         else
             setup_for_lvds
