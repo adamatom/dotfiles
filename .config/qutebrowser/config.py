@@ -76,18 +76,18 @@ c.tabs.tabs_are_windows = False
 c.qt.highdpi = True
 
 # Fonts
-c.fonts.completion.entry = '12pt EssentialPragmataPro Nerd Font'
-c.fonts.completion.category = 'bold 12pt EssentialPragmataPro Nerd Font'
-c.fonts.debug_console = '12pt EssentialPragmataPro Nerd Font'
-c.fonts.downloads = '12pt EssentialPragmataPro Nerd Font'
+c.fonts.completion.entry = '10pt EssentialPragmataPro Nerd Font'
+c.fonts.completion.category = 'bold 10pt EssentialPragmataPro Nerd Font'
+c.fonts.debug_console = '10pt EssentialPragmataPro Nerd Font'
+c.fonts.downloads = '10pt EssentialPragmataPro Nerd Font'
 c.fonts.hints = '8pt EssentialPragmataPro Nerd Font'
-c.fonts.keyhint = '12pt EssentialPragmataPro Nerd Font'
-c.fonts.messages.error = '12pt EssentialPragmataPro Nerd Font'
-c.fonts.messages.info = '12pt EssentialPragmataPro Nerd Font'
-c.fonts.messages.warning = '12pt EssentialPragmataPro Nerd Font'
-c.fonts.prompts = '12pt EssentialPragmataPro Nerd Font'
-c.fonts.statusbar = '12pt EssentialPragmataPro Nerd Font'
-c.fonts.tabs = '12pt EssentialPragmataPro Nerd Font'
+c.fonts.keyhint = '10pt EssentialPragmataPro Nerd Font'
+c.fonts.messages.error = '10pt EssentialPragmataPro Nerd Font'
+c.fonts.messages.info = '10pt EssentialPragmataPro Nerd Font'
+c.fonts.messages.warning = '10pt EssentialPragmataPro Nerd Font'
+c.fonts.prompts = '10pt EssentialPragmataPro Nerd Font'
+c.fonts.statusbar = '10pt EssentialPragmataPro Nerd Font'
+c.fonts.tabs = '10pt EssentialPragmataPro Nerd Font'
 
 
 # Colors
