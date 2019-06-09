@@ -111,12 +111,16 @@ if filereadable(expand($HOME.'/.vimrc.plugins'))
         set termguicolors
     endif
     set background=dark
+    let g:one_allow_italics = 1
     let g:onedark_terminal_italics = 1
     let g:gruvbox_italic = 1
     let g:gruvbox_contrast_dark='hard'
     let g:lightline['colorscheme'] = 'tender'
+    let ayucolor='mirage'
+    " let ayucolor="dark"
 
-    colorscheme tender
+    " colorscheme ayu
+    " colorscheme tender
     " colorscheme PaperColor
     " colorscheme snazzy
     " colorscheme dracula
@@ -125,5 +129,5 @@ if filereadable(expand($HOME.'/.vimrc.plugins'))
     " colorscheme OceanicNext
     " colorscheme materialbox
     " colorscheme carbonized-dark
-    " colorscheme one-dark
+    colorscheme one
 endif

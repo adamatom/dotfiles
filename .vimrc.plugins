@@ -360,6 +360,7 @@ Plug 'mkarmona/materialbox'
 Plug 'morhetz/gruvbox'
 Plug 'nightsense/carbonized'
 Plug 'rakr/vim-one'
+Plug 'ayu-theme/ayu-vim'
 
 
 call plug#end()
