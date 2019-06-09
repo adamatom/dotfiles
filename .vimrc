@@ -95,6 +95,7 @@ set mouse=a                     " mouse can be used to move and select windows, 
 set ttymouse=sgr                " use sgr mode for mouse for xterm controls + more columns
 set ttimeoutlen=10              " decrease timeout for terminal keycodes for faster insert exits
 set ttyfast                     " it is fast, this aint no modem
+set clipboard=unnamedplus       " use the clipboard as the unnamed register
 
 if filereadable(expand($HOME.'/.vimrc.keymaps'))
     source $HOME/.vimrc.keymaps
