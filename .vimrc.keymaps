@@ -149,10 +149,6 @@ vnoremap <Leader>P "+P
 " run make silently and open the quickfix window in case of errors
 nnoremap <leader>m :silent make\|redraw!\|cc<CR>
 
-" prefer gq to format current line over gqgq. The default is gq{motion}, which
-" I dont care to keep
-nnoremap gq gqgq
-
 " Insert date on f12
 nnoremap <F12> "=strftime("%c")<CR>P
 

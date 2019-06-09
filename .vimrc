@@ -13,7 +13,7 @@ if has('gui_running')
     set guioptions-=b
     set guioptions-=h
     set guioptions-=e  "I dont like the gui tabs, use ascii
-    set guifont=EssentialPragmataPro\ Nerd\ Font\ Mono\ 14
+    set guifont=EssentialPragmataPro\ Nerd\ Font\ Mono\ 10
 endif
 
 function! s:CreateDir(name)
@@ -67,7 +67,6 @@ set sidescroll=5                " always show extra context chracters horizontal
 set cursorline                  " highlight the line the cursor is on
 set cursorcolumn                " highlight the column the cursor is on
 set colorcolumn=80            " show a column indicating max line length
-
 
 " Tame auto formating, see :h fo-table
 set formatoptions=
