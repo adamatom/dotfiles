@@ -104,10 +104,10 @@ bindsym $mod+Shift+Escape exec lock.sh
 bindsym $mod+Shift+q kill
 
 # change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+bindsym --release $mod+h focus left
+bindsym --release $mod+j focus down
+bindsym --release $mod+k focus up
+bindsym --release $mod+l focus right
 
 bindsym $mod+Control+h move workspace to output left
 bindsym $mod+Control+j move workspace to output down
