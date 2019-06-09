@@ -122,14 +122,45 @@ Plug 'rhysd/committia.vim'
 " linting
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "Async linting engine
+let g:ale_completion_enabled = 1  " Rely on keypress to invoke completion
+let g:ale_lint_on_text_changed = 0  " Run linting only when saving the file
 Plug 'w0rp/ale'
-" enable flake8 checker because pyls refuses to support it. Flake8 has useful
-" plugins that check more than the binaries pyls will use.
-let g:ale_linters = {
-            \ 'c': [],
-            \ 'cpp': [],
-            \ 'python': ['flake8']
-\ }
+
+inoremap <silent><expr> <Tab>
+    \ pumvisible() ? "\<C-n>" : "\<TAB>"
+
+inoremap <silent><expr> <S-Tab> 
+    \ pumvisible() ? "\<C-p>" : "\<S-TAB>"
+
+set completeopt=menu,menuone,preview,noselect,noinsert
+
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+
+if !exists('g:ale_fixers')
+    let g:ale_fixers = {
+                \ 'python': ['isort']
+                \ }
+    let g:ale_fix_on_save=1
+endif
+
+if !exists('g:ale_linters')
+    let g:ale_linters = {
+                \ 'c': [],
+                \ 'cpp': [],
+                \ 'python': ['pyls', 'flake8', 'mypy', 'pycodestyle', 'pydocstyle' ]
+                \ }
+endif
+
+if !exists('g:ale_python_pyls_config')
+    let g:ale_python_pyls_config = {
+                \     'pyls': {
+                \         'configurationSources': ['flake8', 'pycodestyle'],
+                \         'plugins': {'pydocstyle': {'enabled': v:true}}
+                \     }
+                \ }
+endif
 
 "Adhere to linux coding style guidelines
 Plug 'vivien/vim-linux-coding-style'
@@ -229,120 +260,6 @@ let g:echodoc#enable_at_startup=1
 
 Plug 'ajh17/VimCompletesMe'
 let g:vcm_tab_complete = 'user'
-
-set completeopt=menuone,longest,preview
-
-"Enable language server support
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-
-" enable signs
-let g:lsp_signs_enabled = 1
-
-" enable echo under cursor when in normal mode
-let g:lsp_diagnostics_echo_cursor = 1
-
-" Logging is helpful
-let g:lsp_log_verbose = 0
-let g:lsp_log_file = expand('/tmp/vim-lsp.log')
-
-" for asyncomplete.vim log
-let g:asyncomplete_log_file = expand('/tmp/asyncomplete.log')
-let g:asyncompletelsp_log_file = expand('/tmp/asyncomplete.log')
-
-
-" Helper macro for declaring language servers.
-"   [string] exe: the executable name to check for
-"   [string] filetypes: filetypes to associate to this language server
-"   [string] conf_map: the configuration map to pass to lsp#register_server
-function! LanguageServer(exe, filetypes, conf_map)
-    execute 'augroup lsp_' . a:exe
-    execute   'autocmd!'
-    execute   'autocmd User lsp_setup call lsp#register_server(' . a:conf_map . ')'
-    execute   'autocmd FileType ' . a:filetypes . ' setlocal completefunc=lsp#complete'
-    execute   'autocmd FileType ' . a:filetypes . ' let b:vcm_tab_complete = "user"'
-    execute   'autocmd Filetype ' . a:filetypes . ' nnoremap <buffer><silent> <c-]> :LspDefinition<CR>'
-    execute   'autocmd Filetype ' . a:filetypes . ' nnoremap <buffer><silent> K :LspHover<CR>'
-    execute   'autocmd BufWritePost ' . a:filetypes . ' :LspDocumentDiagnostics<CR>'
-    execute 'augroup end'
-endfunction
-
-" yay -S python-jedi python-language-server python-rope python-pyflakes python-mccabe
-" yay -S python-pycodestyle python-pydocstyle yapf
-" Also recommend disabling ALE for python:
-" let g:ale_linters = {'c': [], 'cpp': [], 'python': []}
-" \ 'cmd': {server_info->['pyls', '-vv', '--log-file', '/tmp/pyls.log']},
-call LanguageServer('pyls', 'python',
-            \ "{
-            \   'name': 'pyls',
-            \   'cmd': {server_info->['python', '-m', 'pyls', '-vv', '--log-file', '/tmp/pyls.log']},
-            \   'root_uri': { server_info->lsp#utils#path_to_uri(
-            \     lsp#utils#find_nearest_parent_directory(
-            \       lsp#utils#get_buffer_path(), '.git/..'))},
-            \   'whitelist': ['python'],
-            \   'workspace_config': {
-            \     'pyls': {
-            \         'configurationSources': ['flake8', 'pycodestyle'],
-            \         'plugins': {'pydocstyle': {'enabled': v:true}}
-            \     }
-            \   }
-            \ }")
-
-" yay -S clang-tools-extra
-call LanguageServer('clangd', 'c,cpp,objc,objcpp',
-            \ "{
-            \ 'name': 'clangd',
-            \ 'cmd': {server_info->['clangd']},
-            \ 'root_uri': {server_info->lsp#utils#path_to_uri(
-            \   lsp#utils#find_nearest_parent_file_directory(
-            \     lsp#utils#get_buffer_path(), 'compile_commands.json'))},
-            \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
-            \ }")
-
-" Unfortunately, not an open source project, download from:
-" https://www.vhdltool.com/download
-call LanguageServer('vhdl-tool', 'vhdl',
-            \ "{
-            \ 'name': 'vhdl-tool',
-            \ 'cmd': {server_info->['vhdl-tool', 'lsp']},
-            \ 'whitelist': ['vhdl'],
-            \ 'root_uri':{server_info->lsp#utils#path_to_uri(
-            \   lsp#utils#find_nearest_parent_file_directory(
-            \     lsp#utils#get_buffer_path(), 'vhdltool-config.yaml'))},
-            \ }")
-
-" Need to install rustup first:
-"   yay -S rustup
-" Then install nightly toolchain, then components
-"   rustup install nightly
-"   rustup component add rls-preview rust-analysis rust-src
-"   rustup default nightly
-"   cargo install racer
-call LanguageServer('rls', 'rust',
-            \ "{
-            \ 'name': 'rls',
-            \ 'cmd': {server_info->['rustup', 'run', 'nightly', 'rls']},
-            \ 'whitelist': ['rust'],
-            \ }")
-
-" yay -S go-langserver-git
-call LanguageServer('go-langserver', 'go',
-            \ "{
-            \ 'name': 'go-langserver',
-            \ 'cmd': {server_info->['go-langserver', '-mode', 'stdio']},
-            \ 'whitelist': ['go'],
-            \ }")
-
-" yay -S typescript-language-server-bin
-call LanguageServer('typescript-language-server', 'javascript,typescript',
-            \ "{
-            \ 'name': 'typescript-language-server',
-            \ 'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-            \ 'root_uri': { server_info->lsp#utils#path_to_uri(
-            \   lsp#utils#find_nearest_parent_directory(
-            \     lsp#utils#get_buffer_path(), '.git/..'))},
-            \ 'whitelist': ['typescript', 'javascript', 'javascript.jsx']
-            \ }")
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " color schemes

@@ -58,8 +58,34 @@ function! SetupEnvironment()
             setlocal textwidth=100
             setlocal colorcolumn=101
         endif
+        let g:python_auto_pipenv = 0
+        let g:ale_python_flake8_auto_pipenv = 0
+        let g:ale_python_mypy_auto_pipenv = 0
+        let g:ale_python_pycodestyle_auto_pipenv = 0
+        let g:ale_python_pydocstyle_auto_pipenv = 0
+        let g:ale_linters = {
+                    \ 'c': [],
+                    \ 'cpp': [],
+                    \ 'python': ['flake8', 'pycodestyle', 'pydocstyle' ]
+                    \ }
     else
         let g:linuxsty_patterns = []
+        let g:ale_python_auto_pipenv = 1
+        let g:ale_python_flake8_auto_pipenv = 1
+        let g:ale_python_mypy_auto_pipenv = 1
+        let g:ale_python_pycodestyle_auto_pipenv = 1
+        let g:ale_python_pydocstyle_auto_pipenv = 1
+        let g:ale_linters = {
+                    \ 'c': [],
+                    \ 'cpp': [],
+                    \ 'python': ['mypy', 'pyls', 'flake8', 'pycodestyle', 'pydocstyle' ]
+                    \ }
+        let g:ale_python_pyls_config = {
+                    \     'pyls': {
+                    \         'configurationSources': ['flake8', 'pycodestyle'],
+                    \         'plugins': {'pydocstyle': {'enabled': v:true}}
+                    \     }
+                    \ }
     endif
 endfunction
 
