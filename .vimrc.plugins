@@ -224,6 +224,17 @@ augroup mycppfiles
     au BufEnter *.cpp let b:fswitchlocs = 'reg:/src/include/,reg:/cpp/headers/,ifrel:|/src/|../include|,./'
 augroup END
 
+"Force better vim usage by making hjkl less useful
+Plug 'takac/vim-hardtime'
+let g:hardtime_default_on = 1
+let g:hardtime_ignore_buffer_patterns = ['\[BufExplorer\]']
+let g:hardtime_ignore_quickfix = 1
+let g:hardtime_maxcount = 2
+let g:list_of_normal_keys = ['h', 'j', 'k', 'l', '<UP>', '<DOWN>', '<LEFT>', '<RIGHT>']
+let g:list_of_visual_keys = ['<UP>', '<DOWN>', '<LEFT>', '<RIGHT>']
+let g:list_of_insert_keys = ['<UP>', '<DOWN>', '<LEFT>', '<RIGHT>']
+let g:list_of_disabled_keys = []
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Extra language support, such as syntax highlighting, repl interaction
 """""""""""""""""""""""""""""""""""""""""""""""""""""
