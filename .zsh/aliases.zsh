@@ -10,7 +10,7 @@ export ENHANCD_DOT_ARG="../.."
 
 alias ls="ls -lA --color=always --group-directories-first"
 alias gvim="gvim $* 2>/dev/null"
-alias pyclean="find . | grep -E \"(\.mypy_cache|\.pytest_cache|__pycache__|\.pyc|\.pyo$)\" | xargs rm -rf"
+alias pyclean="find . | grep -E \"(\.mypy_cache|\.pytest_cache|__pycache__|\.pyc|\.pyo$)\" | sudo xargs rm -rf"
 alias spotify="spotify --force-device-scale-factor=2.0"
 alias vi="vim"
 alias pvim="PYTHONPATH=$(pwd) vim"
@@ -30,7 +30,7 @@ alias vl="vault login -method=ldap username=alabbe"
 alias vv="vault write -field=signed_key ssh-iscm-signer/sign/ca-sign public_key=@$HOME/.ssh/id_rsa.pub > ~/.ssh/id_rsa-cert.pub"
 alias gitfmr="git fetch -Ppat && git checkout master && git rebase"
 alias pipenv="nocorrect pipenv"
-alias tmux="TERM=screen-256color-bce tmux"
+alias tmux="env TERM=tmux-256color tmux"
 
 # -u 1000:1000 docker.is.idexx.com/buildroot-minimal:1.2.0 \
 dockbuild() {
