@@ -207,9 +207,14 @@ Plug 'vim-scripts/ReplaceWithRegister'
 "repeated v's expand cut the visually selected region
 Plug 'terryma/vim-expand-region'
 
-"nice motion plugin, relieves 'w' spam, lighter weight than easymotion
+"nice motion plugin, relieves 'w' spam
 Plug 'justinmk/vim-sneak'
 let g:sneak#label = 1
+let g:sneak#s_next = 1
+map f <Plug>Sneak_f
+map F <Plug>Sneak_F
+map t <Plug>Sneak_t
+map T <Plug>Sneak_T
 
 "better file switching
 Plug 'derekwyatt/vim-fswitch'
