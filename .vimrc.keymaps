@@ -237,5 +237,8 @@ cabbrev Q q
 " Similar to above, I generally mean :qa
 cabbrev Qa qa
 
+" Tabnew -> tabnew
+cabbrev Tabnew tabnew
+
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cabbrev w!! w !sudo tee > /dev/null % <bar> edit!
