@@ -199,7 +199,16 @@ let g:wikidown_wikis = {
   \     'log_subdir': 'log',
   \     'ignore_html': '',
   \     'author': 'Adam Labbe',
-  \     'css': ''} }
+  \     'css': ''},
+  \ 'gen6': {
+  \     'path': '~/projects/idexx/acadia/gen6-presentation/',
+  \     'path_html': '~/projects/idexx/acadia/gen6-presentation/html',
+  \     'index_file': 'index.md',
+  \     'log_subdir': 'log',
+  \     'ignore_html': '',
+  \     'author': 'Adam Labbe',
+  \     'css': ''}
+  \ }
 
 "replace {motion} with a register. Faster than typing '"_c[motion]^r"'
 Plug 'vim-scripts/ReplaceWithRegister'

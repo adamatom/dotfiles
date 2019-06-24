@@ -217,6 +217,7 @@ vnoremap < <gv
 nmap <silent><unique> <leader>w1 :WikiDown 'notes'<CR>
 nmap <silent><unique> <leader>w2 :WikiDown 'adamatom'<CR>
 nmap <silent><unique> <leader>w3 :WikiDown 'home'<CR>
+nmap <silent><unique> <leader>w4 :WikiDown 'gen6'<CR>
 
 " ------------------------------------------------------------------------------
 " command mode replacements
