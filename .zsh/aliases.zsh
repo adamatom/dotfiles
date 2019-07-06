@@ -28,7 +28,6 @@ alias open="xdg-open"
 alias ssh-weechat="echo -e '\033]2;'weechat'\007'; ssh adam@adamatom.com -t screen -D -RR weechat weechat"
 alias vl="vault login -method=ldap username=alabbe"
 alias vv="vault write -field=signed_key ssh-iscm-signer/sign/ca-sign public_key=@$HOME/.ssh/id_rsa.pub > ~/.ssh/id_rsa-cert.pub"
-alias gitfmr="git fetch -Ppat && git checkout master && git rebase"
 alias pipenv="nocorrect pipenv"
 alias tmux="env TERM=tmux-256color tmux"
 
