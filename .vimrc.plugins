@@ -235,7 +235,7 @@ augroup END
 
 "Force better vim usage by making hjkl less useful
 Plug 'takac/vim-hardtime'
-let g:hardtime_default_on = 1
+let g:hardtime_default_on = 0
 let g:hardtime_ignore_buffer_patterns = ['\[BufExplorer\]']
 let g:hardtime_ignore_quickfix = 1
 let g:hardtime_maxcount = 2
