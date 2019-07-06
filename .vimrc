@@ -109,6 +109,8 @@ if filereadable(expand($HOME.'/.vimrc.plugins'))
     source $HOME/.vimrc.plugins
     if (has('termguicolors'))           " Use fg/bg colors from terminal (compatible terminals only)
         set termguicolors
+        set t_Co=256
+        set t_ut=""        "Dont rely on Background Color Erase (BCE) support from terminal emulator
     endif
     set background=dark
     let g:one_allow_italics = 1
