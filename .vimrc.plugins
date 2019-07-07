@@ -268,6 +268,14 @@ Plug 'chrisbra/vim-kconfig'
 "Syntax, indent, ftplugin for a bunch of languages
 Plug 'sheerun/vim-polyglot'
 
+"F#
+Plug 'vim-syntastic/syntastic', { 'for': 'fsharp' }
+
+Plug 'fsharp/vim-fsharp', {
+      \ 'for': 'fsharp',
+      \ 'do':  'make fsautocomplete',
+      \}
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " omni completers
 """""""""""""""""""""""""""""""""""""""""""""""""""""
