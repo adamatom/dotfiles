@@ -70,8 +70,6 @@ for_window [class="^.*"] border pixel $border_pixel
 ################################################################################
 #  Bindings
 ################################################################################
-bindsym control+shift+space exec --no-startup-id i3-dmenu-desktop --dmenu="rofi -dmenu -opacity 90"
-bindsym Control+Shift+Return exec --no-startup-id i3-dmenu-desktop --dmenu="rofi -dmenu -opacity 90"
 # volume control
 bindsym XF86AudioRaiseVolume exec amixer -q set Master 5%+ unmute && killall i3blocks -s 44 && aplay -q -N ~/.config/i3/button-16.wav
 bindsym XF86AudioLowerVolume exec amixer -q set Master 5%- unmute && killall i3blocks -s 44 && aplay -q -N ~/.config/i3/button-16.wav
@@ -85,15 +83,15 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioPlay exec playerctl play-pause
 
-
 # brightness control
 bindsym $mod+Up exec xbacklight -inc 10 -steps 1 -time 0 && killall i3blocks -s 45
 bindsym $mod+Down exec xbacklight -dec 10 -steps 1 -time 0 && killall i3blocks -s 45
 
-
-# start a terminal
-bindsym Control+Return exec --no-startup-id rofi -show run
-bindsym Control+space exec --no-startup-id rofi -show run
+# Rofi launchers
+bindsym $mod+shift+space exec --no-startup-id i3-dmenu-desktop --dmenu="rofi -dmenu -opacity 90"
+bindsym $mod+Shift+Return exec --no-startup-id i3-dmenu-desktop --dmenu="rofi -dmenu -opacity 90"
+bindsym $mod+Return exec --no-startup-id rofi -show run
+bindsym $mod+space exec --no-startup-id rofi -show run
 bindsym $mod+Tab exec --no-startup-id rofi -show window
 bindsym $mod+grave exec --no-startup-id rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
@@ -101,7 +99,7 @@ bindsym $mod+grave exec --no-startup-id rofi -modi "clipboard:greenclip print" -
 bindsym $mod+Shift+Escape exec lock.sh
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym --release $mod+q kill
 
 # change focus
 bindsym --release $mod+h focus left
@@ -109,6 +107,7 @@ bindsym --release $mod+j focus down
 bindsym --release $mod+k focus up
 bindsym --release $mod+l focus right
 
+# move workspaces between monitors
 bindsym $mod+Control+h move workspace to output left
 bindsym $mod+Control+j move workspace to output down
 bindsym $mod+Control+k move workspace to output up
