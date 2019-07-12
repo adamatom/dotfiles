@@ -1,6 +1,12 @@
 [user]
     email = adam-labbe@idexx.com
     name = Adam Labbe
+[sendemail]
+    from = Adam Labbe <adam-labbe@idexx.com>
+    smtpserver = localhost
+    smtpserverport = 1025
+    smtpuser = adam-labbe@idexx.com
+
 [push]
     default = simple
 [diff]
