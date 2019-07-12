@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Dynamically update i3wm workspace names based on running applications."""
 
+import argparse
 import json
 import os.path
 import re
-import argparse
+
 import i3ipc
+
 from i3_icons import icons
 
 I3_CONFIG_PATHS = (os.path.expanduser("~/.i3"),
@@ -16,6 +18,7 @@ DEFAULT_APP_ICON_CONFIG = {
     "firefox": "firefox",
     "qutebrowser": "pills",
     "alacritty": "terminal",
+    "kitty": "terminal",
     "evolution": "envelope",
     "thunderbird": "envelope",
     "thunar": "folder-open",
