@@ -79,12 +79,6 @@ function! LightlineFilename()
     return l:use_short ? l:short_filename : l:use_med ? l:med_filename : l:full_filename
 endfunction
 
-"spacemacs like window to show next key
-Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!', 'WhichKeyVisual'] }
-
-"adds a window that shows all of the functions in the current file
-Plug 'majutsushi/tagbar'
-
 "visual undo tree. nice for when you need to go back to a branch
 Plug 'sjl/gundo.vim'
 

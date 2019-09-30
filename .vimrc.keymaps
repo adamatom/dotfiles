@@ -96,8 +96,6 @@ command! CloseMyWindows call s:CloseWindows()
 
 " change leader to space, nicer to type. You lose some sort of 'move to next char' command.
 let g:mapleader = "\<Space>"
-nnoremap <silent> <Space> :WhichKey '<Space>'<CR>
-vnoremap <silent> <Space> :WhichKeyVisual '<Space>'<CR>
 
 nnoremap <silent> <Leader>a :FSHere<cr>
 
