@@ -27,6 +27,9 @@ augroup allfiles
     "Consdier .md files to be markdown and not modula2
     autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
+    "Consider .in files to be KConfig
+    autocmd BufNewFile,BufReadPost *.in set filetype=kconfig
+
     "Cleanup fugitive buffers automatically
     autocmd BufReadPost fugitive://* set bufhidden=delete
 
