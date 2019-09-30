@@ -34,10 +34,21 @@ setup_for_lvds() {
     xrdb -merge ~/.Xresources.lvds
 }
 
+setup_mirrored_lvds() {
+    gsettings set org.gnome.desktop.interface scaling-factor 1
+    gsettings set org.gnome.settings-daemon.plugins.xsettings overrides "[{'Gdk/WindowScalingFactor', <1>}]"
+    export GDK_SCALE
+    # DPI calulcated from: https://www.sven.de/dpi/
+    # 1920x1080x17.25 inch = 127.7 ppi
+    xrandr --dpi 128 --output DP-2 --mode 1920x1080 --pos 0x0 --rotate normal --primary --output DP-4 --same-as DP-2
+    xrdb -merge ~/.Xresources.lvds
+}
+
 case "$2" in
     # Allow user to force a config
     i34k) setup_for_fourk;;
     lvds) setup_for_lvds;;
+    mirrorlvds) setup_mirrored_lvds;;
     *) # Auto-detect
         if [ "$monitors" = "DP-0 DP-2 DP-3" ]; then
             setup_for_fourk
