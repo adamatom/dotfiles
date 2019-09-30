@@ -273,3 +273,18 @@ c.colors.tabs.selected.odd.bg = palette['background']
 # # Foreground color of selected odd tabs.
 # # Type: QtColor
 c.colors.tabs.selected.odd.fg = palette['foreground']
+
+c.colors.tabs.pinned.even.bg = c.colors.tabs.even.bg
+c.colors.tabs.pinned.even.fg = c.colors.tabs.even.fg
+
+c.colors.tabs.pinned.odd.bg = c.colors.tabs.odd.bg
+c.colors.tabs.pinned.odd.fg = c.colors.tabs.odd.fg
+
+c.colors.tabs.pinned.selected.even.bg = c.colors.tabs.selected.even.bg
+c.colors.tabs.pinned.selected.even.fg = c.colors.tabs.selected.even.fg
+
+c.colors.tabs.pinned.selected.odd.bg = c.colors.tabs.selected.odd.bg
+c.colors.tabs.pinned.selected.odd.fg = c.colors.tabs.selected.odd.fg
+
+
+
