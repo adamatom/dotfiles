@@ -47,9 +47,9 @@ c.hints.chars = 'fasdghjkl'
 # Type: Bool
 c.scrolling.smooth = True
 
-c.tabs.title.format = "{audio}{private}{index}: {perc} {title}"
+c.tabs.title.format = "{audio}{private}{index}: {perc} {current_title}"
 
-c.tabs.title.format_pinned = "{audio}{private}{index}: {perc} {title}"
+c.tabs.title.format_pinned = "{audio}{private}{index}: {perc} {current_title}"
 
 c.spellcheck.languages = ['en-US']
 
