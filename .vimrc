@@ -96,6 +96,9 @@ set ttymouse=sgr                " use sgr mode for mouse for xterm controls + mo
 set ttimeoutlen=10              " decrease timeout for terminal keycodes for faster insert exits
 set ttyfast                     " it is fast, this aint no modem
 set clipboard=unnamedplus       " use the clipboard as the unnamed register
+set cmdheight=2                 " better display of messages
+set updatetime=300              " default is 4000, be more aggressive with 300ms
+
 
 if filereadable(expand($HOME.'/.vimrc.keymaps'))
     source $HOME/.vimrc.keymaps
