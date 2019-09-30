@@ -105,6 +105,10 @@ c.content.autoplay = False
 # Close window on last tab close
 c.tabs.last_close = 'close'
 
+# Dont automatically exit insert mode, too easy to start running normal mode
+# commands unintentionally.
+c.input.insert_mode.auto_leave = False
+
 # Key binds
 config.bind('<Space>r', 'restart')
 config.bind('<Space>p', 'spawn --userscript qute-pass')
