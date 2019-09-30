@@ -106,7 +106,7 @@ nnoremap <silent> <leader>os :set spell! spell?<CR>
 nnoremap <silent> <expr><Leader>oh :HLSToggle<CR>
 
 " flip between light and dark background
-nnoremap <silent> <leader>ob :set background=<C-R>=&background == "dark" ? "light" : "dark"<CR><CR>
+nnoremap <silent> <leader>ob :set background=<C-R> =&background == "dark" ? "light" : "dark"<CR><CR>
 
 " toggle line numbers
 nnoremap <silent> <leader>on :set number! number?<CR>
@@ -128,7 +128,7 @@ nnoremap <silent> <leader>Wl :LToggle<CR>
 nnoremap <silent> <leader>Wc :CloseMyWindows<CR>
 
 " run diagnostics if available
-noremap <leader>d :LspDocumentDiagnostics<CR>
+noremap <leader>d :CocList diagnostics<CR>
 
 " navigate through quickfix and locationlists
 nnoremap <silent> <leader>q :cnext<CR>

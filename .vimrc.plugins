@@ -2,7 +2,6 @@ scriptencoding utf-8
 " run plugged
 call plug#begin('~/.vim/plugged')
 
-let g:ale_emit_conflict_warnings = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins that add new windows
 """""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -13,7 +12,7 @@ let g:lightline = {
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
     \             [ 'fugitive', 'filename', 'readonly' ] ],
-    \   'right': [ [ 'lineinfo', 'ale' ],
+    \   'right': [ [ 'lineinfo' ],
     \              [ 'percent' ],
     \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
     \ },
@@ -21,7 +20,6 @@ let g:lightline = {
     \   'readonly': "%{&readonly?'⭤':''}",
     \ },
     \ 'component_function': {
-    \   'ale': 'LightLineAle',
     \   'fugitive': 'LightlineFugitive',
     \   'filename': 'LightlineFilename',
     \ },
@@ -45,18 +43,6 @@ function! LightlineFugitive()
     return ''
 endfunction
 
-function! LightLineAle() abort
-    let l:counts = ale#statusline#Count(bufnr(''))
-
-    let l:all_errors = l:counts.error + l:counts.style_error
-    let l:all_non_errors = l:counts.total - l:all_errors
-
-    return l:counts.total == 0 ? 'OK' : printf(
-    \   '%dW %dE',
-    \   all_non_errors,
-    \   all_errors
-    \)
-endfunction
 function! LightlineFilename()
     let l:is_special_focused = IsQFLLFocused()
     if l:is_special_focused == 1
@@ -116,49 +102,92 @@ Plug 'rhysd/committia.vim'
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " linting
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-"Async linting engine
-let g:ale_completion_enabled = 1  " Rely on keypress to invoke completion
-let g:ale_lint_on_text_changed = 0  " Run linting only when saving the file
-Plug 'w0rp/ale'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-inoremap <silent><expr> <Tab>
-    \ pumvisible() ? "\<C-n>" : "\<TAB>"
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
 
-inoremap <silent><expr> <S-Tab> 
-    \ pumvisible() ? "\<C-p>" : "\<S-TAB>"
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-set completeopt=menu,menuone,preview,noselect,noinsert
+" Use `[c` and `]c` to navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
-if !exists('g:ale_fixers')
-    let g:ale_fixers = {
-                \ 'python': ['isort']
-                \ }
-    let g:ale_fix_on_save=1
-endif
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-if !exists('g:ale_linters')
-    let g:ale_linters = {
-                \ 'c': [],
-                \ 'cpp': [],
-                \ 'python': ['pyls', 'flake8', 'mypy', 'pycodestyle', 'pydocstyle' ]
-                \ }
-endif
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
 
-if !exists('g:ale_python_pyls_config')
-    let g:ale_python_pyls_config = {
-                \     'pyls': {
-                \         'configurationSources': ['flake8', 'pycodestyle'],
-                \         'plugins': {'pydocstyle': {'enabled': v:true}}
-                \     }
-                \ }
-endif
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>cd  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>ce  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>cc  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>co  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>cs  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>cj  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>ck  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>cp  :<C-u>CocListResume<CR>
 
 "Adhere to linux coding style guidelines
-Plug 'vivien/vim-linux-coding-style'
+Plug 'vivien/vim-linux-coding-style', {'for': 'c'}
 let g:linuxsty_patterns = []
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -219,29 +248,10 @@ map F <Plug>Sneak_F
 map t <Plug>Sneak_t
 map T <Plug>Sneak_T
 
-"better file switching
-Plug 'derekwyatt/vim-fswitch'
-augroup mycppfiles
-    au!
-    au BufEnter *.h let b:fswitchlocs = 'reg:/include/src/,reg:/headers/cpp/,ifrel:|/include/|../src|,./'
-    au BufEnter *.cpp let b:fswitchlocs = 'reg:/src/include/,reg:/cpp/headers/,ifrel:|/src/|../include|,./'
-augroup END
-
-"Force better vim usage by making hjkl less useful
-Plug 'takac/vim-hardtime'
-let g:hardtime_default_on = 0
-let g:hardtime_ignore_buffer_patterns = ['\[BufExplorer\]']
-let g:hardtime_ignore_quickfix = 1
-let g:hardtime_maxcount = 2
-let g:list_of_normal_keys = ['h', 'j', 'k', 'l', '<UP>', '<DOWN>', '<LEFT>', '<RIGHT>']
-let g:list_of_visual_keys = ['<UP>', '<DOWN>', '<LEFT>', '<RIGHT>']
-let g:list_of_insert_keys = ['<UP>', '<DOWN>', '<LEFT>', '<RIGHT>']
-let g:list_of_disabled_keys = []
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Extra language support, such as syntax highlighting, repl interaction
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:cpp_class_scope_highlight = 1
+
 Plug 'wlangstroth/vim-racket', {'for': ['scheme', 'racket']}
 Plug 'tpope/vim-fireplace', {'for' : 'clojure' }
 
@@ -250,36 +260,24 @@ Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
 let g:instant_markdown_autostart = 0
 
 "Sort python includes with isort
-Plug 'fisadev/vim-isort'
+Plug 'fisadev/vim-isort', {'for': 'python'}
 let g:vim_isort_python_version = 'python3'
 
 "graphviz support
-Plug 'wannesm/wmgraphviz.vim'
+Plug 'wannesm/wmgraphviz.vim', {'for': 'dot'}
 
 "Linux kernel/Buildroot Kconfig syntax
-Plug 'chrisbra/vim-kconfig'
+Plug 'chrisbra/vim-kconfig', {'for': 'kconfig'}
 
 "Syntax, indent, ftplugin for a bunch of languages
 Plug 'sheerun/vim-polyglot'
 
-"F#
-Plug 'vim-syntastic/syntastic', { 'for': 'fsharp' }
-
-Plug 'fsharp/vim-fsharp', {
-      \ 'for': 'fsharp',
-      \ 'do':  'make fsautocomplete',
-      \}
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""
-" omni completers
-"""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Semantic highlighting
+Plug 'jaxbot/semantic-highlight.vim'
 
 "display function signature after autocompletion item is selected
 Plug 'Shougo/echodoc.vim'
 let g:echodoc#enable_at_startup=1
-
-Plug 'ajh17/VimCompletesMe'
-let g:vcm_tab_complete = 'user'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " color schemes
