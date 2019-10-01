@@ -1,12 +1,43 @@
+TIMESTAMP_FILE=~/.cach/zplug
 function update_plugins() {
     print -P '%B%F{cyan}Updating plugins%b%f'
-    antibody bundle < ~/.zsh/antibody_plugins.txt  > ~/.zsh/antibody_sourceables.zsh
-    antibody update
-    touch ~/.cache/antibody/timestamp
+    zplug update
+    touch ~/.cache/zplug/timestamp
 }
 
 function load_plugins() {
-    source ~/.zsh/antibody_sourceables.zsh
+
+    zplug "zsh-users/zsh-syntax-highlighting"
+    zplug "zsh-users/zsh-history-substring-search"
+    zplug "zsh-users/zsh-autosuggestions"
+    zplug "zsh-users/zsh-completions"
+    zplug "adamatom/zsh-cwd-history"
+
+    # enhancd introduces an issue with revision 0d39876
+    # see https://github.com/b4b4r07/enhancd/issues/101
+    zplug "b4b4r07/enhancd", use:init.sh, at:718bd319cce2d985a90211f3b6c00851995f039e
+    if zplug check "b4b4r07/enhancd"; then
+        export ENHANCD_FILTER="fzf --height 50% --reverse --ansi --preview 'ls -l {}' --preview-window down"
+        export ENHANCD_DOT_SHOW_FULLPATH=1
+    fi
+
+    # Grab binaries from GitHub Releases
+    # and rename with the "rename-to:" tag
+    zplug "junegunn/fzf-bin", \
+        from:gh-r, \
+        as:command, \
+        rename-to:fzf, \
+        use:"*linux*amd64*"
+
+    # Install plugins if there are plugins that have not been installed
+    if ! zplug check --verbose; then
+        printf "Install? [y/N]: "
+        if read -q; then
+            echo; zplug install
+        fi
+    fi
+
+    zplug load
 
     # history-substring-search options
     HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=white,bold'
@@ -33,26 +64,22 @@ function load_plugins() {
 }
 
 function update_and_load() {
-    if [[ "$(command -v antibody)" == "" ]]; then
-        print -P '%B%F{red}antibody not installed, aborting plugin initialization%b%f'
+    source ~/.zplug/init.zsh
+
+    if [[ "$(command -v zplug)" == "" ]]; then
+        print -P '%B%F{red}zplug not installed, aborting plugin initialization%b%f'
         return 1
     fi
 
-    if [[ ! -f ~/.zsh/antibody_plugins.txt ]]; then
-        print -P '%B%F{red}Plugins not loaded, $HOME/.zsh/antibody_plugins.txt not detected%b%f'
-        return 1
+    if [[ ! -d ~/.cache/zplug ]]; then
+        mkdir -p ~/.cache/zplug
     fi
 
-    if [[ ! -d ~/.cache/antibody ]]; then
-        mkdir -p ~/.cache/antibody
+    if [[ ! -f ~/.cache/zplug/timestamp ]]; then
+        touch -t 200001010101 ~/.cache/zplug/timestamp
     fi
 
-    if [[ ! -f ~/.zsh/antibody_sourceables.zsh ]] || [[ ! -f ~/.cache/antibody/timestamp ]]; then
-        print -P '%B%F{cyan}Initializing antibody_sourceables%b%f'
-        touch -t 200001010101 ~/.cache/antibody/timestamp
-    fi
-
-    if [ $(find "$HOME/.cache/antibody/timestamp" -mmin +10080) ]; then
+    if [ $(find "$HOME/.cache/zplug/timestamp" -mmin +10080) ]; then
         update_plugins
     fi
 
