@@ -8,7 +8,7 @@ c = c  # type: ConfigContainer # noqa: F821 pylint: disable=E0602,C0103
 
 
 # Uncomment this to still load settings configured via autoconfig.yml
-# config.load_autoconfig()
+config.load_autoconfig()
 
 # Load a restored tab as soon as it takes focus.
 # Type: Bool
