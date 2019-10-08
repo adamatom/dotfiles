@@ -30,6 +30,8 @@ alias vl="vault login -method=ldap username=alabbe"
 alias vv="vault write -field=signed_key ssh-iscm-signer/sign/ca-sign public_key=@$HOME/.ssh/id_rsa.pub > ~/.ssh/id_rsa-cert.pub"
 alias pipenv="nocorrect pipenv"
 alias tmux="env TERM=tmux-256color tmux"
+alias backupb2="rclone sync /home/adam b2:Pascal-Backup --transfers 32 --filter-from /home/adam/rclone-files.txt --fast-list -P -L --b2-hard-delete"
+
 
 # -u 1000:1000 docker.is.idexx.com/buildroot-minimal:1.2.0 \
 dockbuild() {
