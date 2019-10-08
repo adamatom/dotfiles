@@ -115,6 +115,8 @@ config.bind('<Space>p', 'spawn --userscript qute-pass')
 config.bind('<Space>P', 'spawn --userscript qute-pass --password-only')
 config.bind('<Ctrl-Shift-p>', 'open --private')
 
+config.bind('sd', 'spawn --userscript open_download')
+
 c.aliases['tabnew'] = 'open -t'
 
 def link_bind(chars: str, uri):
