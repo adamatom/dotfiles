@@ -13,7 +13,8 @@ if has('gui_running')
     set guioptions-=b
     set guioptions-=h
     set guioptions-=e  "I dont like the gui tabs, use ascii
-    set guifont=EssentialPragmataPro\ Nerd\ Font\ Mono\ 10
+    set guioptions+=c  "dont use gui modal dialogs
+    set guifont=Fira\ Code\ 14
 endif
 
 function! s:CreateDir(name)
@@ -98,6 +99,7 @@ set ttyfast                     " it is fast, this aint no modem
 set clipboard=unnamedplus       " use the clipboard as the unnamed register
 set cmdheight=2                 " better display of messages
 set updatetime=300              " default is 4000, be more aggressive with 300ms
+set belloff=all                 " disable the bell for everything
 
 
 if filereadable(expand($HOME.'/.vimrc.keymaps'))
@@ -134,5 +136,10 @@ if filereadable(expand($HOME.'/.vimrc.plugins'))
     " colorscheme OceanicNext
     " colorscheme materialbox
     " colorscheme carbonized-dark
-    colorscheme one
+    " colorscheme one
+    colorscheme base16-phd
+    " colorscheme base16-solarized-light
+    " colorscheme base16-porple
+    " colorscheme base16-snazzy
+    " colorscheme corvine
 endif

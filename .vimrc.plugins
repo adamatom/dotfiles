@@ -296,6 +296,7 @@ Plug 'morhetz/gruvbox'
 Plug 'nightsense/carbonized'
 Plug 'rakr/vim-one'
 Plug 'ayu-theme/ayu-vim'
+Plug 'arzg/vim-corvine'
 
 
 call plug#end()

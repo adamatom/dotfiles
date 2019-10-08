@@ -4,10 +4,14 @@ augroup allfiles
     "Wipe out the allfiles group for when we reload the vimrc. Otherwise we just keep reattaching commands
     autocmd!
 
+    "autowrap text when working in markdown files
     autocmd FileType markdown setlocal formatoptions+=t
 
     "consider '-' as part of the same word
-    autocmd FileType markdown setlocal iskeyword+=- | setlocal spell
+    autocmd FileType markdown setlocal iskeyword+=-
+
+    "Spell checking when working with markdown
+    autocmd FileType markdown setlocal spell
 
     "Spell checking during gitcommit.
     autocmd FileType gitcommit setlocal spell
