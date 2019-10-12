@@ -205,6 +205,10 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 
+"Use ctrl-j/k for popup menu
+inoremap <expr> <C-j>     pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k>       pumvisible() ? "\<C-p>" : "\<C-k>"
+
 vmap v <Plug>(expand_region_expand)
 vmap <S-v> <Plug>(expand_region_shrink)
 
