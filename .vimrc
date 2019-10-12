@@ -124,22 +124,28 @@ if filereadable(expand($HOME.'/.vimrc.plugins'))
     let g:gruvbox_contrast_dark='hard'
     let g:lightline['colorscheme'] = 'tender'
     let ayucolor='mirage'
-    " let ayucolor="dark"
 
-    " colorscheme ayu
-    " colorscheme tender
-    " colorscheme PaperColor
-    " colorscheme snazzy
-    " colorscheme dracula
-    " colorscheme space_vim_theme
-    " colorscheme termschool
-    " colorscheme OceanicNext
-    " colorscheme materialbox
-    " colorscheme carbonized-dark
-    " colorscheme one
-    colorscheme base16-phd
-    " colorscheme base16-solarized-light
-    " colorscheme base16-porple
-    " colorscheme base16-snazzy
-    " colorscheme corvine
+    if filereadable(expand("~/.vimrc_background"))
+        let base16colorspace=256
+        source ~/.vimrc_background
+    else
+        " let ayucolor="dark"
+
+        " colorscheme ayu
+        " colorscheme tender
+        " colorscheme PaperColor
+        " colorscheme snazzy
+        " colorscheme dracula
+        " colorscheme space_vim_theme
+        " colorscheme termschool
+        " colorscheme OceanicNext
+        " colorscheme materialbox
+        " colorscheme carbonized-dark
+        " colorscheme one
+        colorscheme base16-phd
+        " colorscheme base16-solarized-light
+        " colorscheme base16-porple
+        " colorscheme base16-snazzy
+        " colorscheme corvine
+    endif
 endif
