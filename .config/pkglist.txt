@@ -14,6 +14,7 @@ base
 bash
 bash-completion
 bash-language-server
+bat
 bear-git
 bind-tools
 binutils
@@ -60,6 +61,7 @@ dosfstools
 dotnet-sdk
 dtc
 dunst
+dust
 e2fsprogs
 efibootmgr
 elfutils
@@ -69,6 +71,7 @@ erlang
 expac
 expect
 fakeroot
+fd
 feh
 ffmpegthumbnailer
 file
@@ -111,6 +114,7 @@ gnome-themes-extra
 go
 go-langserver-git
 go-tools
+google-chrome
 gource
 gparted
 gprof2dot
@@ -128,6 +132,7 @@ gucharmap
 gvim
 gzip
 hexedit
+hexyl
 highlight
 htop
 hunspell-en_US
@@ -229,7 +234,6 @@ osx-arc-plus
 osx-arc-shadow
 osx-arc-white
 p7zip
-pacman
 pacman-contrib
 pam-gnupg-git
 pandoc
@@ -245,6 +249,7 @@ pavucontrol
 pcalc
 pciutils
 pdfjs
+pdftk
 pepper-flash
 perl
 perl-anyevent-i3
@@ -312,6 +317,7 @@ python2-matplotlib
 python2-packaging
 python2-pyparsing
 python2-pyserial
+python2-requests
 python2-setuptools
 python2-six
 python2-typing
@@ -328,6 +334,7 @@ rclone
 rdesktop
 reflector
 reiserfsprogs
+remarkable
 remmina
 remmina-plugin-rdesktop
 ripgrep
@@ -337,8 +344,8 @@ rofi-greenclip
 rsync
 ruby
 run_scaled-git
+rust
 rust-racer
-rustup
 rxvt-unicode
 s-nail
 saleae-logic
@@ -351,6 +358,7 @@ sed
 shadow
 shellcheck
 siji-git
+slack-desktop
 slstatus-git
 smartmontools
 smplayer
@@ -359,7 +367,6 @@ spotify
 sshuttle
 steam
 strace
-stress-ng
 sudo
 sysfsutils
 sysstat
@@ -392,10 +399,17 @@ ttf-fira-code
 ttf-font-awesome
 ttf-hack
 ttf-input
+ttf-iosevka-slab
+ttf-iosevka-ss04
+ttf-iosevka-ss10
+ttf-iosevka-term-ss04
+ttf-iosevka-term-ss10
 ttf-mononoki
 ttf-ms-fonts
 ttf-oxygen-gf
+ttf-proggy-clean
 ttf-roboto
+ttf-share-gf
 ttf-sudo
 ttf-twemoji
 ttf-weather-icons
@@ -403,6 +417,9 @@ usbutils
 util-linux
 vault
 vint
+virtualbox
+virtualbox-guest-dkms
+virtualbox-guest-iso
 visual-studio-code-bin
 visualvm
 vncdesk-git
