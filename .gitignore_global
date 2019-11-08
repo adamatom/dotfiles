@@ -7,3 +7,5 @@ tags
 .clang_complete
 .venv
 .mypy_cache
+.vim
+__pycache__
