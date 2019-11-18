@@ -19,7 +19,7 @@ set $active "#6d9cbe"
 #  Startup applications
 ################################################################################
 exec_always --no-startup-id killall dunst; dunst -conf ~/.config/dunst/config >> /tmp/start_dunst.log 2>&1 &
-exec_always --no-startup-id killall compton; compton -b --config /home/adam/.config/compton.conf >> /tmp/start_compton.log 2>&1 &
+exec_always --no-startup-id killall picom; picom -b --config /home/adam/.config/compton.conf >> /tmp/start_compton.log 2>&1 &
 exec_always --no-startup-id ~/.config/polybar/launch_polybar.sh $bar_fg $bar_bg $active &
 exec_always --no-startup-id killall greenclip; greenclip daemon &
 exec_always --no-startup-id killall blueman-applet; blueman-applet &
