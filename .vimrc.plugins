@@ -96,6 +96,9 @@ Plug 'ivyl/vim-bling'
 " This must be set to no, otherwise this breaks cabbrev working on <cr>
 let g:bling_no_expr = 1
 
+"Explore git log from within vim
+Plug 'junegunn/gv.vim'
+
 "Show the diff when editing a git commit.
 Plug 'rhysd/committia.vim'
 
