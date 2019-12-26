@@ -45,3 +45,5 @@
 - .luarocks/
 - .netbeans/
 - .config/Code/Cache/
+- VirtualBox VMs/
+- VirtualMachines/
