@@ -9,9 +9,11 @@ function load_plugins() {
 
     zplug "zsh-users/zsh-syntax-highlighting"
     zplug "zsh-users/zsh-history-substring-search"
-    zplug "zsh-users/zsh-autosuggestions"
+    # zplug "zsh-users/zsh-autosuggestions"
+    zplug "adamatom/zsh-autosuggestions"
     zplug "zsh-users/zsh-completions"
     zplug "adamatom/zsh-cwd-history"
+    zplug "plugins/gitfast", from:oh-my-zsh
 
     # enhancd introduces an issue with revision 0d39876
     # see https://github.com/b4b4r07/enhancd/issues/101

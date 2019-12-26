@@ -2,7 +2,7 @@ export LANG="en_US.UTF-8"
 
 export GOPATH=$HOME/.go
 export RUBYGEMPATH=$HOME/.gem/ruby/2.5.0/
-export PATH=$PATH:$HOME/.bin:$GOPATH/bin:$RUBYGEMPATH/bin:/opt/Xilinx/Vivado/2016.2/bin/
+export PATH=$PATH:$HOME/.bin:$GOPATH/bin:$RUBYGEMPATH/bin:$HOME/.local/bin
 export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
 export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4'
 export ENHANCD_DISABLE_DOT=0
@@ -31,6 +31,8 @@ alias vv="vault write -field=signed_key ssh-iscm-signer/sign/ca-sign public_key=
 alias pipenv="nocorrect pipenv"
 alias tmux="env TERM=tmux-256color tmux"
 alias backupb2="rclone sync /home/adam b2:Pascal-Backup --transfers 32 --filter-from /home/adam/rclone-files.txt --fast-list -P -L --b2-hard-delete"
+alias cat="bat"
+alias pip="pip3"
 
 
 # -u 1000:1000 docker.is.idexx.com/buildroot-minimal:1.2.0 \
