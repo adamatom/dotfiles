@@ -4,25 +4,31 @@ filetype plugin indent on     " required!
 syntax enable
 
 if has('gui_running')
-    set guioptions-=T  "no toolbars
-    set guioptions-=m  "or menu
-    set guioptions-=r  "or scrollbars
-    set guioptions-=l
-    set guioptions-=R
-    set guioptions-=L
-    set guioptions-=b
-    set guioptions-=h
-    set guioptions-=e  "I dont like the gui tabs, use ascii
-    set guioptions+=c  "dont use gui modal dialogs
-    set guifont=Fira\ Code\ 14
+  set guioptions-=T  "no toolbars
+  set guioptions-=m  "or menu
+  set guioptions-=r  "or scrollbars
+  set guioptions-=l
+  set guioptions-=R
+  set guioptions-=L
+  set guioptions-=b
+  set guioptions-=h
+  set guioptions-=e  "I dont like the gui tabs, use ascii
+  set guioptions+=c  "dont use gui modal dialogs
+  "set guifont=Fira\ Code\ 14
+  set guifont=Noto\ Mono\ 12
+elseif has('termguicolors')           " Use fg/bg colors from terminal (compatible terminals only)
+  set termguicolors
+  set t_ut=""        "Dont rely on Background Color Erase (BCE) support from terminal emulator
 endif
 
+
+
 function! s:CreateDir(name)
-    " Create a given directory if it does not exist.
-    if !isdirectory(a:name)
-        echo 'creating '.a:name
-        call mkdir(a:name, 'p')
-    endif
+  " Create a given directory if it does not exist.
+  if !isdirectory(a:name)
+    echo 'creating '.a:name
+    call mkdir(a:name, 'p')
+  endif
 endfunction
 
 " Tame backup/undo/swap/info file management
@@ -62,12 +68,10 @@ set shiftround                  " round to shiftwidth instead of inserting tabst
 
 " Line wrapping, cursors, cursor lines
 set nowrap                      " dont display long-lines as wrapped
-set textwidth=79                " automatically try to break long lines as they are typed
+set textwidth=99                " automatically try to break long lines as they are typed
 set scrolloff=2                 " always show lines of code above/below cursor
 set sidescroll=5                " always show extra context chracters horizontally
-set cursorline                  " highlight the line the cursor is on
-set cursorcolumn                " highlight the column the cursor is on
-set colorcolumn=80            " show a column indicating max line length
+set colorcolumn=100            " show a column indicating max line length
 
 " Tame auto formating, see :h fo-table
 set formatoptions=
@@ -97,55 +101,198 @@ set ttymouse=sgr                " use sgr mode for mouse for xterm controls + mo
 set ttimeoutlen=10              " decrease timeout for terminal keycodes for faster insert exits
 set ttyfast                     " it is fast, this aint no modem
 set clipboard=unnamedplus       " use the clipboard as the unnamed register
-set cmdheight=2                 " better display of messages
-set updatetime=300              " default is 4000, be more aggressive with 300ms
+set cmdheight=1                 " better display of messages
+set updatetime=1000             " default is 4000, be more aggressive with 300ms
 set belloff=all                 " disable the bell for everything
+set completeopt=menuone,noinsert
 
+"-------
+"Keymaps
+"-------
+"
+" change leader to space, nicer to type. You lose some sort of 'move to next char' command.
+let g:mapleader = "\<Space>"
 
-if filereadable(expand($HOME.'/.vimrc.keymaps'))
-    source $HOME/.vimrc.keymaps
-endif
+" leader maps for running common actions
 
-if filereadable(expand($HOME.'/.vimrc.autocmd'))
-    source $HOME/.vimrc.autocmd
-endif
+" toggle spelling quickly
+nnoremap <silent> <leader>os :set spell! spell?<CR>
+
+" toggle line numbers
+nnoremap <silent> <leader>on :set number! number?<CR>
+
+" toggle relative number
+nnoremap <silent> <leader>or :set relativenumber! relativenumber?<CR>
+
+" navigate through quickfix and locationlists
+nnoremap <silent> <leader>q :cnext<CR>
+nnoremap <silent> <leader>Q :cprevious<CR>
+
+nnoremap <silent> <leader>l :lnext<CR>
+nnoremap <silent> <leader>L :lprevious<CR>
+
+nnoremap <silent> <leader><leader>w :w<CR>
+
+" use leader {y|d|p} for interacting with the system clipboard
+vnoremap <Leader>y "+y
+nnoremap <Leader>p "+p
+nnoremap <Leader>P "+P
+vnoremap <Leader>p "+p
+vnoremap <Leader>P "+P
+
+" run make silently and open the quickfix window in case of errors
+nnoremap <leader>m :silent make\|redraw!\|cc<CR>
+
+" Spell check the last error.
+" <ctrl-g>u     create undo marker (before fix) so we can undo/redo this
+"               change. Otherwise vim treats the spelling correction as the
+"               same change as our edit.
+" esc           enter normal mode
+" [s            jump back to previous spelling mistake
+" 1z=           take the first correction
+" `]            jump back
+" a             continue editing
+" <ctrl-g>u     create another undo marker
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+
+" run :Ack! <word-under-cursor>
+nnoremap <leader>F yiw:Ack! <c-r>"<cr>
+
+" Keymaps that alter default behavior
+" -----------------------------------
+
+" Advance to next misspelling after adding a word to the spellfile.
+noremap zg zg]s
+
+" typing jj in insert mode gets you out.
+inoremap jj <Esc>
+
+" vim training wheels: dont allow arrow keys!
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+
+" fix direction keys for line wrap, other wise they jump over wrapped lines
+nnoremap j gj
+nnoremap k gk
+
+"remap f1. I'll type :help when I want it
+noremap <F1> <ESC>
+inoremap <F1> <ESC>
+
+"move between windows a little easier
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" I have never intentionally entered the mode that q: gives.
+noremap q: :q
+nnoremap Q <nop>
+
+"Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+
+"Use ctrl-j/k for popup menu
+inoremap <expr> <C-j>     pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k>       pumvisible() ? "\<C-p>" : "\<C-k>"
+
+" Indent in visual and select mode automatically re-selects.
+vnoremap > >gv
+vnoremap < <gv
+
+" command mode replacements
+" -------------------------
+
+" :wq when I meant :w. Nudges towards using :x
+cabbrev wq w
+
+" :W isnt a command, and I usually intend on :w
+cabbrev W w
+
+" :X is a strange crypto thing that I dont care about, intention is :x
+cabbrev X x
+
+" :Q enters modal ex mode, I'm happy with just ex command line. Generally mistyped :q
+cabbrev Q q
+
+" Similar to above, I generally mean :qa
+cabbrev Qa qa
+
+" Tabnew -> tabnew
+cabbrev Tabnew tabnew
+
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cabbrev w!! w !sudo tee > /dev/null % <bar> edit!
+
+augroup allfiles
+  "Wipe out the allfiles group for when we reload the vimrc. Otherwise we just keep reattaching commands
+  autocmd!
+
+  "Use markdown filetype for unknown files.
+  autocmd BufEnter * if &filetype == "" | setlocal ft=markdown | endif
+
+  "autowrap text when working in markdown files
+  autocmd FileType markdown setlocal formatoptions+=t
+
+  "consider '-' as part of the same word
+  autocmd FileType markdown setlocal iskeyword+=-
+
+  "Spell checking when working with markdown
+  autocmd FileType markdown setlocal spell
+
+  "Spell checking during gitcommit.
+  autocmd FileType gitcommit setlocal spell
+
+  "Customize python settings
+  autocmd filetype python setlocal textwidth=99 colorcolumn=100 sw=4 sts=4 et
+
+  "Customize vimL settings
+  autocmd filetype vim setlocal textwidth=99 colorcolumn=100 sw=2 sts=2 et
+
+  "Change lua tabstops to be more lua-esque
+  autocmd FileType lua setlocal sw=2 sts=2 et
+
+  "Close the preview window if it is open
+  autocmd InsertLeave * pclose
+augroup END
 
 if filereadable(expand($HOME.'/.vimrc.plugins'))
-    source $HOME/.vimrc.plugins
-    if (has('termguicolors'))           " Use fg/bg colors from terminal (compatible terminals only)
-        set termguicolors
-        set t_Co=256
-        set t_ut=""        "Dont rely on Background Color Erase (BCE) support from terminal emulator
-    endif
-    set background=dark
-    let g:one_allow_italics = 1
-    let g:onedark_terminal_italics = 1
-    let g:gruvbox_italic = 1
-    let g:gruvbox_contrast_dark='hard'
-    let g:lightline['colorscheme'] = 'tender'
-    let ayucolor='mirage'
-
-    if filereadable(expand("~/.vimrc_background"))
-        let base16colorspace=256
-        source ~/.vimrc_background
-    else
-        " let ayucolor="dark"
-
-        " colorscheme ayu
-        " colorscheme tender
-        " colorscheme PaperColor
-        " colorscheme snazzy
-        " colorscheme dracula
-        " colorscheme space_vim_theme
-        " colorscheme termschool
-        " colorscheme OceanicNext
-        " colorscheme materialbox
-        " colorscheme carbonized-dark
-        " colorscheme one
-        colorscheme base16-phd
-        " colorscheme base16-solarized-light
-        " colorscheme base16-porple
-        " colorscheme base16-snazzy
-        " colorscheme corvine
-    endif
+  source $HOME/.vimrc.plugins
+  set background=dark
+  let g:one_allow_italics = 1
+  let g:onedark_terminal_italics = 1
+  let g:onedark_termcolors = 256
+  let g:palenight_terminal_italics=1
+  let g:gruvbox_italic = 1
+  let g:gruvbox_contrast_dark='hard'
+  let ayucolor='mirage'
+  " colorscheme ayu
+  " colorscheme tender
+  " colorscheme PaperColor
+  " colorscheme snazzy
+  " colorscheme dracula
+  " colorscheme space_vim_theme
+  " colorscheme termschool
+  " colorscheme OceanicNext
+  " colorscheme materialbox
+  " colorscheme carbonized-dark
+  " colorscheme one
+  " colorscheme onedark
+  " colorscheme neodark
+  " colorscheme palenight
+  " colorscheme base16-phd
+  " colorscheme base16-solarized-light
+  " colorscheme base16-porple
+  " colorscheme base16-snazzy
+  " colorscheme corvine
+  " colorscheme vim-framer-syntax
+  if has('gui_running')
+    colorscheme onedark
+  else
+    colorscheme purify
+  endif
 endif
