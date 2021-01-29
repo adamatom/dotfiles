@@ -9,3 +9,8 @@ tags
 .mypy_cache
 .vim
 __pycache__
+.vscode
+.ccls-cache
+.ycm_extra_conf.py
+.gdb_history
+.cache

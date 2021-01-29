@@ -13,8 +13,8 @@
     cmd = meld "$LOCAL" "$REMOTE"
 
 [core]
-	excludesfile = ~/.gitignore_global
-	pager = less -F -X
+    excludesfile = ~/.gitignore_global
+    pager = less -F -X
 
 [merge]
     tool = meld
@@ -28,15 +28,18 @@
     lg = log --graph --abbrev-commit --decorate   --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset) %C(auto)%d%C(reset)%n''          %C(bold white)%s%C(reset)%n''          %C(white)- %an <%ae> %C(reset)' --all
     delcheck = log --graph --left-right --cherry-pick --oneline master...
     closeout = !delbranch=$(git rev-parse --abbrev-ref HEAD) && git fetch -Ppat && git checkout master && git rebase && git branch -d ${delbranch}
+    orphank = !gitk --all $(git reflog --format=format:%h)
+    orphanl = !git log --pretty=oneline --abbrev-commit --graph --decorate `git reflog | cut -d ' ' -f 1`
+    gone = ! git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}'
 [rerere]
-	enabled = 1
+    enabled = 1
 [rebase]
-	instructionFormat = %an %s
+    instructionFormat = %an %s
 [pull]
-	rebase = true
+    rebase = true
 [color]
-	ui = true
+    ui = true
 [pager]
-	tag = false
+    tag = false
 [tag]
-	sort = version:refname
+    sort = version:refname
