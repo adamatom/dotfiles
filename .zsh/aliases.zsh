@@ -7,7 +7,9 @@ export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu
 export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4'
 export ENHANCD_DISABLE_DOT=0
 export ENHANCD_DOT_ARG="../.."
+export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l ""'
 
+alias ssh="TERM=xterm-256color ssh"
 alias ls="ls -lA --color=always --group-directories-first"
 alias gvim="gvim $* 2>/dev/null"
 alias pyclean="find . | grep -E \"(\.mypy_cache|\.pytest_cache|__pycache__|\.pyc|\.pyo$)\" | sudo xargs rm -rf"
@@ -26,27 +28,19 @@ alias did="vim +'normal Go' +'r!date' ~/did.txt"
 alias gitlines="git ls-files | while read f; do git blame -w -M -C -C --line-porcelain "$f" | grep -I '^author '; done | sort -f | uniq -ic | sort -nr"
 alias open="xdg-open"
 alias ssh-weechat="echo -e '\033]2;'weechat'\007'; ssh adam@adamatom.com -t screen -D -RR weechat weechat"
-alias vl="vault login -method=ldap username=alabbe"
-alias vv="vault write -field=signed_key ssh-iscm-signer/sign/ca-sign public_key=@$HOME/.ssh/id_rsa.pub > ~/.ssh/id_rsa-cert.pub"
 alias pipenv="nocorrect pipenv"
 alias tmux="env TERM=tmux-256color tmux"
 alias backupb2="rclone sync /home/adam b2:Pascal-Backup --transfers 32 --filter-from /home/adam/rclone-files.txt --fast-list -P -L --b2-hard-delete"
 alias cat="bat"
 alias pip="pip3"
+alias gs="git status"
+alias gf="git fetch -Ppat"
+alias sml="rlwrap sml"
+alias vc="vim ~/.vimrc"
+alias vp="vim ~/.vimrc.plugins"
 
-
-# -u 1000:1000 docker.is.idexx.com/buildroot-minimal:1.2.0 \
-dockbuild() {
-    docker run --hostname build --name build --rm -it \
-        -v /home/adam/.ssh:/home/br-user/.ssh \
-        -v /home/adam/projects/idexx/acadia:/tmpfs \
-        -v /home/adam/.buildroot-ccache:/home/br-user.buildroot-ccache \
-        -v /home/adam/.buildroot-autoconf-cache/:/home/br-user/.buildroot-autoconf-cache \
-        -v /home/adam/.buildroot-dl-cache/:/home/br-user/.buildroot-dl-cache \
-        -v $SSH_AUTH_SOCK:/ssh-agent \
-        -e SSH_AUTH_SOCK=/ssh-agent \
-        -u 1000:1000 docker.is.idexx.com/buildroot-publish:1.1.1 \
-        /bin/bash -c "ssh-add -l; cd /tmpfs/buildroot; $1"
+gdiff () {
+    diff -u $@ | colordiff | less -R;
 }
 
 checkbranch() {

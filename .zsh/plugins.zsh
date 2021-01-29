@@ -8,12 +8,12 @@ function update_plugins() {
 function load_plugins() {
 
     zplug "zsh-users/zsh-syntax-highlighting"
-    zplug "zsh-users/zsh-history-substring-search"
     # zplug "zsh-users/zsh-autosuggestions"
     zplug "adamatom/zsh-autosuggestions"
     zplug "zsh-users/zsh-completions"
     zplug "adamatom/zsh-cwd-history"
     zplug "plugins/gitfast", from:oh-my-zsh
+    zplug "zsh-users/zsh-history-substring-search"
 
     # enhancd introduces an issue with revision 0d39876
     # see https://github.com/b4b4r07/enhancd/issues/101
@@ -48,6 +48,7 @@ function load_plugins() {
 
     # zsh-syntax-highlighting
     # Turn a lot of the highlighting off
+    ZSH_HIGHLIGHT_STYLES[default]=none
     ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=red,bold
     ZSH_HIGHLIGHT_STYLES[builtin]=none
     ZSH_HIGHLIGHT_STYLES[function]=none
@@ -63,6 +64,7 @@ function load_plugins() {
     ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=yellow
     ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=yellow
     ZSH_HIGHLIGHT_STYLES[assign]=none
+    ZSH_HIGHLIGHT_STYLES[comment]=fg=gray
 }
 
 function update_and_load() {
@@ -89,3 +91,5 @@ function update_and_load() {
 }
 
 update_and_load
+
+export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l ""'

@@ -23,7 +23,7 @@ function git_prompt_string() {
   local INDEX=$(command git status --porcelain -b 2> /dev/null)
   STATUS=""
   repo_info=$(git rev-parse --git-dir --is-inside-git-dir --is-bare-repository --is-inside-work-tree --short HEAD 2>/dev/null)
-  if [ -z $repo_info ]; then 
+  if [ -z $repo_info ]; then
     return
   fi
   $(git diff --no-ext-diff --quiet --exit-code 2> /dev/null) ||  STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_MODIFIED"
@@ -65,7 +65,10 @@ function git_prompt_string() {
   local git_where="$(git symbolic-ref -q HEAD || git name-rev --name-only --no-undefined --always HEAD 2> /dev/null)"
   git_where=${git_where/refs\/heads\//}
   git_where=${git_where/tags\//}
-  echo "$ZSH_THEME_GIT_PROMPT_PREFIX${git_where} $STATUS$ZSH_THEME_SUFFIX"
+  if [ -n "$STATUS" ]; then
+      STATUS=" ${STATUS}"
+  fi
+  echo "$ZSH_THEME_GIT_PROMPT_PREFIX${git_where}$STATUS$ZSH_THEME_SUFFIX"
 }
 
 if [[ $__PROFILE__ -eq 1 ]]; then
