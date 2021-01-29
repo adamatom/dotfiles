@@ -1,7 +1,12 @@
 set encoding=utf-8            "Enable utf-8 support
 scriptencoding utf-8
 filetype plugin indent on     " required!
-syntax enable
+
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
+  syntax on
+endif
 
 if has('gui_running')
   set guioptions-=T  "no toolbars
@@ -18,10 +23,8 @@ if has('gui_running')
   set guifont=Noto\ Mono\ 12
 elseif has('termguicolors')           " Use fg/bg colors from terminal (compatible terminals only)
   set termguicolors
-  set t_ut=""        "Dont rely on Background Color Erase (BCE) support from terminal emulator
+  "  set t_ut=""        "Dont rely on Background Color Erase (BCE) support from terminal emulator
 endif
-
-
 
 function! s:CreateDir(name)
   " Create a given directory if it does not exist.
@@ -34,10 +37,10 @@ endfunction
 " Tame backup/undo/swap/info file management
 set undodir=$HOME/.vim/undo         " centralize files working directory
 call s:CreateDir(expand(&undodir))  " create the directory if needed
-set backupdir=$HOME/.vim/backup     " backup files should be kept out of the working dir
-call s:CreateDir(expand(&backupdir))
-set directory=$HOME/.vim/tmp        " store swap files in a centralized place, not in working dir
-call s:CreateDir(expand(&directory))
+
+set backupdir=/tmp//                " backup files should be kept out of the working dir
+set directory=/tmp//                " store swap files in a centralized place, not in working dir
+
 
 set hidden                      " dont delete buffers, just hide them
 set undofile                    " save undo tree when file is closed
@@ -56,7 +59,7 @@ set hlsearch                    " highlight all of the search terms
 
 " Whitespace and indentation
 set tabstop=4                   " a tab is four spaces.
-set shiftwidth=4                " four spaces for autoindenting
+set shiftwidth=4                " four spaces for auto-indenting
 set softtabstop=4
 set expandtab                   " insert spaces instead of tabs
 set smartindent                 " follow c-like indentation guidelines
@@ -70,20 +73,20 @@ set shiftround                  " round to shiftwidth instead of inserting tabst
 set nowrap                      " dont display long-lines as wrapped
 set textwidth=99                " automatically try to break long lines as they are typed
 set scrolloff=2                 " always show lines of code above/below cursor
-set sidescroll=5                " always show extra context chracters horizontally
+set sidescroll=5                " always show extra context characters horizontally
 set colorcolumn=100            " show a column indicating max line length
 
-" Tame auto formating, see :h fo-table
+" Tame auto formatting, see :h fo-table
 set formatoptions=
 set formatoptions+=c            " auto-wrap comments using textwidth
 set formatoptions+=r            " insert current comment leader when hitting <enter>
-set formatoptions+=q            " allow reformating of comments with gq
+set formatoptions+=q            " allow reformatting of comments with gq
 set formatoptions+=n            " when formatting text, recognize numbered lists
 set formatoptions+=1            " break long lines before single char words instead of after
 
 " User interface
-set nospell                     " disable spelling by default
-set spelllang=en_us             " when spelling is enabled, use US english dictionary
+set spell                       " enable spelling by default
+set spelllang=en_us             " when spelling is enabled, use US English dictionary
 set title                       "set xterm title to vim title
 set titleold=""
 set wildmenu                    " improve auto complete menu
@@ -102,9 +105,11 @@ set ttimeoutlen=10              " decrease timeout for terminal keycodes for fas
 set ttyfast                     " it is fast, this aint no modem
 set clipboard=unnamedplus       " use the clipboard as the unnamed register
 set cmdheight=1                 " better display of messages
-set updatetime=1000             " default is 4000, be more aggressive with 300ms
+set updatetime=1000             " one second
 set belloff=all                 " disable the bell for everything
 set completeopt=menuone,noinsert
+set showcmd                     " display an active vim sequence if there is one
+set notimeout                   " a vim command in-progress will not expire, <esc> to exit
 
 "-------
 "Keymaps
@@ -114,6 +119,7 @@ set completeopt=menuone,noinsert
 let g:mapleader = "\<Space>"
 
 " leader maps for running common actions
+
 
 " toggle spelling quickly
 nnoremap <silent> <leader>os :set spell! spell?<CR>
@@ -140,6 +146,9 @@ nnoremap <Leader>P "+P
 vnoremap <Leader>p "+p
 vnoremap <Leader>P "+P
 
+" Switch between the last two files
+nnoremap <Leader>a <C-^>
+
 " run make silently and open the quickfix window in case of errors
 nnoremap <leader>m :silent make\|redraw!\|cc<CR>
 
@@ -156,7 +165,10 @@ nnoremap <leader>m :silent make\|redraw!\|cc<CR>
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 " run :Ack! <word-under-cursor>
-nnoremap <leader>F yiw:Ack! <c-r>"<cr>
+nnoremap <leader>F :Ack! <c-r><C-w><cr>
+
+" Begin a word search and replace
+nnoremap <leader>R :%s/\<<C-r><C-w>\>//c<Left><Left>
 
 " Keymaps that alter default behavior
 " -----------------------------------
@@ -181,14 +193,9 @@ nnoremap k gk
 noremap <F1> <ESC>
 inoremap <F1> <ESC>
 
-"move between windows a little easier
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
 " I have never intentionally entered the mode that q: gives.
 noremap q: :q
+
 nnoremap Q <nop>
 
 "Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
@@ -227,6 +234,9 @@ cabbrev Tabnew tabnew
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cabbrev w!! w !sudo tee > /dev/null % <bar> edit!
+
+" Close all but the current buffer (or any that arent yet saved)
+command! BufOnly silent! execute "%bd|e#|bd#"
 
 augroup allfiles
   "Wipe out the allfiles group for when we reload the vimrc. Otherwise we just keep reattaching commands

@@ -12,7 +12,8 @@ let g:lightline = {
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
     \             [ 'fugitive', 'filename', 'readonly' ] ],
-    \   'right': [ [ 'lineinfo' ],
+    \   'right': [ [ 'gutentags'],
+    \              [ 'lineinfo' ],
     \              [ 'percent' ],
     \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
     \ },
@@ -22,6 +23,7 @@ let g:lightline = {
     \ 'component_function': {
     \   'fugitive': 'LightlineFugitive',
     \   'filename': 'LightlineFilename',
+    \   'gutentags': 'gutentags#statusline'
     \ },
     \ }
 
@@ -54,7 +56,6 @@ function! LightlineFilename()
     let l:short_filename = expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
     let l:med_filename = expand('%:t') !=# '' ? fnamemodify(expand('%:p'), ':~:.') : '[No Name]'
     let l:full_filename = expand('%:t') !=# '' ? fnamemodify(expand('%:p'), ':~:.') : '[No Name]'
-
     let l:max_len = 120
     let l:full_len = len(l:full_filename)
     let l:med_len = len(l:med_filename)
@@ -134,13 +135,22 @@ Plug 'rhysd/committia.vim'
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " linting
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-Plug 'ycm-core/YouCompleteMe'
+Plug 'ycm-core/YouCompleteMe', { 'do': './install.py --all' }
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_auto_hover = ''
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_complete_in_comments = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
+let g:ycm_min_num_identifier_candidate_chars = 99  " Disable identifier-based completion
+let g:ycm_key_invoke_completion = '<C-Space>'  " Invoke semantic completion with ctrl-space
 
+let g:ycm_key_list_select_completion = ['<Tab>', '<C-j>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<S-Tab', '<C-k>', '<Up>']
+let g:ycm_key_list_stop_completion = ['<C-h>']  " as in 'Hide' the menu
+let g:ycm_clangd_args = [ '--header-insertion=never' ]
+
+let g:ycm_semantic_triggers =  {
+  \   'c,cpp,objc': [ 're!\w{3}', '_' ],
+  \ }
 augroup MyYCMCustom
   autocmd!
   autocmd FileType c,cpp let b:ycm_hover = {
@@ -152,6 +162,7 @@ nmap <leader>d <plug>(YCMHover)
 nnoremap <C-LeftMouse> <LeftMouse>:YcmCompleter GoTo<CR>
 nnoremap <leader>gr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>gd :YcmCompleter GoTo<CR>
+nnoremap <leader><leader>d :YcmDiags<CR>
 
 
 " Ctags auto update
@@ -163,6 +174,24 @@ endif
 "Adhere to linux coding style guidelines
 Plug 'vivien/vim-linux-coding-style', {'for': 'c'}
 let g:linuxsty_patterns = []
+
+" Linters for everything
+Plug 'dense-analysis/ale'
+let g:ale_linters = { 
+  \ 'c': [],
+  \ 'cpp': [],
+  \ }
+
+" ALE linting events
+augroup ale
+  autocmd!
+
+  autocmd VimEnter * set updatetime=1000 | let g:ale_lint_on_text_changed = 0
+  autocmd CursorHold * call ale#Queue(0)
+  autocmd CursorHoldI * call ale#Queue(0)
+  autocmd InsertEnter * call ale#Queue(0)
+  autocmd InsertLeave * call ale#Queue(0)
+augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim Plugins that add keyboard commands
