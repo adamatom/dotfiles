@@ -110,7 +110,8 @@ set belloff=all                 " disable the bell for everything
 set completeopt=menuone,noinsert
 set showcmd                     " display an active vim sequence if there is one
 set notimeout                   " a vim command in-progress will not expire, <esc> to exit
-
+set splitbelow                  " open new hsplits to the bottom
+set splitright                  " open new vsplits to the right
 "-------
 "Keymaps
 "-------
