@@ -11,14 +11,14 @@ let g:lightline = {
     \ 'colorscheme': 'purify',
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
-    \             [ 'fugitive', 'filename', 'readonly' ] ],
+    \             [ 'fugitive', 'filename', 'modified', 'readonly' ] ],
     \   'right': [ [ 'gutentags'],
     \              [ 'lineinfo' ],
     \              [ 'percent' ],
     \              [ 'fileformat', 'fileencoding', 'filetype' ] ]
     \ },
     \ 'component': {
-    \   'readonly': "%{&readonly?'⭤':''}",
+    \   'readonly': "%{&readonly?'🔒':''}",
     \ },
     \ 'component_function': {
     \   'fugitive': 'LightlineFugitive',
