@@ -14,3 +14,6 @@ __pycache__
 .ycm_extra_conf.py
 .gdb_history
 .cache
+cscope.out*
+cscope.files
+tceetree.out*
