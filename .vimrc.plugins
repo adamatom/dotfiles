@@ -132,6 +132,11 @@ let g:bling_no_expr = 1
 Plug 'rhysd/committia.vim'
 
 
+"Kind of like f{char} that will search lines as well
+Plug 'justinmk/vim-sneak'
+let g:sneak#label = 1
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " linting
 """""""""""""""""""""""""""""""""""""""""""""""""""""
