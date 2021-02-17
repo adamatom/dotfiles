@@ -166,7 +166,7 @@ nnoremap <leader>m :silent make\|redraw!\|cc<CR>
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 " run :Ack! <word-under-cursor>
-nnoremap <leader>F :Ack! <c-r><C-w><cr>
+nnoremap <leader>F :Ack! <c-r><C-w>
 
 " Begin a word search and replace
 nnoremap <leader>R :%s/\<<C-r><C-w>\>//c<Left><Left>
