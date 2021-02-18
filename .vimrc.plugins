@@ -176,9 +176,50 @@ if executable('rg')
   let g:gutentags_file_list_command = 'rg --files'
 endif
 
+
 "Adhere to linux coding style guidelines
 Plug 'vivien/vim-linux-coding-style', {'for': 'c'}
 let g:linuxsty_patterns = []
+
+
+" LanguageTool-powered grammar checking
+Plug 'rhysd/vim-grammarous'
+
+" Default to checking comments only by default, and then add the exceptions
+let g:grammarous#default_comments_only_filetypes = {
+            \ '*': 1, 'help': 0, 'text': 0, 'markdown': 0,
+            \ }
+
+" Disable spell checking via LanguageTool
+let g:grammarous#disabled_rules = {
+    \ '*' : ['MORFOLOGIK_RULE_EN_US', 'WORD_CONTAINS_UNDERSCORE', 'EN_QOUTES']
+    \ }
+
+" Use the vim-spell dictionary
+let g:grammarous#use_vim_spelllang = 1
+
+" Show the grammar dialog immediately after checking
+let g:grammarous#show_first_error = 1
+
+let g:grammarous#hooks = {}
+function! g:grammarous#hooks.on_check(errs) abort
+    nmap <buffer><leader>gi <Plug>(grammarous-open-info-window)
+    nmap <buffer><leader>gI <Plug>(grammarous-close-info-window)
+    nmap <buffer><leader>gd <Plug>(grammarous-remove-error)
+    nmap <buffer><leader>g] <Plug>(grammarous-move-to-next-error)
+    nmap <buffer><leader>g[ <Plug>(grammarous-move-to-previous-error)
+endfunction
+
+function! g:grammarous#hooks.on_reset(errs) abort
+    nunmap <buffer><leader>gi
+    nunmap <buffer><leader>gI
+    nunmap <buffer><leader>gd
+    nunmap <buffer><leader>g[
+    nunmap <buffer><leader>g]
+endfunction
+
+nnoremap <leader>gc :GrammarousCheck<cr>
+
 
 " Linters for everything
 Plug 'dense-analysis/ale'
