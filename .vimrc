@@ -243,9 +243,6 @@ augroup allfiles
   "Wipe out the allfiles group for when we reload the vimrc. Otherwise we just keep reattaching commands
   autocmd!
 
-  "Use markdown filetype for unknown files.
-  autocmd BufEnter * if &filetype == "" | setlocal ft=markdown | endif
-
   "autowrap text when working in markdown files
   autocmd FileType markdown setlocal formatoptions+=t
 
