@@ -252,6 +252,9 @@ augroup allfiles
   "Spell checking when working with markdown
   autocmd FileType markdown setlocal spell
 
+  "Set indentation and line width for markdown
+  autocmd filetype markdown setlocal textwidth=79 colorcolumn=80 sw=2 sts=2 et
+
   "Spell checking during gitcommit.
   autocmd FileType gitcommit setlocal spell
 
