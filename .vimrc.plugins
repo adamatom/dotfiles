@@ -192,7 +192,14 @@ let g:grammarous#default_comments_only_filetypes = {
 
 " Disable spell checking via LanguageTool
 let g:grammarous#disabled_rules = {
-    \ '*' : ['MORFOLOGIK_RULE_EN_US', 'WORD_CONTAINS_UNDERSCORE', 'EN_QOUTES']
+    \ '*' : ['MORFOLOGIK_RULE_EN_US', 'WORD_CONTAINS_UNDERSCORE', 'EN_QOUTES'],
+    \ 'markdown' : [
+    \       'MORFOLOGIK_RULE_EN_US',
+    \       'WORD_CONTAINS_UNDERSCORE',
+    \       'EN_QOUTES',
+    \       'MULTIPLICATION_SIGN',
+    \       'COMMA_PARENTHESIS_WHITESPACE',
+    \       'WHITESPACE_RULE'],
     \ }
 
 " Use the vim-spell dictionary
@@ -226,6 +233,7 @@ Plug 'dense-analysis/ale'
 let g:ale_linters = { 
   \ 'c': [],
   \ 'cpp': [],
+  \ 'markdown': ['mdl', 'languagetool'],
   \ }
 
 " ALE linting events
