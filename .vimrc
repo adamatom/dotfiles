@@ -233,7 +233,7 @@ cabbrev Qa qa
 cabbrev Tabnew tabnew
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
-cabbrev w!! w !sudo tee > /dev/null % <bar> edit!
+command Sudow :execute ':silent w !sudo tee % > /dev/null' | :edit!
 
 " Close all but the current buffer (or any that arent yet saved)
 command! BufOnly silent! execute "%bd|e#|bd#"
