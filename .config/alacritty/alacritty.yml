@@ -117,6 +117,7 @@ draw_bold_text_with_bright_colors: true
 font:
   # The normal (roman) font face to use.
   normal:
+    #family: Iosevka Fixed SS08
     family: monospace
     # family: EssentialPragmataPro Nerd Font # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
@@ -124,6 +125,7 @@ font:
 
   # The bold font face
   bold:
+    #family: Iosevka Fixed SS08
     family: monospace
     # family: EssentialPragmataPro Nerd Font # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
@@ -131,10 +133,11 @@ font:
 
   # The italic font face
   italic:
+    #family: Iosevka Fixed SS08
     family: monospace
     # family: EssentialPragmataPro Nerd Font # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
-    style: Italic
+    style: Oblique
 
   # Point size of the font
   size: 12.0
