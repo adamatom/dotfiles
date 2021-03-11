@@ -279,6 +279,22 @@ Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['c', 'cpp']}
 "Syntax highlighting for pic assembly
 Plug 'veegee/vim-pic', {'for': 'asm'}
 
+
+"Support for viewing markdown rendering
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+
+"Don't automatically close the preview window when I look at another buffer
+let g:mkdp_auto_close = 0
+
+function! g:Open_browser(url)
+    silent exe 'silent !firefox -P default -url ' . a:url . ' &'
+endfunction
+
+"Define our own function for launching the background browser
+let g:mkdp_browserfunc = 'g:Open_browser'
+
+nmap <leader>m <Plug>MarkdownPreviewToggle
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " color schemes
 """""""""""""""""""""""""""""""""""""""""""""""""""""

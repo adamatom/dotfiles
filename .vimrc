@@ -150,9 +150,6 @@ vnoremap <Leader>P "+P
 " Switch between the last two files
 nnoremap <Leader>a <C-^>
 
-" run make silently and open the quickfix window in case of errors
-nnoremap <leader>m :silent make\|redraw!\|cc<CR>
-
 " Spell check the last error.
 " <ctrl-g>u     create undo marker (before fix) so we can undo/redo this
 "               change. Otherwise vim treats the spelling correction as the
