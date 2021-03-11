@@ -170,6 +170,8 @@ nnoremap <leader>R :%s/\<<C-r><C-w>\>//c<Left><Left>
 
 " Keymaps that alter default behavior
 " -----------------------------------
+" Dont clobber the yank register when replacing text by pasting on top of a visual selection
+xnoremap <silent> p p:let @+=@0<CR>:let @"=@0<CR>
 
 " Advance to next misspelling after adding a word to the spellfile.
 noremap zg zg]s
