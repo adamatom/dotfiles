@@ -94,9 +94,9 @@ function precmd() {
         local gitinfo=''
         local hoststyle=''
         if $(config diff --no-ext-diff --quiet --exit-code 2> /dev/null); then
-            hoststyle='%F{239}'
+            hoststyle='%F{white}'
         else
-            hoststyle='%F{009}'
+            hoststyle='%F{red}'
         fi
 
         local pend=$'%f\n'$PROMPT_CHAR
