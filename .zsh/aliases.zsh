@@ -2,9 +2,11 @@ export LANG="en_US.UTF-8"
 
 export GOPATH=$HOME/.go
 export RUBYGEMPATH=$HOME/.gem/ruby/2.5.0/
-export PATH=$PATH:$HOME/.bin:$GOPATH/bin:$RUBYGEMPATH/bin:$HOME/.local/bin
+
+export PATH=$PATH:$HOME/.bin:$GOPATH/bin:$RUBYGEMPATH/bin:$HOME/.local/bin:$HOME/projects/tek-linux/node_modules/.bin/
 export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
-export LESS='--quit-if-one-screen --ignore-case --status-column --LONG-PROMPT --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --no-init --window=-4'
+export LESS='--quit-if-one-screen --ignore-case --status-column --chop-long-lines --long-prompt --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --mouse --wheel-lines=3 --window=-4'
+export MANPAGER='less +Gg'
 export ENHANCD_DISABLE_DOT=0
 export ENHANCD_DOT_ARG="../.."
 export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l ""'

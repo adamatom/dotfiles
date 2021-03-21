@@ -7,14 +7,15 @@
 
 [diff]
     tool = meld
+
 [difftool]
     prompt = false
+
 [difftool "meld"]
     cmd = meld "$LOCAL" "$REMOTE"
 
 [core]
     excludesfile = ~/.gitignore_global
-    pager = less -F -X
 
 [merge]
     tool = meld
@@ -37,6 +38,9 @@
 
     # Show local branches whose upstream branch has been removed. Good for finding merged branches.
     gone = ! git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}'
+
+    # Update the submodules
+    mods = submodule update --init --recursive
 
 [rerere]
     enabled = 1
