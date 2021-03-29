@@ -41,6 +41,10 @@ alias sml="rlwrap sml"
 alias vc="vim ~/.vimrc"
 alias vp="vim ~/.vimrc.plugins"
 
+launch() {
+    "$@" 2>/dev/null & disown
+}
+
 gdiff () {
     diff -u $@ | colordiff | less -R;
 }
