@@ -26,21 +26,68 @@
     # cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
 
 [alias]
-    # Print a useful graph, can pass additional git log commands: git lg -n 50 master..
-    lg = "log --graph --abbrev-commit --decorate --all --date=format:%m-%d-%Y \
+    quote-string = "!read -r l; printf \\\"!; printf %s \"$l\" | sed 's/\\([\\\"]\\)/\\\\\\1/g'; printf \" #\\\"\\n\" #"
+    quote-string-undo = "!read -r l; printf %s \"$l\" | sed 's/\\\\\\([\\\"]\\)/\\1/g'; printf \"\\n\" #"
+    huh="!echo '\\\"'#"
+    # Shortcut to edit this file
+    conf = config --global -e
+
+    # Get the default branch name. Lets stop assuming it is 'master'
+    getdefault = !git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
+
+    # Update the current branch to what it is tracking
+    up = !git pull --rebase --prune $@ && git submodule update --init --recursive
+
+    # Find all branches that have been merged into default (or given) branch and try to delete them
+    delmerged = "!f() { DEFAULT=$(git getdefault); git branch --merged ${1-$DEFAULT} | \
+        grep -v \" ${1-$DEFAULT}$\" | xargs git branch -d; }; f"
+
+    # Ppretty prints for the reflog
+    rflg = "reflog --abbrev-commit --decorate --all --date=format:%m-%d-%Y \
             --format=format:'%C(yellow)%h%C(bold blue)%d %C(reset)%<|(110,trunc)%s %C(white)%ad [%an]'"
+
     # Run `git delcheck` on a checked out branch to see if the branch has any novel commits
     delcheck = log --graph --left-right --cherry-pick --oneline master...
 
     # Do the dance of checking out master and deleting the recently-merged branch
-    # Run on a checked out branch that has been pulled into the main branch.
-    closeout = !delbranch=$(git rev-parse --abbrev-ref HEAD) && git fetch -Ppat && git checkout master && git rebase && git branch -d ${delbranch}
+    closeout = "!f() { DEFAULT=$(git getdefault); git switch ${1-$DEFAULT} && git up && git delmerged ${1-$DEFAULT}; }; f"
 
     # Show local branches whose upstream branch has been removed. Good for finding merged branches.
     gone = ! git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}'
 
     # Update the submodules
     mods = submodule update --init --recursive
+
+    # bat alternative: less -R
+
+    # Implements an interactive log. Can be passed any commands that git log accepts.
+    # This implementation was based on examples from
+    # https://gist.github.com/junegunn/f4fca918e937e6bf5bad
+    lg="!lg() { \
+        git log --graph --color=always --abbrev-commit \
+            --format='%C(auto)%h %C(blue)%d %C(reset)%s %C(yellow)%cr %C(white)%an' $@ | \
+        fzf --ansi --no-sort --reverse --tiebreak=index --preview \"$(git fzf-preview $@)\" \
+        --bind \"$(git fzf-binds)\" --preview-window=right:60% --height 80%; \
+    }; lg #"
+
+    # A helper function for git lg that echos out the fzf key bindings setting string
+    fzf-binds="!echo \"\
+j:down,\
+k:up,\
+alt-j:preview-down,\
+alt-k:preview-up,\
+ctrl-d:preview-page-down,\
+ctrl-u:preview-page-up,\
+q:abort,\
+ctrl-m:execute: (grep -o '[a-f0-9]\\{7\\}' | head -1 | xargs -I % sh -c 'git show --color=always % | bat') << 'FZF-EOF' {} FZF-EOF\" \
+# end echo"
+
+    # A helper function for git lg that echos out the preview command string for fzf
+    fzf-preview="! [ -n $@ ] && [ -f $@ ] && filter=\"-- $@\" || filter=\"\"; \
+        echo \"f() { \
+                set -- \\$(echo -- \\$@ | grep -o '[a-f0-9]\\{7\\}'); \
+                [ \\$# -eq 0 ] || git show --color=always \\$1 $filter; \
+            }; f {}\" #"
 
 [rerere]
     enabled = 1
