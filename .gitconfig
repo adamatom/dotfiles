@@ -19,6 +19,7 @@
 
 [merge]
     tool = meld
+
 [mergetool "meld"]
     # Choose one of these 2 lines. Merged shows partially merged so far.
     cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
@@ -26,9 +27,12 @@
     # cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
 
 [alias]
+    # This are helper functions to figuring out the proper escaped-character string that these
+    # aliases want to see. Usage is run `git quote-string` and then paste in your raw alias string,
+    # and it will print out what you need to use for these alias strings.
     quote-string = "!read -r l; printf \\\"!; printf %s \"$l\" | sed 's/\\([\\\"]\\)/\\\\\\1/g'; printf \" #\\\"\\n\" #"
     quote-string-undo = "!read -r l; printf %s \"$l\" | sed 's/\\\\\\([\\\"]\\)/\\1/g'; printf \"\\n\" #"
-    huh="!echo '\\\"'#"
+
     # Shortcut to edit this file
     conf = config --global -e
 
@@ -58,36 +62,37 @@
     # Update the submodules
     mods = submodule update --init --recursive
 
-    # bat alternative: less -R
-
     # Implements an interactive log. Can be passed any commands that git log accepts.
     # This implementation was based on examples from
     # https://gist.github.com/junegunn/f4fca918e937e6bf5bad
     lg="!lg() { \
-        git log --graph --color=always --abbrev-commit \
-            --format='%C(auto)%h %C(blue)%d %C(reset)%s %C(yellow)%cr %C(white)%an' $@ | \
-        fzf --ansi --no-sort --reverse --tiebreak=index --preview \"$(git fzf-preview $@)\" \
+        git log --graph --color=always --abbrev-commit --format=\"$(git lg-format)\" $@ |\
+        fzf --no-mouse --ansi --no-sort --reverse --tiebreak=index --preview \"$(git fzf-preview)\" \
         --bind \"$(git fzf-binds)\" --preview-window=right:60% --height 80%; \
-    }; lg #"
+    }; lg"
+
+    lg-format="!echo \"%C(auto)%h %C(blue)%d %C(reset)%s %C(yellow)%cr %C(white)%an\" #"
 
     # A helper function for git lg that echos out the fzf key bindings setting string
     fzf-binds="!echo \"\
 j:down,\
 k:up,\
-alt-j:preview-down,\
-alt-k:preview-up,\
+ctrl-e:preview-down,\
+ctrl-y:preview-up,\
 ctrl-d:preview-page-down,\
 ctrl-u:preview-page-up,\
 q:abort,\
-ctrl-m:execute: (grep -o '[a-f0-9]\\{7\\}' | head -1 | xargs -I % sh -c 'git show --color=always % | bat') << 'FZF-EOF' {} FZF-EOF\" \
+ctrl-m:execute: (grep -o '[a-f0-9]\\{7\\}' | head -1 | \
+  xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF' {} FZF-EOF\" \
 # end echo"
 
-    # A helper function for git lg that echos out the preview command string for fzf
-    fzf-preview="! [ -n $@ ] && [ -f $@ ] && filter=\"-- $@\" || filter=\"\"; \
-        echo \"f() { \
-                set -- \\$(echo -- \\$@ | grep -o '[a-f0-9]\\{7\\}'); \
-                [ \\$# -eq 0 ] || git show --color=always \\$1 $filter; \
-            }; f {}\" #"
+    # A helper function for git lg that echos out the preview command string for fzf. FZF passes
+    # the raw git log line. This captures the 7 digit hash and stores it into $1 via the set
+    # built-in.  Also, if no hash was recovered, don't show anything in the preview window.
+    fzf-preview="!echo \"f() { \
+                set -- \\$(echo -- \\$@ | grep -o \\\"[a-f0-9]\\{7\\}\\\"); \
+                [ \\$# -eq 0 ] || git show --color=always \\$1 \
+            }; f {} \" # end echo"
 
 [rerere]
     enabled = 1
