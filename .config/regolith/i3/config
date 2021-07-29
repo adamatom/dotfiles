@@ -680,4 +680,4 @@ for_window [title="Microsoft Teams Notification"] floating enable
 for_window [window_type=notification] floating enable
 for_window [class="Gnome-calculator"] floating enable
 
-# coming soon: bindsym $mod+p exec "/home/adam/.bin/rofi-pass"
+bindsym $mod+p exec "/home/adam/.bin/rofi-pass"

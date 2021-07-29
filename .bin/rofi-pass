@@ -1,0 +1,17 @@
+#!/bin/bash
+
+shopt -s nullglob globstar
+
+# get all the saved password files
+prefix=${PASSWORD_STORE_DIR-~/.password-store}
+password_files=( "$prefix"/**/*.gpg )
+password_files=( "${password_files[@]#"$prefix"/}" )
+password_files=( "${password_files[@]%.gpg}" )
+
+# shows a list of all password files and saved the selected one in a variable
+password=$(printf '%s\n' "${password_files[@]}" | rofi -dmenu "$@")
+[[ -n $password ]] || exit
+
+
+# pass -c copied the password in clipboard. The additional output from pass is piped in to /dev/null 
+pass show -c "$password" | head -n1  2>/dev/null
