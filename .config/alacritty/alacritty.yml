@@ -1,24 +1,34 @@
 # Configuration for Alacritty, the GPU enhanced terminal emulator
 
+# Import additional configuration files
+#
+# Imports are loaded in order, skipping all missing files, with the importing
+# file being loaded last. If a field is already present in a previous import, it
+# will be replaced.
+#
+# All imports must either be absolute paths starting with `/`, or paths relative
+# to the user's home directory starting with `~/`.
+#import:
+#  - /path/to/alacritty.yml
 
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty it self.
-env:
-  # TERM env customization.
+#env:
+  # TERM variable
   #
-  # If this property is not set, alacritty will set it to xterm-256color.
-  #
-  # Note that some xterm terminfo databases don't declare support for italics.
-  # You can verify this by checking for the presence of `smso` and `sitm` in
-  # `infocmp xterm-256color`.
-  TERM: xterm-256color
+  # This value is used to set the `$TERM` environment variable for
+  # each instance of Alacritty. If it is not present, alacritty will
+  # check the local terminfo database and use `alacritty` if it is
+  # available, otherwise `xterm-256color` is used.
+  #TERM: alacritty
 
 window:
   # Window dimensions (changes require restart)
   #
-  # Specified in number of columns/lines, not pixels.
-  # If both are `0`, this setting is ignored.
+  # Number of lines/columns (not pixels) in the terminal. The number of columns
+  # must be at least `2`, while using a value of `0` for columns and lines will
+  # fall back to the window manager's recommended size.
   #dimensions:
   columns: 0
   lines: 0
@@ -88,62 +98,63 @@ scrolling:
   # '0' will disable scrolling.
   history: 99999
 
-  # Number of lines the viewport will move for every line
-  # scrolled when scrollback is enabled (history > 0).
+  # Scrolling distance multiplier.
   multiplier: 3
 
-# When true, bold text is drawn using the bright variant of colors.
-draw_bold_text_with_bright_colors: true
-
-# Font configuration (changes require restart)
-#
-# Important font attributes like antialiasing, subpixel aa, and hinting can be
-# controlled through fontconfig. Specifically, the following attributes should
-# have an effect:
-#
-# * hintstyle
-# * antialias
-# * lcdfilter
-# * rgba
-#
-# For instance, if you wish to disable subpixel antialiasing, you might set the
-# rgba property to "none". If you wish to completely disable antialiasing, you
-# can set antialias to false.
-#
-# Please see these resources for more information on how to use fontconfig
-#
-# * https://wiki.archlinux.org/index.php/font_configuration#Fontconfig_configuration
-# * file:///usr/share/doc/fontconfig/fontconfig-user.html
+# Font configuration
 font:
-  # The normal (roman) font face to use.
+  # The normal (roman) font face
   normal:
-    #family: Iosevka Fixed SS08
-    family: monospace
-    # family: EssentialPragmataPro Nerd Font # should be "Menlo" or something on macOS.
-    # Style can be specified to pick a specific face.
+    # Font family
+    #
+    # Default:
+    #   - (macOS) Menlo
+    #   - (Linux/BSD) monospace
+    #   - (Windows) Consolas
+    family: monospace #family: Iosevka Fixed SS08# family: EssentialPragmataPro Nerd Font # should be "Menlo" or something on macOS.
+
+    # The `style` can be specified to pick a specific face.
     style: Regular
 
   # The bold font face
   bold:
-    #family: Iosevka Fixed SS08
+    # Font family
+    #
+    # If the bold family is not specified, it will fall back to the
+    # value specified for the normal font.
     family: monospace
-    # family: EssentialPragmataPro Nerd Font # should be "Menlo" or something on macOS.
-    # Style can be specified to pick a specific face.
+    #family: Iosevka Fixed SS08# family: EssentialPragmataPro Nerd Font # should be "Menlo" or something on macOS.
+    # The `style` can be specified to pick a specific face.
     style: Bold
 
   # The italic font face
   italic:
-    #family: Iosevka Fixed SS08
+    # Font family
+    #
+    # If the italic family is not specified, it will fall back to the
+    # value specified for the normal font.
     family: monospace
-    # family: EssentialPragmataPro Nerd Font # should be "Menlo" or something on macOS.
+    #family: Iosevka Fixed SS08 # family: EssentialPragmataPro Nerd Font # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
     style: Oblique
+
+  # bold italic font face
+  #bold_italic:
+    # font family
+    #
+    # if the bold italic family is not specified, it will fall back to the
+    # value specified for the normal font.
+    #family: monospace
+
+    # the `style` can be specified to pick a specific face.
+    #style: bold italic
 
   # Point size of the font
   size: 12.0
 
-  # Offset is the extra space around each character. offset.y can be thought of
-  # as modifying the linespacing, and offset.x as modifying the letter spacing.
+  # Offset is the extra space around each character. `offset.y` can be thought
+  # of as modifying the line spacing, and `offset.x` as modifying the letter
+  # spacing.
   offset:
     x: 1
     y: 2
@@ -155,14 +166,16 @@ font:
     x: 0
     y: 0
 
-  # OS X only: use thin stroke font rendering. Thin strokes are suitable
-  # for retina displays, but for non-retina you probably want this set to
-  # false.
-  use_thin_strokes: false
+  # Thin stroke font rendering (macOS only)
+  #
+  # Thin strokes are suitable for retina displays, but for non-retina screens
+  # it is recommended to set `use_thin_strokes` to `false`.
+  #use_thin_strokes: true
 
-# Should display the render timer
-debug.render_timer: false
+# When true, bold text is drawn using the bright variant of colors.
+draw_bold_text_with_bright_colors: true
 
+# Colors
 colors:
   # Default colors
   primary:
@@ -171,19 +184,87 @@ colors:
 
     # Bright and dim foreground colors
     #
-    # The dimmed foreground color is calculated automatically if it is not present.
-    # If the bright foreground color is not set, or `draw_bold_text_with_bright_colors`
-    # is `false`, the normal foreground color will be used.
+    # The dimmed foreground color is calculated automatically if it is not
+    # present. If the bright foreground color is not set, or
+    # `draw_bold_text_with_bright_colors` is `false`, the normal foreground
+    # color will be used.
     #dim_foreground: '0x9a9a9a'
     bright_foreground: '0xe6efff'
 
   # Cursor colors
   #
-  # Colors which should be used to draw the terminal cursor. If these are unset,
-  # the cursor color will be the inverse of the cell color.
+  # Colors which should be used to draw the terminal cursor.
+  #
+  # Allowed values are CellForeground/CellBackground, which reference the
+  # affected cell, or hexadecimal colors like #ff00ff.
   #cursor:
-  #  text: '0x000000'
-  #  cursor: '0xffffff'
+  #  text: CellBackground
+  #  cursor: CellForeground
+
+  # Vi mode cursor colors
+  #
+  # Colors for the cursor when the vi mode is active.
+  #
+  # Allowed values are CellForeground/CellBackground, which reference the
+  # affected cell, or hexadecimal colors like #ff00ff.
+  #vi_mode_cursor:
+  #  text: CellBackground
+  #  cursor: CellForeground
+
+  # Search colors
+  #
+  # Colors used for the search bar and match highlighting.
+  #search:
+    # Allowed values are CellForeground/CellBackground, which reference the
+    # affected cell, or hexadecimal colors like #ff00ff.
+    #matches:
+    #  foreground: '#000000'
+    #  background: '#ffffff'
+    #focused_match:
+    #  foreground: '#ffffff'
+    #  background: '#000000'
+
+    #bar:
+    #  background: '#c5c8c6'
+    #  foreground: '#1d1f21'
+
+  # Keyboard regex hints
+  #hints:
+    # Fist character in the hint label
+    #
+    # Allowed values are CellForeground/CellBackground, which reference the
+    # affected cell, or hexadecimal colors like #ff00ff.
+    #start:
+    #  foreground: '#1d1f21'
+    #  background: '#e9ff5e'
+
+    # All characters after the first one in the hint label
+    #
+    # Allowed values are CellForeground/CellBackground, which reference the
+    # affected cell, or hexadecimal colors like #ff00ff.
+    #end:
+    #  foreground: '#e9ff5e'
+    #  background: '#1d1f21'
+
+  # Line indicator
+  #
+  # Color used for the indicator displaying the position in history during
+  # search and vi mode.
+  #
+  # By default, these will use the opposing primary color.
+  #line_indicator:
+  #  foreground: None
+  #  background: None
+
+  # Selection colors
+  #
+  # Colors which should be used to draw the selection area.
+  #
+  # Allowed values are CellForeground/CellBackground, which reference the
+  # affected cell, or hexadecimal colors like #ff00ff.
+  #selection:
+  #  text: CellBackground
+  #  background: CellForeground
 
   # Normal colors
   normal:
@@ -225,9 +306,11 @@ colors:
   #
   # The indexed colors include all colors from 16 to 256.
   # When these are not set, they're filled with sensible defaults.
-  #indexed_colors:
-  #  - { index: 16, color: '0x000000' }
   #
+  # Example:
+  #   `- { index: 16, color: '#ff00ff' }`
+  #
+  #indexed_colors: []
 
 # Bell
 #
@@ -271,25 +354,84 @@ bell:
   #command: None
 
 # Background opacity
+#
+# Window opacity as a floating point number from `0.0` to `1.0`.
+# The value `0.0` is completely transparent and `1.0` is opaque.
 background_opacity: 1.0
 
-# Mouse bindings
+selection:
+  # This string contains all characters that are used as separators for
+  # "semantic words" in Alacritty.
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>"
+
+  # When set to `true`, selected text will be copied to the primary clipboard.
+  #save_to_clipboard: false
+
+cursor:
+  # Cursor style
+  style:
+    # Cursor shape
+    #
+    # Values for `shape`:
+    #   - ▇ Block
+    #   - _ Underline
+    #   - | Beam
+    shape: Block
+
+    # Cursor blinking state
+    #
+    # Values for `blinking`:
+    #   - Never: Prevent the cursor from ever blinking
+    #   - Off: Disable blinking by default
+    #   - On: Enable blinking by default
+    #   - Always: Force the cursor to always blink
+    #blinking: Off
+
+  # Vi mode cursor style
+  #
+  # If the vi mode cursor style is `None` or not specified, it will fall back to
+  # the style of the active value of the normal cursor.
+  #
+  # See `cursor.style` for available options.
+  #vi_mode_style: None
+
+  # Cursor blinking interval in milliseconds.
+  #blink_interval: 750
+
+  # If this is `true`, the cursor will be rendered as a hollow box when the
+  # window is not focused.
+  unfocused_hollow: true
+
+  # Thickness of the cursor relative to the cell width as floating point number
+  # from `0.0` to `1.0`.
+  #thickness: 0.15
+
+# Live config reload (changes require restart)
+live_config_reload: true
+
+# Shell
 #
-# Currently doesn't support modifiers. Both the `mouse` and `action` fields must
-# be specified.
+# You can set `shell.program` to the path of your favorite shell, e.g.
+# `/bin/fish`. Entries in `shell.args` are passed unmodified as arguments to the
+# shell.
 #
-# Values for `mouse`:
-# - Middle
-# - Left
-# - Right
-# - Numeric identifier such as `5`
+# Default:
+#   - (macOS) /bin/bash --login
+#   - (Linux/BSD) user login shell
+#   - (Windows) powershell
+#shell:
+#  program: /bin/bash
+#  args:
+#    - --login
+
+# Startup directory
 #
-# Values for `action`:
-# - Paste
-# - PasteSelection
-# - Copy (TODO)
-mouse_bindings:
-  - { mouse: Middle, action: PasteSelection }
+# Directory the shell is started in. If this is unset, or `None`, the working
+# directory of the parent process will be used.
+#working_directory: None
+
+# Send ESC (\x1b) before characters when alt is pressed.
+#alt_send_esc: true
 
 mouse:
   # Click settings
@@ -303,97 +445,286 @@ mouse:
   # If this is `true`, the cursor is temporarily hidden when typing.
   hide_when_typing: false
 
-  url:
-    # URL launcher
-    #
-    # This program is executed when clicking on a text which is recognized as a URL.
-    # The URL is always added to the command as the last parameter.
-    launcher: xdg-open
+# Regex hints
+#
+# Terminal hints can be used to find text in the visible part of the terminal
+# and pipe it to other applications.
+hints:
+  # Keys used for the hint labels.
+  #alphabet: "jfkdls;ahgurieowpq"
 
-selection:
-  semantic_escape_chars: ",│`|:\"' ()[]{}<>"
-
-
-cursor:
-  # Cursor style
+  # List with all available hints
   #
-  # Values for 'style':
-  #   - ▇ Block
-  #   - _ Underline
-  #   - | Beam
-  style: Block
+  # Each hint must have a `regex` and either an `action` or a `command` field.
+  # The fields `mouse`, `binding` and `post_processing` are optional.
+  #
+  # The fields `command`, `binding.key`, `binding.mods` and `mouse.mods` accept
+  # the same values as they do in the `key_bindings` section.
+  #
+  # The `mouse.enabled` field controls if the hint should be underlined while
+  # the mouse with all `mouse.mods` keys held or the vi mode cursor is above it.
+  #
+  # If the `post_processing` field is set to `true`, heuristics will be used to
+  # shorten the match if there are characters likely not to be part of the hint
+  # (e.g. a trailing `.`). This is most useful for URIs.
+  #
+  # Values for `action`:
+  #   - Copy
+  #       Copy the hint's text to the clipboard.
+  #   - Paste
+  #       Paste the hint's text to the terminal or search.
+  #   - Select
+  #       Select the hint's text.
+  #   - MoveViModeCursor
+  #       Move the vi mode cursor to the beginning of the hint.
+  enabled:
+   - regex: "(mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)\
+             [^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
+     command: xdg-open
+     post_processing: true
+     mouse:
+       enabled: true
+       mods: None
+     binding:
+       key: U
+       mods: Control|Shift
 
-  # If this is `true`, the cursor will be rendered as a hollow box when the
-  # window is not focused.
-  unfocused_hollow: true
-
-# Live config reload (changes require restart)
-live_config_reload: true
-
-# Shell
+# Mouse bindings
 #
-# You can set shell.program to the path of your favorite shell, e.g. /bin/fish.
-# Entries in shell.args are passed unmodified as arguments to the shell.
+# Mouse bindings are specified as a list of objects, much like the key
+# bindings further below.
 #
-# shell:
-#   program: /bin/bash
-#   args:
-#     - --login
+# To trigger mouse bindings when an application running within Alacritty
+# captures the mouse, the `Shift` modifier is automatically added as a
+# requirement.
+#
+# Each mouse binding will specify a:
+#
+# - `mouse`:
+#
+#   - Middle
+#   - Left
+#   - Right
+#   - Numeric identifier such as `5`
+#
+# - `action` (see key bindings)
+#
+# And optionally:
+#
+# - `mods` (see key bindings)
+mouse_bindings:
+  - { mouse: Middle, action: PasteSelection }
 
 # Key bindings
 #
-# Each binding is defined as an object with some properties. Most of the
-# properties are optional. All of the alphabetical keys should have a letter for
-# the `key` value such as `V`. Function keys are probably what you would expect
-# as well (F1, F2, ..). The number keys above the main keyboard are encoded as
-# `Key1`, `Key2`, etc. Keys on the number pad are encoded `Number1`, `Number2`,
-# etc.  These all match the glutin::VirtualKeyCode variants.
+# Key bindings are specified as a list of objects. For example, this is the
+# default paste binding:
 #
-# A list with all available `key` names can be found here:
-# https://docs.rs/glutin/*/glutin/enum.VirtualKeyCode.html#variants
+# `- { key: V, mods: Control|Shift, action: Paste }`
 #
-# Possible values for `mods`
-# `Command`, `Super` refer to the super/command/windows key
-# `Control` for the control key
-# `Shift` for the Shift key
-# `Alt` and `Option` refer to alt/option
+# Each key binding will specify a:
 #
-# mods may be combined with a `|`. For example, requiring control and shift
-# looks like:
+# - `key`: Identifier of the key pressed
 #
-# mods: Control|Shift
+#    - A-Z
+#    - F1-F24
+#    - Key0-Key9
 #
-# The parser is currently quite sensitive to whitespace and capitalization -
-# capitalization must match exactly, and piped items must not have whitespace
-# around them.
+#    A full list with available key codes can be found here:
+#    https://docs.rs/glutin/*/glutin/event/enum.VirtualKeyCode.html#variants
 #
-# Either an `action`, `chars`, or `command` field must be present.
-#   `action` must be one of the following:
-#       - `Paste`
-#       - `PasteSelection`
-#       - `Copy`
-#       - `IncreaseFontSize`
-#       - `DecreaseFontSize`
-#       - `ResetFontSize`
-#       - `ScrollPageUp`
-#       - `ScrollPageDown`
-#       - `ScrollToTop`
-#       - `ScrollToBottom`
-#       - `Quit`
-#   `chars` writes the specified string every time that binding is activated.
-#     These should generally be escape sequences, but they can be configured to
-#     send arbitrary strings of bytes.
-#   `command` must be a map containing a `program` string, and `args` array of
-#     strings. For example:
-#     - { ... , command: { program: "alacritty", args: ["-e", "vttest"] } }
+#    Instead of using the name of the keys, the `key` field also supports using
+#    the scancode of the desired key. Scancodes have to be specified as a
+#    decimal number. This command will allow you to display the hex scancodes
+#    for certain keys:
 #
-# Want to add a binding (e.g. "PageUp") but are unsure what the X sequence
-# (e.g. "\x1b[5~") is? Open another terminal (like xterm) without tmux,
-# then run `showkey -a` to get the sequence associated to a key combination.
+#       `showkey --scancodes`.
+#
+# Then exactly one of:
+#
+# - `chars`: Send a byte sequence to the running application
+#
+#    The `chars` field writes the specified string to the terminal. This makes
+#    it possible to pass escape sequences. To find escape codes for bindings
+#    like `PageUp` (`"\x1b[5~"`), you can run the command `showkey -a` outside
+#    of tmux. Note that applications use terminfo to map escape sequences back
+#    to keys. It is therefore required to update the terminfo when changing an
+#    escape sequence.
+#
+# - `action`: Execute a predefined action
+#
+#   - ToggleViMode
+#   - SearchForward
+#       Start searching toward the right of the search origin.
+#   - SearchBackward
+#       Start searching toward the left of the search origin.
+#   - Copy
+#   - Paste
+#   - IncreaseFontSize
+#   - DecreaseFontSize
+#   - ResetFontSize
+#   - ScrollPageUp
+#   - ScrollPageDown
+#   - ScrollHalfPageUp
+#   - ScrollHalfPageDown
+#   - ScrollLineUp
+#   - ScrollLineDown
+#   - ScrollToTop
+#   - ScrollToBottom
+#   - ClearHistory
+#       Remove the terminal's scrollback history.
+#   - Hide
+#       Hide the Alacritty window.
+#   - Minimize
+#       Minimize the Alacritty window.
+#   - Quit
+#       Quit Alacritty.
+#   - ToggleFullscreen
+#   - SpawnNewInstance
+#       Spawn a new instance of Alacritty.
+#   - ClearLogNotice
+#       Clear Alacritty's UI warning and error notice.
+#   - ClearSelection
+#       Remove the active selection.
+#   - ReceiveChar
+#   - None
+#
+# - Vi mode exclusive actions:
+#
+#   - Open
+#       Perform the action of the first matching hint under the vi mode cursor
+#       with `mouse.enabled` set to `true`.
+#   - ToggleNormalSelection
+#   - ToggleLineSelection
+#   - ToggleBlockSelection
+#   - ToggleSemanticSelection
+#       Toggle semantic selection based on `selection.semantic_escape_chars`.
+#
+# - Vi mode exclusive cursor motion actions:
+#
+#   - Up
+#       One line up.
+#   - Down
+#       One line down.
+#   - Left
+#       One character left.
+#   - Right
+#       One character right.
+#   - First
+#       First column, or beginning of the line when already at the first column.
+#   - Last
+#       Last column, or beginning of the line when already at the last column.
+#   - FirstOccupied
+#       First non-empty cell in this terminal row, or first non-empty cell of
+#       the line when already at the first cell of the row.
+#   - High
+#       Top of the screen.
+#   - Middle
+#       Center of the screen.
+#   - Low
+#       Bottom of the screen.
+#   - SemanticLeft
+#       Start of the previous semantically separated word.
+#   - SemanticRight
+#       Start of the next semantically separated word.
+#   - SemanticLeftEnd
+#       End of the previous semantically separated word.
+#   - SemanticRightEnd
+#       End of the next semantically separated word.
+#   - WordLeft
+#       Start of the previous whitespace separated word.
+#   - WordRight
+#       Start of the next whitespace separated word.
+#   - WordLeftEnd
+#       End of the previous whitespace separated word.
+#   - WordRightEnd
+#       End of the next whitespace separated word.
+#   - Bracket
+#       Character matching the bracket at the cursor's location.
+#   - SearchNext
+#       Beginning of the next match.
+#   - SearchPrevious
+#       Beginning of the previous match.
+#   - SearchStart
+#       Start of the match to the left of the vi mode cursor.
+#   - SearchEnd
+#       End of the match to the right of the vi mode cursor.
+#
+# - Search mode exclusive actions:
+#   - SearchFocusNext
+#       Move the focus to the next search match.
+#   - SearchFocusPrevious
+#       Move the focus to the previous search match.
+#   - SearchConfirm
+#   - SearchCancel
+#   - SearchClear
+#       Reset the search regex.
+#   - SearchDeleteWord
+#       Delete the last word in the search regex.
+#   - SearchHistoryPrevious
+#       Go to the previous regex in the search history.
+#   - SearchHistoryNext
+#       Go to the next regex in the search history.
+#
+# - macOS exclusive actions:
+#   - ToggleSimpleFullscreen
+#       Enter fullscreen without occupying another space.
+#
+# - Linux/BSD exclusive actions:
+#
+#   - CopySelection
+#       Copy from the selection buffer.
+#   - PasteSelection
+#       Paste from the selection buffer.
+#
+# - `command`: Fork and execute a specified command plus arguments
+#
+#    The `command` field must be a map containing a `program` string and an
+#    `args` array of command line parameter strings. For example:
+#       `{ program: "alacritty", args: ["-e", "vttest"] }`
+#
+# And optionally:
+#
+# - `mods`: Key modifiers to filter binding actions
+#
+#    - Command
+#    - Control
+#    - Option
+#    - Super
+#    - Shift
+#    - Alt
+#
+#    Multiple `mods` can be combined using `|` like this:
+#       `mods: Control|Shift`.
+#    Whitespace and capitalization are relevant and must match the example.
+#
+# - `mode`: Indicate a binding for only specific terminal reported modes
+#
+#    This is mainly used to send applications the correct escape sequences
+#    when in different modes.
+#
+#    - AppCursor
+#    - AppKeypad
+#    - Search
+#    - Alt
+#    - Vi
+#
+#    A `~` operator can be used before a mode to apply the binding whenever
+#    the mode is *not* active, e.g. `~Alt`.
+#
+# Bindings are always filled by default, but will be replaced when a new
+# binding with the same triggers is defined. To unset a default binding, it can
+# be mapped to the `ReceiveChar` action. Alternatively, you can use `None` for
+# a no-op if you do not wish to receive input characters for that binding.
+#
+# If the same trigger is assigned to multiple actions, all of them are executed
+# in the order they were defined in.
 key_bindings:
   - { key: Return,    mods: Control,   chars: "\x1b[21~"                        }
   - { key: V,        mods: Control|Shift,    action: Paste               }
   - { key: C,        mods: Control|Shift,    action: Copy                }
+  - { key: F,        mods: Control|Shift,     action: SearchForward    }
+  - { key: B,        mods: Control|Shift, action: SearchBackward   }
   - { key: Paste,                   action: Paste                        }
   - { key: Copy,                    action: Copy                         }
   - { key: Q,        mods: Command, action: Quit                         }
@@ -497,3 +828,24 @@ key_bindings:
   - { key: F10,      mods: Super,   chars: "\x1b[21;3~"                  }
   - { key: F11,      mods: Super,   chars: "\x1b[23;3~"                  }
   - { key: F12,      mods: Super,   chars: "\x1b[24;3~"                  }
+
+#debug:
+  # Display the time it takes to redraw each frame.
+  #render_timer: false
+
+  # Keep the log file after quitting Alacritty.
+  #persistent_logging: false
+
+  # Log level
+  #
+  # Values for `log_level`:
+  #   - Off
+  #   - Error
+  #   - Warn
+  #   - Info
+  #   - Debug
+  #   - Trace
+  #log_level: Warn
+
+  # Print all received window events.
+  #print_events: false
