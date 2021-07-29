@@ -72,9 +72,9 @@ set shiftround                  " round to shiftwidth instead of inserting tabst
 " Line wrapping, cursors, cursor lines
 set nowrap                      " dont display long-lines as wrapped
 set textwidth=99                " automatically try to break long lines as they are typed
-set scrolloff=2                 " always show lines of code above/below cursor
+set scrolloff=15                " always show lines of code above/below cursor
 set sidescroll=5                " always show extra context characters horizontally
-set colorcolumn=100            " show a column indicating max line length
+set colorcolumn=100             " show a column indicating max line length
 
 " Tame auto formatting, see :h fo-table
 set formatoptions=
@@ -298,11 +298,11 @@ if filereadable(expand($HOME.'/.vimrc.plugins'))
   " colorscheme base16-solarized-light
   " colorscheme base16-porple
   " colorscheme base16-snazzy
-  " colorscheme corvine
+  colorscheme corvine
   " colorscheme vim-framer-syntax
   if has('gui_running')
     colorscheme onedark
   else
-    colorscheme purify
+    " colorscheme purify
   endif
 endif
