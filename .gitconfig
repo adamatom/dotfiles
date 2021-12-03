@@ -140,7 +140,12 @@ ctrl-m:execute: (grep -o '[a-f0-9]\\{7\\}' | head -1 | \
     rebase = true
 [color]
     ui = true
+
 [pager]
     tag = false
+    branch = false
+
 [tag]
     sort = version:refname
+[init]
+	defaultBranch = main
