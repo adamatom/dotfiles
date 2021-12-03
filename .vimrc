@@ -19,8 +19,10 @@ if has('gui_running')
   set guioptions-=h
   set guioptions-=e  "I dont like the gui tabs, use ascii
   set guioptions+=c  "dont use gui modal dialogs
-  "set guifont=Fira\ Code\ 14
-  set guifont=Noto\ Mono\ 12
+  "set guifont=Fira\ Code\ 12
+  "set guifont=Noto\ Mono\ 12
+  "set guifont=Ubuntu\ Mono\ 12
+  set guifont=Source\ Code\ Pro\ Medium\ 12
 elseif has('termguicolors')           " Use fg/bg colors from terminal (compatible terminals only)
   set termguicolors
   "  set t_ut=""        "Dont rely on Background Color Erase (BCE) support from terminal emulator
@@ -198,12 +200,18 @@ noremap q: :q
 
 nnoremap Q <nop>
 
-"Make up/down/cr map to the (oddly) more useful ctrl-n, ctrl-p, ctrl-y, ctrl-e
+
+"Use a simpler keymapping for the menu:
+"hitting enter on a selection accepts the selection and closes the menu.
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+"hitting escape rejects the completion, reverts the texts, and closes the menu.
+"inoremap <expr> <esc>     pumvisible() ? "\<C-e>" : "<Esc>"
+
+"pressing up and down select the next or previous menu selection.
 inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
 inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
 
-"Use ctrl-j/k for popup menu
+"ctrl-j and ctrl-k can be used in place of up and down.
 inoremap <expr> <C-j>     pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k>       pumvisible() ? "\<C-p>" : "\<C-k>"
 
@@ -292,17 +300,21 @@ if filereadable(expand($HOME.'/.vimrc.plugins'))
   " colorscheme carbonized-dark
   " colorscheme one
   " colorscheme onedark
-  " colorscheme neodark
+  "colorscheme neodark
   " colorscheme palenight
   " colorscheme base16-phd
   " colorscheme base16-solarized-light
   " colorscheme base16-porple
   " colorscheme base16-snazzy
-  colorscheme corvine
+  " colorscheme corvine
   " colorscheme vim-framer-syntax
-  if has('gui_running')
-    colorscheme onedark
-  else
-    " colorscheme purify
-  endif
+  " if has('gui_running')
+  "   colorscheme space_vim_theme
+  " else
+  "   " colorscheme purify
+  " endif
+  "
+  let g:edge_style = 'default'
+  let g:edge_enable_italic = 1
+  colorscheme edge
 endif
