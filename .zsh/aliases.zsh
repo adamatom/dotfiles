@@ -16,6 +16,7 @@ export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l ""'
 alias ssh="TERM=xterm-256color ssh"
 alias ls="ls -lA --color=always --group-directories-first"
 alias lsd="ls -lAtr --color=always --group-directories-first"
+alias xclip="xclip -selection clipboard"
 alias gvim="gvim $* 2>/dev/null"
 alias pyclean="find . | grep -E \"(\.mypy_cache|\.pytest_cache|__pycache__|\.pyc|\.pyo$)\" | sudo xargs rm -rf"
 alias spotify="spotify --force-device-scale-factor=2.0"
