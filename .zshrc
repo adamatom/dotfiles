@@ -8,7 +8,9 @@ fi
 
 source ~/.zsh/colors.zsh
 source ~/.zsh/setopt.zsh
-source ~/.zsh/prompt.zsh
+# source ~/.zsh/prompt.zsh
+# Powerlevel10k generated theme!
+source ~/.p10k.zsh
 source ~/.zsh/aliases.zsh
 source ~/.zsh/history.zsh
 source ~/.zsh/completion.zsh

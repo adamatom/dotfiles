@@ -12,16 +12,16 @@ function load_plugins() {
     zplug "adamatom/zsh-autosuggestions"
     zplug "zsh-users/zsh-completions"
     zplug "adamatom/zsh-cwd-history"
-    zplug "plugins/gitfast", from:oh-my-zsh
     zplug "zsh-users/zsh-history-substring-search"
+    zplug "b4b4r07/enhancd", use:init.sh
 
-    # enhancd introduces an issue with revision 0d39876
-    # see https://github.com/b4b4r07/enhancd/issues/101
-    zplug "b4b4r07/enhancd", use:init.sh, at:718bd319cce2d985a90211f3b6c00851995f039e
     if zplug check "b4b4r07/enhancd"; then
         export ENHANCD_FILTER="fzf --height 50% --reverse --ansi --preview 'ls -l {}' --preview-window down"
         export ENHANCD_DOT_SHOW_FULLPATH=1
     fi
+
+    # Prompt theme that wraps gitstatus binary
+    zplug romkatv/powerlevel10k, as:theme, depth:1
 
     # Grab binaries from GitHub Releases
     # and rename with the "rename-to:" tag
