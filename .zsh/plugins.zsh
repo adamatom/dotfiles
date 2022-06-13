@@ -8,20 +8,25 @@ function update_plugins() {
 function load_plugins() {
 
     zplug "zsh-users/zsh-syntax-highlighting"
-    # zplug "zsh-users/zsh-autosuggestions"
-    zplug "adamatom/zsh-autosuggestions"
     zplug "zsh-users/zsh-completions"
-    zplug "adamatom/zsh-cwd-history"
-    zplug "zsh-users/zsh-history-substring-search"
+    zplug "zsh-users/zsh-autosuggestions"
     zplug "b4b4r07/enhancd", use:init.sh
-
     if zplug check "b4b4r07/enhancd"; then
         export ENHANCD_FILTER="fzf --height 50% --reverse --ansi --preview 'ls -l {}' --preview-window down"
         export ENHANCD_DOT_SHOW_FULLPATH=1
     fi
 
+    # Keep history in a sqlite3 database, and provide histdb to query it
+    zplug "larkery/zsh-histdb", use:"*.zsh"
+    if zplug check "larkery/zsh-histdb"; then
+        # HACK: this assumes where the histdb-interactive.zsh script is. Im not sure why the above
+        # `use` directive doesn't source this file. Something to figure out on a rainy day.
+        source ~/.zplug/repos/larkery/zsh-histdb/histdb-interactive.zsh
+        bindkey '^r' _histdb-isearch
+    fi
+
     # Prompt theme that wraps gitstatus binary
-    zplug romkatv/powerlevel10k, as:theme, depth:1
+    zplug "romkatv/powerlevel10k", as:theme, depth:1
 
     # Grab binaries from GitHub Releases
     # and rename with the "rename-to:" tag
