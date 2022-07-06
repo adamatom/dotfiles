@@ -15,7 +15,6 @@ source ~/.zsh/aliases.zsh
 source ~/.zsh/history.zsh
 source ~/.zsh/completion.zsh
 source ~/.zsh/plugins.zsh
-source ~/.zsh/plugin_options.zsh
 source ~/.zsh/bindkeys.zsh
 if [ -f ~/.zsh_local.zsh ]; then
     source ~/.zsh_local.zsh
