@@ -14,14 +14,14 @@
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty it self.
-#env:
+env:
   # TERM variable
   #
   # This value is used to set the `$TERM` environment variable for
   # each instance of Alacritty. If it is not present, alacritty will
   # check the local terminfo database and use `alacritty` if it is
   # available, otherwise `xterm-256color` is used.
-  #TERM: alacritty
+  TERM: xterm-256color
 
 window:
   # Window dimensions (changes require restart)
@@ -112,7 +112,8 @@ font:
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
     #family: monospace #family: Iosevka Fixed SS08# family: EssentialPragmataPro Nerd Font # should be "Menlo" or something on macOS.
-    family: JetBrains Mono
+    # family: JetBrains Mono
+    family: JetBrainsMonoNL Nerd Font
 
 
     # The `style` can be specified to pick a specific face.
@@ -126,7 +127,8 @@ font:
     # value specified for the normal font.
     #family: monospace
     #family: Source Code Pro
-    family: JetBrains Mono
+    # family: JetBrains Mono
+    family: JetBrainsMonoNL Nerd Font
     #family: Iosevka Fixed SS08# family: EssentialPragmataPro Nerd Font # should be "Menlo" or something on macOS.
     # The `style` can be specified to pick a specific face.
     style: Bold
@@ -139,7 +141,8 @@ font:
     # value specified for the normal font.
     #family: monospace
     #family: Source Code Pro
-    family: JetBrains Mono
+    # family: jetbrains mono
+    family: jetbrainsmononl nerd font
     #family: Iosevka Fixed SS08 # family: EssentialPragmataPro Nerd Font # should be "Menlo" or something on macOS.
     # Style can be specified to pick a specific face.
     style: Oblique
@@ -358,12 +361,6 @@ bell:
   #     args: ["Hello, World!"]
   #
   #command: None
-
-# Background opacity
-#
-# Window opacity as a floating point number from `0.0` to `1.0`.
-# The value `0.0` is completely transparent and `1.0` is opaque.
-background_opacity: 1.0
 
 selection:
   # This string contains all characters that are used as separators for
