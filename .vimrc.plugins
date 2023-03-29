@@ -117,16 +117,13 @@ augroup fugitivecleanup
   autocmd BufReadPost fugitive://* set bufhidden=delete
 augroup END
 
-
 " Show commit message in fugitive blame window
 Plug 'tommcdo/vim-fugitive-blame-ext'
-
 
 "Blink the hlsearch item we just jumped to
 Plug 'ivyl/vim-bling'
 " This must be set to no, otherwise this breaks cabbrev working on <cr>
 let g:bling_no_expr = 1
-
 
 "Show the diff when editing a git commit.
 Plug 'rhysd/committia.vim'
