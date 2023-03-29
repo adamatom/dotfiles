@@ -9,8 +9,6 @@ export DELTA_PAGER=""
 export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
 export LESS='--quit-if-one-screen --ignore-case --status-column --chop-long-lines --long-prompt --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --window=-4'
 export MANPAGER='less +Gg'
-export ENHANCD_DISABLE_DOT=0
-export ENHANCD_DOT_ARG="../.."
 export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l ""'
 
 alias ssh="TERM=xterm-256color ssh"

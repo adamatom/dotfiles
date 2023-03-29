@@ -1,4 +1,3 @@
-TIMESTAMP_FILE=~/.cach/zplug
 function update_plugins() {
     print -P '%B%F{cyan}Updating plugins%b%f'
     zplug update
@@ -6,58 +5,23 @@ function update_plugins() {
 }
 
 function load_plugins() {
-    zplug "zsh-users/zsh-syntax-highlighting"
+    zplug "romkatv/powerlevel10k", as:theme, depth:1  # fancy prompt
+    zplug "zsh-users/zsh-syntax-highlighting"  # syntax highlighting with the shell
     zplug "zsh-users/zsh-completions"
-    zplug "zsh-users/zsh-autosuggestions"
-    zplug "b4b4r07/enhancd", use:init.sh
-    if zplug check "b4b4r07/enhancd"; then
-        export ENHANCD_FILTER="fzf --height 50% --reverse --ansi --preview 'ls -l {}' --preview-window down"
-        export ENHANCD_DOT_SHOW_FULLPATH=1
-    fi
 
-    # Keep history in a sqlite3 database, and provide histdb to query it
-    if ! builtin which sqlite3 > /dev/null; then
-        printf "sqlite3 not detected, sudo apt install sqlite3? [y/N]: "
+    zstyle ':autocomplete:*' fzf-completion yes
+    zstyle ':autocomplete:*' widget-style menu-select
+    # complete-word: (Shift-)Tab inserts the top (bottom) completion.
+    # menu-complete: Press again to cycle to next (previous) completion.
+    # menu-select:   Same as `menu-complete`, but updates selection in menu.
+    zplug "marlonrichert/zsh-autocomplete"
+
+    if ! builtin which zoxide > /dev/null; then
+        printf "zoxide not detected, sudo apt install zoxide? [y/N]: "
         if read -q; then
-            echo; sudo apt install sqlite3
+            echo; sudo apt install zoxide
         fi
     fi
-
-    if builtin which sqlite3 > /dev/null; then
-        zplug "larkery/zsh-histdb", use:"*.zsh"
-        if zplug check "larkery/zsh-histdb"; then
-            # HACK: this assumes where the histdb-interactive.zsh script is. Im not sure why the above
-            # `use` directive doesn't source this file. Something to figure out on a rainy day.
-            source ~/.zplug/repos/larkery/zsh-histdb/sqlite-history.zsh
-            source ~/.zplug/repos/larkery/zsh-histdb/histdb-interactive.zsh
-            bindkey '^r' _histdb-isearch
-        fi
-        _zsh_autosuggest_strategy_histdb_top() {
-            local query="
-                select commands.argv from history
-                left join commands on history.command_id = commands.rowid
-                left join places on history.place_id = places.rowid
-                where commands.argv LIKE '$(sql_escape $1)%'
-                group by commands.argv, places.dir
-                order by places.dir != '$(sql_escape $PWD)', count(*) desc
-                limit 1
-            "
-            suggestion=$(_histdb_query "$query")
-        }
-
-        ZSH_AUTOSUGGEST_STRATEGY=histdb_top
-    fi
-
-    # Prompt theme that wraps gitstatus binary
-    zplug "romkatv/powerlevel10k", as:theme, depth:1
-
-    # Grab binaries from GitHub Releases
-    # and rename with the "rename-to:" tag
-    zplug "junegunn/fzf-bin", \
-        from:gh-r, \
-        as:command, \
-        rename-to:fzf, \
-        use:"*linux*amd64*"
 
     # Install plugins if there are plugins that have not been installed
     if ! zplug check --verbose; then
@@ -96,13 +60,6 @@ function load_plugins() {
 
     # Change highlight to use a blue background
     HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=blue,fg=white,bold'
-
-    # Use async suggestion engine that uses zsh/zpty module
-    ZSH_AUTOSUGGEST_USE_ASYNC="1"
-
-    # Bind F10 to execute the autosuggestion. I map Shift-Return to F10 in terminal
-    # emulator.
-    bindkey '^[[21~' 'autosuggest-execute'
 }
 
 function update_and_load() {
