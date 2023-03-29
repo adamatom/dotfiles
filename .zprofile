@@ -9,4 +9,4 @@ if [ -f ~/.zshenv_custom ]; then
     source ~/.zshenv_custom
 fi
 export PATH=$HOME/.bin:$PATH
-
+export PATH="/opt/arm-gnu-toolchain-11.3.rel1-x86_64-arm-none-eabi/bin:$PATH"
