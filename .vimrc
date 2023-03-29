@@ -19,13 +19,17 @@ if has('gui_running')
   set guioptions-=h
   set guioptions-=e  "I dont like the gui tabs, use ascii
   set guioptions+=c  "dont use gui modal dialogs
-  "set guifont=Fira\ Code\ 12
-  "set guifont=Noto\ Mono\ 12
-  "set guifont=Ubuntu\ Mono\ 12
-  set guifont=Source\ Code\ Pro\ Medium\ 12
-elseif has('termguicolors')           " Use fg/bg colors from terminal (compatible terminals only)
-  set termguicolors
-  "  set t_ut=""        "Dont rely on Background Color Erase (BCE) support from terminal emulator
+else
+  if has('termguicolors')
+    " Use fg/bg colors from terminal (compatible terminals only)
+    set termguicolors
+  endif
+
+  " Force true color and alacritty undercurl
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  let &t_Cs = "\e[4:3m\e[31m"
+  let &t_Ce = "\e[4:0m"
 endif
 
 function! s:CreateDir(name)
@@ -73,10 +77,10 @@ set shiftround                  " round to shiftwidth instead of inserting tabst
 
 " Line wrapping, cursors, cursor lines
 set nowrap                      " dont display long-lines as wrapped
-set textwidth=99                " automatically try to break long lines as they are typed
+set textwidth=119                " automatically try to break long lines as they are typed
 set scrolloff=15                " always show lines of code above/below cursor
 set sidescroll=5                " always show extra context characters horizontally
-set colorcolumn=100             " show a column indicating max line length
+set colorcolumn=120             " show a column indicating max line length
 
 " Tame auto formatting, see :h fo-table
 set formatoptions=
