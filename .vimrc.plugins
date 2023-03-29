@@ -284,6 +284,17 @@ let g:mkdp_browserfunc = 'g:Open_browser'
 
 nmap <leader>m <Plug>MarkdownPreviewToggle
 
+"Syntax highlighting for plantuml, also assigns makeprg
+"  Depends on having a 'plantuml' in the path, could be a script:
+"    #!/bin/bash
+"    java -jar $HOME/lib/java/plantuml.jar -tsvg $@
+Plug 'aklt/plantuml-syntax'
+" Open links in browser, used for plantuml viewer
+Plug 'tyru/open-browser.vim'
+" Preview plugin for plantuml
+Plug 'weirongxu/plantuml-previewer.vim'
+au FileType plantuml let g:plantuml_previewer#plantuml_jar_path = '/home/adam/.bin/plantuml.jar'
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " color schemes
 """""""""""""""""""""""""""""""""""""""""""""""""""""
