@@ -147,15 +147,6 @@ map <Leader>k <Plug>(easymotion-k)
 " :Graphviz! png
 Plug 'liuchengxu/graphviz.vim'
 
-" Coding snippits engine
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-
-" Expand snippets from UltiSnips with tab
-let g:UltiSnipsExpandTrigger="<Tab>"
-let g:UltiSnipsJumpForwardTrigger="<Tab>"
-let g:UltiSnipsJumpBackwardTrigger="<c-tab>"
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " linting
 """""""""""""""""""""""""""""""""""""""""""""""""""""
