@@ -238,12 +238,8 @@ augroup END
 "replace {motion} with a register. Faster than typing '"_c[motion]^r"'
 Plug 'vim-scripts/ReplaceWithRegister'
 
-
-"repeated v's expand cut the visually selected region
-Plug 'terryma/vim-expand-region'
-vnoremap v <Plug>(expand_region_expand)
-vnoremap <S-v> <Plug>(expand_region_shrink)
-
+"Command line, mostly for :Rename and :Move
+Plug 'tpope/vim-eunuch'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Extra language support, such as syntax highlighting, repl interaction
