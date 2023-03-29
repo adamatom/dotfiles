@@ -183,6 +183,23 @@ nnoremap <leader>gr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>gd :YcmCompleter GoTo<CR>
 nnoremap <leader><leader>d :YcmDiags<CR>
 
+augroup ycm_binds
+  "Wipe out the allfiles group for when we reload the vimrc. Otherwise we just keep reattaching commands
+  autocmd!
+  autocmd BufEnter *.go nnoremap <leader>yr :YcmCompleter RefactorRename <C-r><C-w>
+  autocmd BufEnter *.go nnoremap <leader>yf :YcmCompleter Format
+  autocmd BufWritePre *.go execute "normal :YcmCompleter Format\<cr>"
+augroup END
+
+" Clang Format
+Plug 'rhysd/vim-clang-format'
+let g:clang_format#code_style="chromium"
+let g:clang_format#command="clang-format-14"
+let g:clang_format#style_options = { "ColumnLimit" : 120 }
+let g:clang_format#detect_style_file=1
+" map to <Leader>cf in C++ code
+autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
+autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
 
 " Ctags auto update
 Plug 'ludovicchabant/vim-gutentags'
