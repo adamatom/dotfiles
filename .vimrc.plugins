@@ -215,10 +215,10 @@ let g:linuxsty_patterns = []
 
 " Linters for everything
 Plug 'dense-analysis/ale'
-"  \ 'c': [],
 "  \ 'cpp': [],
 let g:ale_linters = { 
   \ 'markdown': ['mdl', 'languagetool'],
+  \ 'c': [],
   \ }
 
 " ALE linting events
@@ -347,9 +347,15 @@ function! SetupEnvironment()
         setlocal textwidth=80
         setlocal colorcolumn=81
     elseif l:path =~# 'rts-firmware'
-        setlocal noexpandtab
-        setlocal tabstop=8
-        setlocal shiftwidth=8
+        if &filetype ==? 'c'
+          setlocal noexpandtab
+          setlocal tabstop=8
+          setlocal shiftwidth=8
+        elseif &filetype ==? 'python'
+          setlocal expandtab
+          setlocal tabstop=4
+          setlocal shiftwidth=4
+        endif
 
     elseif l:path =~# 'acadia/applications'
         let g:gutentags_ctags_exclude = ['node_modules']
