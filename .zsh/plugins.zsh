@@ -9,19 +9,14 @@ function load_plugins() {
     zplug "zsh-users/zsh-syntax-highlighting"  # syntax highlighting with the shell
     zplug "zsh-users/zsh-completions"
 
-    zstyle ':autocomplete:*' fzf-completion yes
-    zstyle ':autocomplete:*' widget-style menu-select
-    # complete-word: (Shift-)Tab inserts the top (bottom) completion.
-    # menu-complete: Press again to cycle to next (previous) completion.
-    # menu-select:   Same as `menu-complete`, but updates selection in menu.
-    zplug "marlonrichert/zsh-autocomplete"
-
     if ! builtin which zoxide > /dev/null; then
         printf "zoxide not detected, sudo apt install zoxide? [y/N]: "
         if read -q; then
             echo; sudo apt install zoxide
         fi
     fi
+
+    eval "$(zoxide init zsh)"
 
     # Install plugins if there are plugins that have not been installed
     if ! zplug check --verbose; then
