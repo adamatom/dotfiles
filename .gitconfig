@@ -113,8 +113,8 @@
 
     # A helper function for git lg that echos out the fzf key bindings setting string
     fzf-binds="!echo \"\
-j:down,\
-k:up,\
+j:preview-down,\
+k:preview-up,\
 ctrl-e:preview-down,\
 ctrl-y:preview-up,\
 ctrl-d:preview-page-down,\
