@@ -6,7 +6,7 @@
     default = simple
 
 [diff]
-    tool = kdiff3
+    tool = meld
 
 [difftool]
     prompt = false
