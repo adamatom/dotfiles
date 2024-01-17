@@ -1,6 +1,9 @@
 [user]
-    email = adam.labbe@go-e.co
+    email = adam@hfi.io
     name = Adam Labbe
+
+[includeIf "gitdir:~/work/"]
+  path = ~/work/.gitconfig
 
 [push]
     default = simple
