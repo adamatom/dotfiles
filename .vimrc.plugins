@@ -155,7 +155,7 @@ let g:ycm_confirm_extra_conf = 0
 let g:ycm_auto_hover = ''
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_min_num_identifier_candidate_chars = 99  " Disable identifier-based completion
+let g:ycm_min_num_identifier_candidate_chars = 2
 
 let g:ycm_key_invoke_completion = '<C-Space>'  " Invoke semantic completion with ctrl-space
 
