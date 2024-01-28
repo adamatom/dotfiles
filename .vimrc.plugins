@@ -373,6 +373,10 @@ function! SetupEnvironment()
           setlocal tabstop=4
           setlocal shiftwidth=4
         endif
+    elseif l:path =~# 'rts-firmware'
+        setlocal noexpandtab
+        setlocal tabstop=8
+        setlocal shiftwidth=8
 
     elseif l:path =~# 'acadia/applications'
         let g:gutentags_ctags_exclude = ['node_modules']
