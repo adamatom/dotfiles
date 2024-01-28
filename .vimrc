@@ -148,7 +148,7 @@ nnoremap <silent> <leader>Q :cprevious<CR>
 nnoremap <silent> <leader>l :lnext<CR>
 nnoremap <silent> <leader>L :lprevious<CR>
 
-nnoremap <silent> <leader><leader>w :w<CR>
+nnoremap <silent> <leader>w :w<CR>
 
 " use leader {y|d|p} for interacting with the system clipboard
 vnoremap <Leader>y "+y
