@@ -255,6 +255,9 @@ Plug 'vim-scripts/ReplaceWithRegister'
 "Command line, mostly for :Rename and :Move
 Plug 'tpope/vim-eunuch'
 
+"Command line, mostly for :Rename and :Move
+Plug 'tpope/vim-eunuch'
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Extra language support, such as syntax highlighting, repl interaction
 """""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -284,7 +287,7 @@ Plug 'veegee/vim-pic', {'for': 'asm'}
 
 
 "Support for viewing markdown rendering
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 
 "Don't automatically close the preview window when I look at another buffer
 let g:mkdp_auto_close = 0
