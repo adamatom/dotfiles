@@ -19,6 +19,10 @@ if has('gui_running')
   set guioptions-=h
   set guioptions-=e  "I dont like the gui tabs, use ascii
   set guioptions+=c  "dont use gui modal dialogs
+  "set guifont=Fira\ Code\ 12
+  "set guifont=Noto\ Mono\ 12
+  "set guifont=Ubuntu\ Mono\ 12
+  set guifont=Source\ Code\ Pro\ Medium\ 12
 else
   if has('termguicolors')
     " Use fg/bg colors from terminal (compatible terminals only)
