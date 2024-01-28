@@ -615,12 +615,6 @@ hide_when_typing = false
 action = "PasteSelection"
 mouse = "Middle"
 
-[mouse.double_click]
-threshold = 300
-
-[mouse.triple_click]
-threshold = 300
-
 [scrolling]
 history = 99999
 multiplier = 3
@@ -629,6 +623,4 @@ multiplier = 3
 semantic_escape_chars = ",│`|:\"' ()[]{}<>"
 
 [window]
-columns = 0
 dynamic_title = true
-lines = 0
