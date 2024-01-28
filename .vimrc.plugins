@@ -66,7 +66,6 @@ function! LightlineFilename()
   return l:use_short ? l:short_filename : l:use_med ? l:med_filename : l:full_filename
 endfunction
 
-
 "visual undo tree. nice for when you need to go back to a branch
 Plug 'sjl/gundo.vim'
 if has('python3')
@@ -77,13 +76,11 @@ nnoremap <silent> <leader>Wg :GundoToggle<CR>
 "provides hg/git change status in the left gutter
 Plug 'mhinz/vim-signify'
 
-
 "vim front end for ack, with support for ag backend
 Plug 'mileszs/ack.vim'
 if executable('rg')
   let g:ackprg = 'rg --vimgrep --no-heading'
 endif
-
 
 "better buffer management
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -95,22 +92,18 @@ let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
 nnoremap <silent> <leader>be :Buffers<CR>
 nnoremap <silent> <C-p> :Files<CR>
 
-
 "display marks
 Plug 'kshenoy/vim-signature'
-
 
 "Alternative to netrw, which is slow and buggy
 Plug 'jeetsukumaran/vim-filebeagle'
 let g:filebeagle_show_hidden=1
-
 
 "Git wrapper for doing git things on files in vim
 Plug 'tpope/vim-fugitive'
 command! Greview :Git! diff --staged
 "leader-b will toggle git blame
 nmap <expr> <leader>b &filetype ==# 'fugitiveblame' ? "gq" : ":Git blame\r"
-
 augroup fugitivecleanup
 autocmd!
 "Cleanup fugitive buffers automatically
@@ -130,22 +123,23 @@ Plug 'rhysd/committia.vim'
 
 "Expands motion keys for faster jumps
 Plug 'easymotion/vim-easymotion'
-
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
 " Jump to anywhere you want with minimal keystrokes, with just one key binding.
 " `s{char}{char}{label}`
 " Need one more keystroke, but on average, it may be more comfortable.
 nmap s <Plug>(easymotion-overwin-f2)
-
 " Turn on case-insensitive feature
 let g:EasyMotion_smartcase = 1
-
 " JK motions: Line motions
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 
-" :Graphviz! png
-Plug 'liuchengxu/graphviz.vim'
+"Command line, mostly for :Rename and :Move
+Plug 'tpope/vim-eunuch'
+
+"replace {motion} with a register. Faster than typing '"_c[motion]^r"'
+Plug 'vim-scripts/ReplaceWithRegister'
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " linting
@@ -156,17 +150,8 @@ let g:ycm_auto_hover = ''
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_min_num_identifier_candidate_chars = 2
-
 let g:ycm_key_invoke_completion = '<C-Space>'  " Invoke semantic completion with ctrl-space
-
-" YouCompleteMe and UltiSnips compatibility.
-let g:ycm_use_ultisnips_completer = 1
-let g:ycm_key_list_select_completion=[]
-let g:ycm_key_list_previous_completion=[]
-
-
 let g:ycm_clangd_args = [ '--header-insertion=never' ]
-
 let g:ycm_semantic_triggers =  {
 \   'c,cpp,objc': [ 're!\w{3}', '_' ],
 \ }
@@ -182,7 +167,6 @@ nnoremap <C-LeftMouse> <LeftMouse>:YcmCompleter GoTo<CR>
 nnoremap <leader>gr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <leader>yd :YcmDiags<CR>
-
 augroup ycm_binds
   "Wipe out the allfiles group for when we reload the vimrc. Otherwise we just keep reattaching commands
   autocmd!
@@ -211,21 +195,18 @@ if executable('rg')
   let g:gutentags_file_list_command = 'rg --files'
 endif
 
-
 "Adhere to linux coding style guidelines
 Plug 'vivien/vim-linux-coding-style', {'for': 'c'}
 let g:linuxsty_patterns = []
 
-
 " Linters for everything
 Plug 'dense-analysis/ale'
 "  \ 'cpp': [],
-let g:ale_linters = { 
+let g:ale_linters = {
   \ 'markdown': ['mdl', 'languagetool'],
   \ 'c': [],
   \ 'python': 'all',
   \ }
-
 let g:ale_fixers = {'python': ['isort', 'yapf', 'remove_trailing_lines', 'trim_whitespace']}
 let g:ale_lsp_suggestions = 1
 let g:ale_fix_on_save = 1
@@ -234,11 +215,9 @@ let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] [%severity%] %code: %%s'
 let g:ale_completion_enabled = 0  " rely on Ycm
-
 " ALE linting events
 augroup ale
   autocmd!
-
   autocmd VimEnter * set updatetime=1000 | let g:ale_lint_on_text_changed = 0
   autocmd CursorHold * call ale#Queue(0)
   autocmd CursorHoldI * call ale#Queue(0)
@@ -247,69 +226,44 @@ augroup ale
 augroup END
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-" Vim Plugins that add keyboard commands
-"""""""""""""""""""""""""""""""""""""""""""""""""""""
-"replace {motion} with a register. Faster than typing '"_c[motion]^r"'
-Plug 'vim-scripts/ReplaceWithRegister'
-
-"Command line, mostly for :Rename and :Move
-Plug 'tpope/vim-eunuch'
-
-"Command line, mostly for :Rename and :Move
-Plug 'tpope/vim-eunuch'
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Extra language support, such as syntax highlighting, repl interaction
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 "Sort python includes with isort
 Plug 'fisadev/vim-isort', {'for': 'python'}
 let g:vim_isort_python_version = 'python3'
 
-
-"graphviz support
-Plug 'wannesm/wmgraphviz.vim', {'for': 'dot'}
-
+" :Graphviz! png
+Plug 'liuchengxu/graphviz.vim', {'for': 'dot'}
 
 "Linux kernel/Buildroot Kconfig syntax
 Plug 'chrisbra/vim-kconfig', {'for': 'kconfig'}
 
-
 "Syntax, indent, ftplugin for a bunch of languages
 Plug 'sheerun/vim-polyglot'
-
 
 " Extra highlighting for c/c++
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['c', 'cpp']}
 
-
-"Syntax highlighting for pic assembly
-Plug 'veegee/vim-pic', {'for': 'asm'}
-
-
 "Support for viewing markdown rendering
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
-
+Plug 'iamcco/markdown-preview.nvim', { 'for': 'markdown', 'do': 'cd app && yarn install' }
 "Don't automatically close the preview window when I look at another buffer
 let g:mkdp_auto_close = 0
-
+"Define our own function for launching the background browser
 function! g:Open_browser(url)
     silent exe 'silent !firefox -P default -url ' . a:url . ' &'
 endfunction
-
-"Define our own function for launching the background browser
 let g:mkdp_browserfunc = 'g:Open_browser'
-
 nmap <leader>m <Plug>MarkdownPreviewToggle
 
 "Syntax highlighting for plantuml, also assigns makeprg
 "  Depends on having a 'plantuml' in the path, could be a script:
 "    #!/bin/bash
 "    java -jar $HOME/lib/java/plantuml.jar -tsvg $@
-Plug 'aklt/plantuml-syntax'
+Plug 'aklt/plantuml-syntax', {'for': 'plantuml'}
 " Open links in browser, used for plantuml viewer
-Plug 'tyru/open-browser.vim'
+Plug 'tyru/open-browser.vim', {'for': 'plantuml'}
 " Preview plugin for plantuml
-Plug 'weirongxu/plantuml-previewer.vim'
+Plug 'weirongxu/plantuml-previewer.vim', {'for': 'plantuml'}
 au FileType plantuml let g:plantuml_previewer#plantuml_jar_path = '/home/adam/.bin/plantuml.jar'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""
