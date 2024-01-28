@@ -132,6 +132,8 @@ ctrl-m:execute: (grep -o '[a-f0-9]\\{7\\}' | head -1 | \
                 [ \\$# -eq 0 ] || git show --color=always \\$1 \
             }; f {} \" # end echo"
 
+    filelog="log --all --first-parent --remotes --reflog --author-date-order"
+
 [rerere]
     enabled = 1
 [rebase]
