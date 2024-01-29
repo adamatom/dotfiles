@@ -311,7 +311,8 @@ if filereadable(expand($HOME.'/.vimrc.plugins'))
   "   colorscheme purify
   " endif
   "
-  let g:edge_style = 'default'
-  let g:edge_enable_italic = 1
-  colorscheme edge
+  " let g:edge_style = 'default'
+  " let g:edge_enable_italic = 1
+  " colorscheme edge
+  colorscheme onedarkhc
 endif

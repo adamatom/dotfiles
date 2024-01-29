@@ -288,6 +288,7 @@ Plug 'balanceiskey/vim-framer-syntax'
 Plug 'tpope/vim-vividchalk'
 Plug 'kyoz/purify', { 'rtp': 'vim' }
 Plug 'sainnhe/edge'
+Plug 'pacokwon/onedarkhc.vim'
 
 call plug#end()
 
