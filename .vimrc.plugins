@@ -76,21 +76,17 @@ nnoremap <silent> <leader>Wg :GundoToggle<CR>
 "provides hg/git change status in the left gutter
 Plug 'mhinz/vim-signify'
 
-"vim front end for ack, with support for ag backend
-Plug 'mileszs/ack.vim'
-if executable('rg')
-  let g:ackprg = 'rg --vimgrep --no-heading'
-endif
-
 "better buffer management
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-"let g:fzf_layout = { 'window': 'enew' }
 " disable the preview window
 let g:fzf_preview_window =''
 let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
-nnoremap <silent> <leader>be :Buffers<CR>
 nnoremap <silent> <C-p> :Files<CR>
+nnoremap <silent> <leader>fb :Buffers<CR>
+nnoremap <silent> <leader>ff :Files<CR>
+" run :Ack! <word-under-cursor>
+nnoremap <silent> <leader>fi :Rg <c-r><C-w><cr>
 
 "display marks
 Plug 'kshenoy/vim-signature'
@@ -101,17 +97,15 @@ let g:filebeagle_show_hidden=1
 
 "Git wrapper for doing git things on files in vim
 Plug 'tpope/vim-fugitive'
+Plug 'tommcdo/vim-fugitive-blame-ext'  " Show commit message in fugitive blame window
 command! Greview :Git! diff --staged
 "leader-b will toggle git blame
 nmap <expr> <leader>b &filetype ==# 'fugitiveblame' ? "gq" : ":Git blame\r"
 augroup fugitivecleanup
-autocmd!
-"Cleanup fugitive buffers automatically
-autocmd BufReadPost fugitive://* set bufhidden=delete
+  "Cleanup fugitive buffers automatically
+  autocmd!
+  autocmd BufReadPost fugitive://* set bufhidden=delete
 augroup END
-
-" Show commit message in fugitive blame window
-Plug 'tommcdo/vim-fugitive-blame-ext'
 
 "Blink the hlsearch item we just jumped to
 Plug 'ivyl/vim-bling'
@@ -144,40 +138,75 @@ Plug 'vim-scripts/ReplaceWithRegister'
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " linting
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-Plug 'ycm-core/YouCompleteMe', { 'do': './install.py --all' }
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_auto_hover = ''
-let g:ycm_collect_identifiers_from_comments_and_strings = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_min_num_identifier_candidate_chars = 2
-let g:ycm_key_invoke_completion = '<C-Space>'  " Invoke semantic completion with ctrl-space
-let g:ycm_clangd_args = [ '--header-insertion=never' ]
-let g:ycm_semantic_triggers =  {
-\   'c,cpp,objc': [ 're!\w{3}', '_' ],
-\ }
-augroup MyYCMCustom
-autocmd!
-autocmd FileType c,cpp let b:ycm_hover = {
-  \ 'command': 'GetDoc',
-  \ 'syntax': &filetype
-  \ }
+Plug 'yegappan/lsp'
+let lspOptions = #{
+    \ aleSupport: v:true,
+    \ completionTextEdit: v:true,
+    \ noNewlineInCompletion: v:true,
+    \ outlineOnRight: v:true,
+    \ outlineWinSize: 70,
+    \ semanticHighlight: v:true,
+    \ showDiagWithSign: v:false,
+    \ useQuickfixForLocations: v:true,
+    \ }
+autocmd VimEnter * call LspOptionsSet(lspOptions)
+let lspServers = [
+    \ #{name: 'gopls', filetype: ['go', 'gomod'],  path: 'gopls', args: ['serve']},
+    \ #{name: 'pylsp', filetype: ['py', 'python'], path: 'pylsp', args: []},
+    \ #{name: 'clang', filetype: ['c', 'cpp'], path: 'clangd', args: [
+    \    '--header-insertion=never', '--background-index', '--clang-tidy']}
+    \ ]
+autocmd VimEnter * call LspAddServer(lspServers)
+"Enable auto selection of the fist autocomplete item
+augroup LspSetup
+    au!
+    au User LspAttached set completeopt-=noselect
 augroup END
-nmap <leader>d <plug>(YCMHover)
-nnoremap <C-LeftMouse> <LeftMouse>:YcmCompleter GoTo<CR>
-nnoremap <leader>gr :YcmCompleter GoToReferences<CR>
-nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nnoremap <leader>yd :YcmDiags<CR>
-augroup ycm_binds
-  "Wipe out the allfiles group for when we reload the vimrc. Otherwise we just keep reattaching commands
-  autocmd!
-  autocmd BufEnter *.go nnoremap <leader>yr :YcmCompleter RefactorRename <C-r><C-w>
-  autocmd BufEnter *.go nnoremap <leader>yf :YcmCompleter Format
-  autocmd BufWritePre *.go execute "normal :YcmCompleter Format\<cr>"
-augroup END
+"Mappings for most-used functions
+nnoremap <leader>d :LspHover<CR>
+nnoremap <leader>gd :LspGotoDefinition<CR>
+nnoremap <leader>gr :LspPeekReferences<CR>
+nnoremap <leader>gs :LspDocumentSymbol<CR>
+nnoremap <leader>pd :LspPeekDefinition<CR>
 
-" Python flake8
-Plug 'nvie/vim-flake8', {'for': 'python'}
-let python_highlight_all=1
+" Linters for everything
+Plug 'dense-analysis/ale'
+"Disable ALE's LSP in favour of standalone LSP plugin - note all LSP linters will be auto-ignored
+let g:ale_disable_lsp = 1
+"Show linting errors with highlights
+let g:ale_set_signs = 1
+let g:ale_set_highlights = 1
+let g:ale_virtualtext_cursor = 1
+highlight ALEError ctermbg=none cterm=underline
+"Define when to lint
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_on_text_change = 'never'
+let g:ale_linters_explicit = 1
+let g:ale_linters = {
+  \ 'c': ['clangd', 'clangtidy', 'flawfinder'],
+  \ 'go': ['gofmt', 'gopls', 'govet', 'gobuild'],
+  \ 'markdown': ['mdl', 'languagetool'],
+  \ 'python': 'all',
+  \ }
+let g:ale_linters_ignore = {}
+let g:ale_c_clangd_options = "-Wno-unused-command-line-argument"
+let g:ale_c_clangtidy_extra_options = "-Wno-unused-command-line-argument"
+let g:ale_fixers = {
+  \ '*': ['trim_whitespace'],
+  \ 'c': ['trim_whitespace'],
+  \ 'python': ['isort', 'yapf', 'remove_trailing_lines', 'trim_whitespace'],
+  \ 'go': ['gopls', 'goimports', 'gofmt', 'gotype', 'govet'],
+  \ }
+"Don't warn about trailing whitespace, as it is auto-fixed by '*' above
+let g:ale_warn_about_trailing_whitespace = 0
+"Show info, warnings, and errors; Write which linter produced the message
+let g:ale_lsp_show_message_severity = 'information'
+let g:ale_echo_msg_format = '[%linter%] [%severity%:%code%] %s'
+"Specify Containerfiles as Dockerfiles
+let g:ale_linter_aliases = {"Containerfile": "dockerfile"}
+"Mapping to run fixers on file
+nnoremap <leader>L :ALEFix<CR>
 
 " Clang Format
 Plug 'rhysd/vim-clang-format'
@@ -199,39 +228,9 @@ endif
 Plug 'vivien/vim-linux-coding-style', {'for': 'c'}
 let g:linuxsty_patterns = []
 
-" Linters for everything
-Plug 'dense-analysis/ale'
-"  \ 'cpp': [],
-let g:ale_linters = {
-  \ 'markdown': ['mdl', 'languagetool'],
-  \ 'c': [],
-  \ 'python': 'all',
-  \ }
-let g:ale_fixers = {'python': ['isort', 'yapf', 'remove_trailing_lines', 'trim_whitespace']}
-let g:ale_lsp_suggestions = 1
-let g:ale_fix_on_save = 1
-let g:ale_completion_enabled = 1
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] [%severity%] %code: %%s'
-let g:ale_completion_enabled = 0  " rely on Ycm
-" ALE linting events
-augroup ale
-  autocmd!
-  autocmd VimEnter * set updatetime=1000 | let g:ale_lint_on_text_changed = 0
-  autocmd CursorHold * call ale#Queue(0)
-  autocmd CursorHoldI * call ale#Queue(0)
-  autocmd InsertEnter * call ale#Queue(0)
-  autocmd InsertLeave * call ale#Queue(0)
-augroup END
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Extra language support, such as syntax highlighting, repl interaction
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-"Sort python includes with isort
-Plug 'fisadev/vim-isort', {'for': 'python'}
-let g:vim_isort_python_version = 'python3'
-
 " :Graphviz! png
 Plug 'liuchengxu/graphviz.vim', {'for': 'dot'}
 

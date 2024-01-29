@@ -49,7 +49,6 @@ call s:CreateDir(expand(&undodir))  " create the directory if needed
 set backupdir=/tmp//                " backup files should be kept out of the working dir
 set directory=/tmp//                " store swap files in a centralized place, not in working dir
 
-
 set hidden                      " dont delete buffers, just hide them
 set undofile                    " save undo tree when file is closed
 set undolevels=1000             " many levels of undo
@@ -127,9 +126,6 @@ set splitright                  " open new vsplits to the right
 " change leader to space, nicer to type. You lose some sort of 'move to next char' command.
 let g:mapleader = "\<Space>"
 
-" leader maps for running common actions
-
-
 " toggle spelling quickly
 nnoremap <silent> <leader>os :set spell! spell?<CR>
 
@@ -170,9 +166,6 @@ nnoremap <Leader>a <C-^>
 " <ctrl-g>u     create another undo marker
 inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 
-" run :Ack! <word-under-cursor>
-nnoremap <leader>F :Ack! <c-r><C-w>
-
 " Begin a word search and replace
 nnoremap <leader>R :%s/\<<C-r><C-w>\>//c<Left><Left>
 
@@ -203,9 +196,7 @@ inoremap <F1> <ESC>
 
 " I have never intentionally entered the mode that q: gives.
 noremap q: :q
-
 nnoremap Q <nop>
-
 
 "Use a simpler keymapping for the menu:
 "hitting enter on a selection accepts the selection and closes the menu.
@@ -266,16 +257,16 @@ augroup allfiles
   autocmd FileType markdown setlocal spell
 
   "Set indentation and line width for markdown
-  autocmd filetype markdown setlocal textwidth=79 colorcolumn=80 sw=2 sts=2 et
+  autocmd FileType markdown setlocal textwidth=79 colorcolumn=80 sw=2 sts=2 et
 
   "Spell checking during gitcommit.
   autocmd FileType gitcommit setlocal spell
 
   "Customize python settings
-  autocmd filetype python setlocal textwidth=99 colorcolumn=100 sw=4 sts=4 et
+  autocmd FileType python setlocal textwidth=99 colorcolumn=100 sw=4 sts=4 et
 
   "Customize vimL settings
-  autocmd filetype vim setlocal textwidth=99 colorcolumn=100 sw=2 sts=2 et
+  autocmd FileType vim setlocal textwidth=99 colorcolumn=100 sw=2 sts=2 et
 
   "Change lua tabstops to be more lua-esque
   autocmd FileType lua setlocal sw=2 sts=2 et
@@ -317,7 +308,7 @@ if filereadable(expand($HOME.'/.vimrc.plugins'))
   " if has('gui_running')
   "   colorscheme space_vim_theme
   " else
-  "   " colorscheme purify
+  "   colorscheme purify
   " endif
   "
   let g:edge_style = 'default'
