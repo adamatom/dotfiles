@@ -244,7 +244,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': ['c', 'cpp']}
 
 "Support for viewing markdown rendering
-Plug 'iamcco/markdown-preview.nvim', { 'for': 'markdown', 'do': 'cd app && yarn install' }
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 "Don't automatically close the preview window when I look at another buffer
 let g:mkdp_auto_close = 0
 "Define our own function for launching the background browser
