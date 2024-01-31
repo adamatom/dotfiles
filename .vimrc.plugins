@@ -85,8 +85,9 @@ let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
 nnoremap <silent> <C-p> :Files<CR>
 nnoremap <silent> <leader>fb :Buffers<CR>
 nnoremap <silent> <leader>ff :Files<CR>
-" run :Ack! <word-under-cursor>
-nnoremap <silent> <leader>fi :Rg <c-r><C-w><cr>
+nnoremap <silent> <leader>fi :Rg<CR>
+" run :Rg <word-under-cursor>
+nnoremap <silent> <leader>F :Rg <c-r><C-w><cr>
 
 "display marks
 Plug 'kshenoy/vim-signature'
