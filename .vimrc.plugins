@@ -149,7 +149,7 @@ let lspServers = [
     \ #{name: 'gopls', filetype: ['go', 'gomod'],  path: 'gopls', args: ['serve']},
     \ #{name: 'pylsp', filetype: ['py', 'python'], path: 'pylsp', args: []},
     \ #{name: 'clang', filetype: ['c', 'cpp'], path: 'clangd', args: [
-    \    '--header-insertion=never', '--background-index', '--clang-tidy']}
+    \    '--header-insertion=never', '--background-index']}
     \ ]
 autocmd VimEnter * call LspAddServer(lspServers)
 "Enable auto selection of the fist autocomplete item
