@@ -20,18 +20,11 @@ if has('gui_running')
   set guioptions-=e  "I dont like the gui tabs, use ascii
   set guioptions+=c  "dont use gui modal dialogs
   "set guifont=Ubuntu\ Mono\ 12
-  set guifont=Source\ Code\ Pro\ Medium\ 12
-else
-  if has('termguicolors')
+  "set guifont=Source\ Code\ Pro\ Medium\ 12
+  set guifont=JetBrainsMonoNL\ Nerd\ Font\ 12
+elseif has('termguicolors')
     " Use fg/bg colors from terminal (compatible terminals only)
     set termguicolors
-  endif
-
-  " Force true color and alacritty undercurl
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  let &t_Cs = "\e[4:3m\e[31m"
-  let &t_Ce = "\e[4:0m"
 endif
 
 function! s:CreateDir(name)
@@ -316,3 +309,9 @@ if filereadable(expand($HOME.'/.vimrc.plugins'))
   " colorscheme edge
   colorscheme onedarkhc
 endif
+
+" Always use undercurl for spelling mistakes
+let &t_Cs = "\e[4:3m"
+let &t_Ce = "\e[4:0m"
+highlight SpellBad cterm=undercurl
+highlight SpellBad gui=undercurl
