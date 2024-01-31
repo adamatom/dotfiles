@@ -55,8 +55,8 @@ TERM = "xterm-256color"
 size = 12.0
 
 [font.bold]
-family = "JetBrainsMonoNL Nerd Font"
-#family = "RobotoMono Nerd Font"
+#family = "JetBrainsMonoNL Nerd Font"
+family = "RobotoMono Nerd Font"
 style = "Bold"
 
 [font.glyph_offset]
@@ -64,16 +64,18 @@ x = 0
 y = 0
 
 [font.italic]
-family = "JetBrainsMonoNL Nerd Font"
+#family = "JetBrainsMonoNL Nerd Font"
+family = "RobotoMono Nerd Font"
 style = "Oblique"
 
 [font.normal]
-family = "JetBrainsMonoNL Nerd Font"
+#family = "JetBrainsMonoNL Nerd Font"
+family = "RobotoMono Nerd Font"
 style = "Regular"
 
 [font.offset]
-x = 1
-y = 1
+x = 0
+y = 0
 
 [[hints.enabled]]
 command = "xdg-open"
