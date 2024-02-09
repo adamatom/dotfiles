@@ -8,7 +8,7 @@ call plug#begin('~/.vim/plugged')
 "fancypants status line
 Plug 'itchyny/lightline.vim'
 let g:lightline = {
-  \ 'colorscheme': 'purify',
+  \ 'colorscheme': 'one',
   \ 'active': {
   \   'left': [ [ 'mode', 'paste' ],
   \             [ 'fugitive', 'filename', 'modified', 'readonly' ] ],
@@ -269,26 +269,6 @@ au FileType plantuml let g:plantuml_previewer#plantuml_jar_path = '/home/adam/.b
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " color schemes
 """""""""""""""""""""""""""""""""""""""""""""""""""""
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'chriskempson/base16-vim'
-Plug 'connorholyday/vim-snazzy'
-Plug 'dracula/vim'
-Plug 'jacoborus/tender.vim'
-Plug 'joshdick/onedark.vim'
-Plug 'liuchengxu/space-vim-theme'
-Plug 'marcopaganini/termschool-vim-theme'
-Plug 'mhartington/oceanic-next'
-Plug 'mkarmona/materialbox'
-Plug 'morhetz/gruvbox'
-Plug 'rakr/vim-one'
-Plug 'ayu-theme/ayu-vim'
-Plug 'arzg/vim-corvine'
-Plug 'KeitaNakamura/neodark.vim'
-Plug 'drewtempelmeyer/palenight.vim'
-Plug 'balanceiskey/vim-framer-syntax'
-Plug 'tpope/vim-vividchalk'
-Plug 'kyoz/purify', { 'rtp': 'vim' }
-Plug 'sainnhe/edge'
 Plug 'pacokwon/onedarkhc.vim'
 
 call plug#end()

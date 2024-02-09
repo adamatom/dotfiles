@@ -271,42 +271,6 @@ augroup END
 if filereadable(expand($HOME.'/.vimrc.plugins'))
   source $HOME/.vimrc.plugins
   set background=dark
-  let g:one_allow_italics = 1
-  let g:onedark_terminal_italics = 1
-  let g:onedark_termcolors = 256
-  let g:palenight_terminal_italics=1
-  let g:gruvbox_italic = 1
-  let g:gruvbox_contrast_dark='hard'
-  let ayucolor='mirage'
-  " colorscheme ayu
-  " colorscheme tender
-  " colorscheme PaperColor
-  " colorscheme snazzy
-  " colorscheme dracula
-  " colorscheme space_vim_theme
-  " colorscheme termschool
-  " colorscheme OceanicNext
-  " colorscheme materialbox
-  " colorscheme carbonized-dark
-  " colorscheme one
-  " colorscheme onedark
-  "colorscheme neodark
-  " colorscheme palenight
-  " colorscheme base16-phd
-  " colorscheme base16-solarized-light
-  " colorscheme base16-porple
-  " colorscheme base16-snazzy
-  " colorscheme corvine
-  " colorscheme vim-framer-syntax
-  " if has('gui_running')
-  "   colorscheme space_vim_theme
-  " else
-  "   colorscheme purify
-  " endif
-  "
-  " let g:edge_style = 'default'
-  " let g:edge_enable_italic = 1
-  " colorscheme edge
   colorscheme onedarkhc
 endif
 
