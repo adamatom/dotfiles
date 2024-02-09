@@ -76,7 +76,7 @@ nnoremap <silent> <leader>Wg :GundoToggle<CR>
 "provides hg/git change status in the left gutter
 Plug 'mhinz/vim-signify'
 
-"better buffer management
+"fzf for finding files, buffers
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " disable the preview window
@@ -86,8 +86,14 @@ nnoremap <silent> <C-p> :Files<CR>
 nnoremap <silent> <leader>fb :Buffers<CR>
 nnoremap <silent> <leader>ff :Files<CR>
 nnoremap <silent> <leader>fi :Rg<CR>
-" run :Rg <word-under-cursor>
-nnoremap <silent> <leader>F :Rg <c-r><C-w><cr>
+
+"My preferred fine-in-files plugin. Uses rg if available, gracefully degrades to ack otherwise
+Plug 'mileszs/ack.vim'
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep --no-heading'
+endif
+" run :Ack <word-under-cursor>
+nnoremap <silent> <leader>F :Ack! <c-r><C-w><cr>
 
 "display marks
 Plug 'kshenoy/vim-signature'
