@@ -111,10 +111,7 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    #family: monospace #family: Iosevka Fixed SS08# family: EssentialPragmataPro Nerd Font # should be "Menlo" or something on macOS.
-    # family: JetBrains Mono
-    family: JetBrainsMonoNL Nerd Font
-
+    family: EssentialPragmataPro Nerd Font
 
     # The `style` can be specified to pick a specific face.
     style: Regular
@@ -125,11 +122,7 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    #family: monospace
-    #family: Source Code Pro
-    # family: JetBrains Mono
-    family: JetBrainsMonoNL Nerd Font
-    #family: Iosevka Fixed SS08# family: EssentialPragmataPro Nerd Font # should be "Menlo" or something on macOS.
+    family: EssentialPragmataPro Nerd Font
     # The `style` can be specified to pick a specific face.
     style: Bold
 
@@ -139,11 +132,7 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    #family: monospace
-    #family: Source Code Pro
-    # family: jetbrains mono
-    family: jetbrainsmononl nerd font
-    #family: Iosevka Fixed SS08 # family: EssentialPragmataPro Nerd Font # should be "Menlo" or something on macOS.
+    family: EssentialPragmataPro Nerd Font
     # Style can be specified to pick a specific face.
     style: Oblique
 

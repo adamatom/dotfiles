@@ -55,8 +55,7 @@ TERM = "xterm-256color"
 size = 12.0
 
 [font.bold]
-family = "JetBrainsMonoNL Nerd Font"
-#family = "RobotoMono Nerd Font"
+family = "EssentialPragmataPro Nerd Font Mono"
 style = "Bold"
 
 [font.glyph_offset]
@@ -64,13 +63,11 @@ x = 0
 y = 0
 
 [font.italic]
-#family = "JetBrainsMonoNL Nerd Font"
-family = "RobotoMono Nerd Font"
+family = "EssentialPragmataPro Nerd Font Mono"
 style = "Oblique"
 
 [font.normal]
-#family = "JetBrainsMonoNL Nerd Font"
-family = "RobotoMono Nerd Font"
+family = "EssentialPragmataPro Nerd Font Mono"
 style = "Regular"
 
 [font.offset]
