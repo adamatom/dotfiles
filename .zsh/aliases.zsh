@@ -35,7 +35,7 @@ alias ssh-weechat="echo -e '\033]2;'weechat'\007'; ssh adam@adamatom.com -t scre
 alias pipenv="nocorrect pipenv"
 alias tmux="env TERM=tmux-256color tmux"
 alias backupb2="rclone sync /home/adam b2:Pascal-Backup --transfers 32 --filter-from /home/adam/rclone-files.txt --fast-list -P -L --b2-hard-delete"
-alias cat="bat"
+alias cat="batcat"
 alias pip="pip3"
 alias gs="git status"
 alias gf="git fetch -Ppat"
