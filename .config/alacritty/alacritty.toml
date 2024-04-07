@@ -55,8 +55,8 @@ TERM = "xterm-256color"
 size = 12.0
 
 [font.bold]
-#family = "JetBrainsMonoNL Nerd Font"
-family = "RobotoMono Nerd Font"
+family = "JetBrainsMonoNL Nerd Font"
+#family = "RobotoMono Nerd Font"
 style = "Bold"
 
 [font.glyph_offset]
