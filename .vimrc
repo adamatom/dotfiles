@@ -21,7 +21,8 @@ if has('gui_running')
   set guioptions+=c  "dont use gui modal dialogs
   "set guifont=Ubuntu\ Mono\ 12
   "set guifont=Source\ Code\ Pro\ Medium\ 12
-  set guifont=JetBrainsMonoNL\ Nerd\ Font\ 12
+  " set guifont=JetBrainsMonoNL\: Nerd\ Font\ 12
+  set guifont=Essential\ PragmataPro\ 12
 elseif has('termguicolors')
     " Use fg/bg colors from terminal (compatible terminals only)
     set termguicolors
