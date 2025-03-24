@@ -28,6 +28,14 @@ elseif has('termguicolors')
     set termguicolors
 endif
 
+" If ripgrep is available, use it. Also provide an "Rg" command that populates the location list
+if executable('rg')
+  let &grepprg = 'rg --vimgrep'
+  let &grepformat = '%f:%l:%c:%m,%f:%l:%m'
+  command! -bang -nargs=+ Rg execute 'silent grep! ' . ( <bang>0 ? "--no-ignore --hidden --glob '!tags' " : "" ) . '<args>' | botright copen 10 | redraw!
+endif
+
+
 function! s:CreateDir(name)
   " Create a given directory if it does not exist.
   if !isdirectory(a:name)
@@ -72,10 +80,10 @@ set shiftround                  " round to shiftwidth instead of inserting tabst
 
 " Line wrapping, cursors, cursor lines
 set nowrap                      " dont display long-lines as wrapped
-set textwidth=119                " automatically try to break long lines as they are typed
+set textwidth=99                " automatically try to break long lines as they are typed
 set scrolloff=15                " always show lines of code above/below cursor
 set sidescroll=5                " always show extra context characters horizontally
-set colorcolumn=120             " show a column indicating max line length
+set colorcolumn=100             " show a column indicating max line length
 
 " Tame auto formatting, see :h fo-table
 set formatoptions=
@@ -113,6 +121,7 @@ set showcmd                     " display an active vim sequence if there is one
 set notimeout                   " a vim command in-progress will not expire, <esc> to exit
 set splitbelow                  " open new hsplits to the bottom
 set splitright                  " open new vsplits to the right
+set cursorline                  " show cursor line
 "-------
 "Keymaps
 "-------
@@ -147,6 +156,9 @@ vnoremap <Leader>P "+P
 
 " Switch between the last two files
 nnoremap <Leader>a <C-^>
+
+" search for the word under the cursor using our custom Rg command
+nnoremap <leader>F :Rg "<c-r><C-w>"
 
 " Spell check the last error.
 " <ctrl-g>u     create undo marker (before fix) so we can undo/redo this
@@ -209,6 +221,14 @@ inoremap <expr> <C-k>       pumvisible() ? "\<C-p>" : "\<C-k>"
 " Indent in visual and select mode automatically re-selects.
 vnoremap > >gv
 vnoremap < <gv
+
+" Scroll the page, keeping the cursor in the same location
+nnoremap <C-j> <C-e>j
+nnoremap <C-k> <C-y>k
+
+" Disable this quit command, it is a small typo away from <C-w>w, which cycles windows
+nnoremap <C-w>q <nop>
+nnoremap <C-w>Q <nop>
 
 " command mode replacements
 " -------------------------
