@@ -3,13 +3,16 @@ export LANG="en_US.UTF-8"
 export GOPATH=$HOME/.go
 export RUBYGEMPATH=$HOME/.gem/ruby/2.5.0/
 
-export PATH=$PATH:$HOME/.bin:$GOPATH/bin:$RUBYGEMPATH/bin:$HOME/.local/bin:$HOME/projects/tek-linux/node_modules/.bin/
+export PATH=$PATH:$HOME/.rye/shims:$HOME/.bin:$GOPATH/bin:$RUBYGEMPATH/bin:$HOME/.local/bin:$HOME/projects/tek-linux/node_modules/.bin/
 # disable paging for git delta.
 export DELTA_PAGER=""
 export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
 export LESS='--quit-if-one-screen --ignore-case --status-column --chop-long-lines --long-prompt --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --window=-4'
 export MANPAGER='less +Gg'
 export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l ""'
+export MCFLY_RESULTS=100
+export MCFLY_INTERFACE_VIEW=BOTTOM
+export MCFLY_RESULTS_SORT=LAST_RUN
 
 alias ssh="TERM=xterm-256color ssh"
 alias ls="ls -lA --color=always --group-directories-first"

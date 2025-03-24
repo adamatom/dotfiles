@@ -32,12 +32,18 @@ function load_plugins() {
     if ! builtin which mcfly > /dev/null; then
         printf "mcfly not detected, download and install to ~/.local/bin? [y/N]: "
         if read -q; then
-            echo; wget -P /tmp https://github.com/cantino/mcfly/releases/download/v0.8.1/mcfly-v0.8.1-x86_64-unknown-linux-musl.tar.gz
-            tar -zxf /tmp/mcfly-v0.8.1-x86_64-unknown-linux-musl.tar.gz -C ~/.local/bin
+            echo; wget -P /tmp https://github.com/cantino/mcfly/releases/download/v0.9.2/mcfly-v0.9.2-x86_64-unknown-linux-musl.tar.gz
+            tar -zxf /tmp/mcfly-v0.9.2-x86_64-unknown-linux-musl.tar.gz -C ~/.local/bin
             eval "$(mcfly init zsh)"
         fi
-    else 
+    else
         eval "$(mcfly init zsh)"
+    fi
+
+    if ! builtin which direnv > /dev/null; then
+        # consider installation instructions?
+    else
+        eval "$(direnv hook zsh)"
     fi
 
     # history-substring-search options
