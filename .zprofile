@@ -9,3 +9,4 @@ if [ -f ~/.zshenv_custom ]; then
     source ~/.zshenv_custom
 fi
 export PATH=$HOME/.bin:$PATH
+export XCURSOR_THEME=$(gsettings get org.gnome.desktop.interface cursor-theme | tr -d "'")
