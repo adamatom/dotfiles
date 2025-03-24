@@ -17,3 +17,5 @@ __pycache__
 cscope.out*
 cscope.files
 tceetree.out*
+.clangd
+compile_commands.json
