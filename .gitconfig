@@ -1,15 +1,19 @@
-[user]
-    email = adam@hfi.io
-    name = Adam Labbe
+[Include]
+    path = ~/.gitconfig_ident
+
+[includeIf "gitdir:~/github/"]
+    path = ~/github/.gitconfig
 
 [includeIf "gitdir:~/work/"]
-  path = ~/work/.gitconfig
+    path = ~/work/.gitconfig
 
 [push]
     default = simple
+    autoSetupRemote = true
 
 [diff]
     tool = meld
+    algorithm = histogram
 
 [difftool]
     prompt = false
@@ -59,36 +63,36 @@
 
     # Ppretty prints for the reflog
     rflg = "reflog --abbrev-commit --decorate --all --date=format:%m-%d-%Y \
-            --format=format:'%C(yellow)%h%C(bold blue)%d %C(reset)%<|(110,trunc)%s %C(white)%ad [%an]'"
+        --format=format:'%C(yellow)%h%C(bold blue)%d %C(reset)%<|(110,trunc)%s %C(white)%ad [%an]'"
 
     # Run `git delcheck` on a checked out branch to see if the branch has any novel commits
     delcheck = "!\
-    f() {                                                                                          \
+        f() {                                                                                          \
         CURRENT=$(git rev-parse --abbrev-ref HEAD);                                                \
         CHECK=${1:-${CURRENT}};                                                                    \
         git log --graph --left-right --cherry-pick --oneline master...${CHECK};               \
-    }; f"
+        }; f"
 
     # Closeout merged branches.
     # Given no argument, closes the current branch and switches back to master
     # Given one argument, closes the given branch. If the given branch is the same as the current
     #       branch, then act like no arguments given.
     closeout = "!\
-    f() {                                                                                          \
+        f() {                                                                                          \
         DEFAULT=$(git getdefault);                                                                 \
         CURRENT=$(git rev-parse --abbrev-ref HEAD);                                                \
         DEL=${1:-${CURRENT}};                                                                      \
         FETCH=${2:-1};                                                                             \
         if [ \"${FETCH}\" = \"1\" ]; then                                                          \
-            printf 'Fetching...\\n';                                                               \
-            git fetch -Ppat;                                                                       \
+        printf 'Fetching...\\n';                                                               \
+        git fetch -Ppat;                                                                       \
         fi;                                                                                        \
         if [ \"${DEL}\" = \"${CURRENT}\" ]; then                                                   \
-            git checkout ${DEFAULT};                                                               \
-            git rebase;                                                                            \
+        git checkout ${DEFAULT};                                                               \
+        git rebase;                                                                            \
         fi;                                                                                        \
         git branch -d ${DEL};                                                                      \
-    }; f"
+        }; f"
 
 
     # Run closeout on any branches that no longer have an upstream tracking branch.
@@ -110,47 +114,59 @@
         git log --graph --color=always --abbrev-commit --format=\"$(git lg-format)\" $@ |\
         fzf --no-mouse --ansi --no-sort --reverse --tiebreak=index --preview \"$(git fzf-preview)\" \
         --bind \"$(git fzf-binds)\" --preview-window=right:60% --height 80%; \
-    }; lg"
+        }; lg"
 
     lg-format="!echo \"%C(auto)%h %C(blue)%d %C(reset)%s %C(yellow)%cr %C(white)%an\" #"
 
     # A helper function for git lg that echos out the fzf key bindings setting string
     fzf-binds="!echo \"\
-j:preview-down,\
-k:preview-up,\
-ctrl-e:preview-down,\
-ctrl-y:preview-up,\
-ctrl-d:preview-page-down,\
-ctrl-u:preview-page-up,\
-q:abort,\
-ctrl-m:execute: (grep -o '[a-f0-9]\\{7\\}' | head -1 | \
-  xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF' {} FZF-EOF\" \
-# end echo"
+        j:preview-down,\
+        k:preview-up,\
+        ctrl-e:preview-down,\
+        ctrl-y:preview-up,\
+        ctrl-d:preview-page-down,\
+        ctrl-u:preview-page-up,\
+        q:abort,\
+        ctrl-m:execute: (grep -o '[a-f0-9]\\{7\\}' | head -1 | \
+        xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF' {} FZF-EOF\" \
+        # end echo"
 
     # A helper function for git lg that echos out the preview command string for fzf. FZF passes
     # the raw git log line. This captures the 7 digit hash and stores it into $1 via the set
     # built-in.  Also, if no hash was recovered, don't show anything in the preview window.
     fzf-preview="!echo \"f() { \
-                set -- \\$(echo -- \\$@ | grep -o \\\"[a-f0-9]\\{7\\}\\\"); \
-                [ \\$# -eq 0 ] || git show --color=always \\$1 \
-            }; f {} \" # end echo"
+        set -- \\$(echo -- \\$@ | grep -o \\\"[a-f0-9]\\{7\\}\\\"); \
+        [ \\$# -eq 0 ] || git show --color=always \\$1 \
+        }; f {} \" # end echo"
 
     filelog="log --all --first-parent --remotes --reflog --author-date-order"
+    rmworktree = "!\
+        f() {                                                                                          \
+        DEFAULT=$(git getdefault);                                                                 \
+        CURRENT=$(git rev-parse --abbrev-ref HEAD);                                                \
+        cd \"../${DEFAULT}\";                                                                      \
+        git worktree remove -f \"${CURRENT}\";                                                     \
+        }; f"
 
 [rerere]
     enabled = 1
 [rebase]
     instructionFormat = %an %s
+    updateRefs = true
 [pull]
     rebase = true
 [color]
     ui = true
-
 [pager]
     tag = false
     branch = false
-
 [tag]
     sort = version:refname
 [init]
-	defaultBranch = main
+    defaultBranch = main
+[branch]
+    sort = -committerdate
+[fetch]
+    prune = true
+    pruneTags = true
+    all = true
