@@ -92,14 +92,6 @@ nnoremap <silent> <leader>fb :Buffers<CR>
 nnoremap <silent> <leader>ff :Files<CR>
 nnoremap <silent> <leader>fi :Rg<CR>
 
-"My preferred fine-in-files plugin. Uses rg if available, gracefully degrades to ack otherwise
-Plug 'mileszs/ack.vim'
-if executable('rg')
-  let g:ackprg = 'rg --vimgrep --no-heading'
-endif
-" run :Ack <word-under-cursor>
-nnoremap <silent> <leader>F :Ack! <c-r><C-w><cr>
-
 "display marks
 Plug 'kshenoy/vim-signature'
 
@@ -141,27 +133,59 @@ Plug 'tpope/vim-eunuch'
 "replace {motion} with a register. Faster than typing '"_c[motion]^r"'
 Plug 'vim-scripts/ReplaceWithRegister'
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " linting
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'yegappan/lsp'
+let g:lsp_use_native_client = 1
 let lspOptions = #{
     \ aleSupport: v:true,
     \ completionTextEdit: v:true,
     \ noNewlineInCompletion: v:true,
-    \ outlineOnRight: v:true,
     \ outlineWinSize: 70,
     \ showDiagWithSign: v:false,
     \ useQuickfixForLocations: v:true,
     \ }
 autocmd VimEnter * call LspOptionsSet(lspOptions)
+
+let g:mylsp_path = !empty($VIRTUAL_ENV) ? $VIRTUAL_ENV . '/bin/pylsp' : 'pylsp'
+
+if !empty($IDF_PATH)
+  " If we are in an ESP environment, use the esp-clangd implementation to avoid unknown triples
+  " install with `idf_tools.py install esp-clang`
+  let clanglsp = #{name: 'esp-clangd',
+    \              filetype: ['c', 'cpp'],
+    \              path: '/home/adam/.espressif/tools/esp-clang/16.0.1-fe4f10a809/esp-clang/bin/clangd',
+    \              args: [
+    \                '--header-insertion=never',
+    \                '--background-index',
+    \                '--query-driver=**']}
+else
+  let clanglsp = #{name: 'clang',
+    \    filetype: ['c', 'cpp'],
+    \    path: 'clangd',
+    \    args: [
+    \      '--header-insertion=never',
+    \      '--background-index',
+    \      '--query-driver=/usr/bin/arm-none-eabi-*,/usr/bin/gcc-*']}
+endif
+
 let lspServers = [
     \ #{name: 'gopls', filetype: ['go', 'gomod'],  path: 'gopls', args: ['serve']},
-    \ #{name: 'pylsp', filetype: ['py', 'python'], path: 'pylsp', args: []},
-    \ #{name: 'clang', filetype: ['c', 'cpp'], path: 'clangd', args: [
-    \    '--header-insertion=never', '--background-index', '--query-driver=/usr/bin/arm-none-eabi-*,/usr/bin/gcc-*']}
-    \ ]
+    \ #{name: 'pylsp', filetype: ['py', 'python'], path: g:mylsp_path, args: []},
+    \ clanglsp,
+    \ #{name: 'rustlang',
+    \    filetype: ['rust'],
+    \    path: '/usr/bin/rust-analyzer',
+    \    args: [],
+    \    syncInit: v:true,
+    \    initializationOptions: #{
+    \      check: #{ command: 'clippy' },
+    \      inlayHints: #{
+    \        typeHints: #{ enable: v:true  },
+    \        parameterHints: #{ enable: v:true }},
+    \    }
+    \  }]
 autocmd VimEnter * call LspAddServer(lspServers)
 "Enable auto selection of the fist autocomplete item
 augroup LspSetup
@@ -182,7 +206,7 @@ let g:ale_disable_lsp = 1
 "Show linting errors with highlights
 let g:ale_set_signs = 1
 let g:ale_set_highlights = 1
-let g:ale_virtualtext_cursor = 1
+let g:ale_virtualtext_cursor = 0
 highlight ALEError ctermbg=none cterm=underline
 "Define when to lint
 let g:ale_lint_on_save = 1
@@ -190,7 +214,7 @@ let g:ale_lint_on_insert_leave = 1
 let g:ale_lint_on_text_change = 'never'
 let g:ale_linters_explicit = 1
 let g:ale_linters = {
-  \ 'c': ['clangd', 'clangtidy', 'flawfinder'],
+  \ 'c': ['clangd', 'clangtidy'],
   \ 'go': ['gofmt', 'gopls', 'govet', 'gobuild'],
   \ 'markdown': ['mdl', 'languagetool'],
   \ 'python': 'all',
@@ -217,7 +241,7 @@ nnoremap <leader>L :ALEFix<CR>
 " Clang Format
 Plug 'rhysd/vim-clang-format'
 let g:clang_format#code_style="chromium"
-let g:clang_format#command="clang-format-14"
+let g:clang_format#command="clang-format"
 let g:clang_format#style_options = { "ColumnLimit" : 120 }
 let g:clang_format#detect_style_file=1
 " map to <Leader>cf in C++ code
@@ -237,6 +261,10 @@ let g:linuxsty_patterns = []
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 " Extra language support, such as syntax highlighting, repl interaction
 """""""""""""""""""""""""""""""""""""""""""""""""""""
+" Rust
+Plug 'rust-lang/rust.vim', {'for': 'rust'}
+let g:rustfmt_autosave = 1
+
 " :Graphviz! png
 Plug 'liuchengxu/graphviz.vim', {'for': 'dot'}
 
@@ -275,6 +303,7 @@ au FileType plantuml let g:plantuml_previewer#plantuml_jar_path = '/home/adam/.b
 " color schemes
 """""""""""""""""""""""""""""""""""""""""""""""""""""
 Plug 'pacokwon/onedarkhc.vim'
+Plug 'rakr/vim-one'
 
 call plug#end()
 
@@ -313,10 +342,17 @@ function! SetupEnvironment()
           setlocal tabstop=4
           setlocal shiftwidth=4
         endif
-    elseif l:path =~# 'rts-firmware'
-        setlocal noexpandtab
-        setlocal tabstop=8
-        setlocal shiftwidth=8
+
+    elseif l:path =~# 'SmartThermostat'
+        if &filetype ==? 'c' || &filetype ==? 'cpp'
+          setlocal noexpandtab
+          setlocal tabstop=4
+          setlocal shiftwidth=4
+        elseif &filetype ==? 'python'
+          setlocal expandtab
+          setlocal tabstop=4
+          setlocal shiftwidth=4
+        endif
 
     elseif l:path =~# 'acadia/applications'
         let g:gutentags_ctags_exclude = ['node_modules']
