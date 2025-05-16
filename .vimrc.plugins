@@ -176,7 +176,7 @@ let lspServers = [
     \ clanglsp,
     \ #{name: 'rustlang',
     \    filetype: ['rust'],
-    \    path: '/usr/bin/rust-analyzer',
+    \    path: 'rust-analyzer',
     \    args: [],
     \    syncInit: v:true,
     \    initializationOptions: #{
