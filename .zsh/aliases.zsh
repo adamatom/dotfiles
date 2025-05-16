@@ -84,7 +84,7 @@ config() {
     if [[ $@ =~ "^clean" ]]; then
         echo "LOLLLLLLL, you almost blew up your home directory"
     else
-        /usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME $@
+        git --git-dir=$HOME/.cfg/ --work-tree=$HOME $@
     fi
 }
 
