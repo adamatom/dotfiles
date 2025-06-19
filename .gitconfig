@@ -7,6 +7,9 @@
 [includeIf "gitdir:~/work/"]
   path = ~/work/.gitconfig
 
+[includeIf "gitdir:~/reflex_workspace/"]
+  path = ~/reflex_workspace/.gitconfig
+
 [push]
     default = simple
     autoSetupRemote = true
