@@ -174,3 +174,8 @@ ctrl-m:execute: (grep -o '[a-f0-9]\\{7\\}' | head -1 | \
     prune = true
     pruneTags = true
     all = true
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
