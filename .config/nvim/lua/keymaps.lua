@@ -60,7 +60,7 @@ vim.keymap.set("i", "<C-l>", "<c-g>u<Esc>[s1z=`]a<c-g>u")
 vim.keymap.set("n", "<leader>R", [[:%s/\<<C-r><C-w>\>//c<Left><Left>]])
 
 -- Dont clobber the yank register when replacing text by pasting on top of a visual selection
-vim.keymap.set("x", "p", [[p:let @+=@0<CR>:let @"=@0<CR>]], silent)
+vim.keymap.set("x", "p", [["_dP]], { desc = "Paste over selection without affecting clipboard" })
 
 -- Advance to next misspelling after adding a word to the spellfile.
 vim.keymap.set("n", "zg", "zg]s")
