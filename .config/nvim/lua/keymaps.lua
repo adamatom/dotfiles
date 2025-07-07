@@ -99,6 +99,8 @@ vim.keymap.set("n", "<C-k>", "<C-y>k")
 vim.keymap.set("n", "<C-w>q", "<nop>")
 vim.keymap.set("n", "<C-w>Q", "<nop>")
 
+-- Remove builtin mapping to vim.lsp.buf.implementation(), my lspconfig.lua defines this.
+vim.keymap.del("n", "gri")
 
 -- Command-line abbreviations
 -- :wq when I meant :w. Nudges towards using :x
