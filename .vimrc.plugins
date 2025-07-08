@@ -327,6 +327,20 @@ function! SetupEnvironment()
         setlocal shiftwidth=8
         setlocal textwidth=80
         setlocal colorcolumn=81
+
+    elseif l:path =~# 'reflex_workspace'
+      setlocal expandtab
+      setlocal tabstop=4
+      setlocal shiftwidth=4
+      if &filetype ==? 'gitcommit'
+        setlocal textwidth=80
+        setlocal colorcolumn=81
+      else
+        setlocal textwidth=100
+        setlocal colorcolumn=101
+      endif
+
+
     elseif l:path =~# 'goe-rts-driver'
         let g:linuxsty_patterns = ['/home/adam/go-e/Repos/goe-rts-driver/']
         " use `bear make` for autocompletion and syntax checks
@@ -336,6 +350,7 @@ function! SetupEnvironment()
         setlocal shiftwidth=8
         setlocal textwidth=80
         setlocal colorcolumn=81
+
     elseif l:path =~# 'rts-firmware'
         if &filetype ==? 'c' || &filetype ==? 'cpp'
           setlocal noexpandtab
