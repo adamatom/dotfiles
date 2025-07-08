@@ -25,6 +25,9 @@ if has('gui_running')
   set guifont=Essential\ PragmataPro\ 12
 elseif has('termguicolors')
     " Use fg/bg colors from terminal (compatible terminals only)
+    " settings to make colors work
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
     set termguicolors
 endif
 
