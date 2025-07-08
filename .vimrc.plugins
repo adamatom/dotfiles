@@ -148,7 +148,8 @@ let lspOptions = #{
     \ showDiagWithSign: v:false,
     \ useQuickfixForLocations: v:true,
     \ }
-autocmd VimEnter * call LspOptionsSet(lspOptions)
+" autocmd VimEnter * call LspOptionsSet(lspOptions)
+autocmd User LspSetup call LspOptionsSet(lspOptions)
 
 let g:mylsp_path = !empty($VIRTUAL_ENV) ? $VIRTUAL_ENV . '/bin/pylsp' : 'pylsp'
 
@@ -188,12 +189,13 @@ let lspServers = [
     \        parameterHints: #{ enable: v:true }},
     \    }
     \  }]
-autocmd VimEnter * call LspAddServer(lspServers)
+autocmd User LspSetup call LspAddServer(lspServers)
+
 "Enable auto selection of the fist autocomplete item
-augroup LspSetup
-    au!
-    au User LspAttached set completeopt-=noselect
-augroup END
+"augroup LspSetup
+"    au!
+autocmd User LspAttached set completeopt-=noselect
+"augroup END
 "Mappings for most-used functions
 nnoremap <leader>d :LspHover<CR>
 nnoremap <leader>gd :LspGotoDefinition<CR>
@@ -219,7 +221,7 @@ let g:ale_linters = {
   \ 'c': ['clangd', 'clangtidy'],
   \ 'go': ['gofmt', 'gopls', 'govet', 'gobuild'],
   \ 'markdown': ['mdl', 'languagetool'],
-  \ 'python': 'all',
+  \ 'python': ['mypy'],
   \ }
 let g:ale_linters_ignore = {}
 let g:ale_c_clangd_options = "-Wno-unused-command-line-argument"
