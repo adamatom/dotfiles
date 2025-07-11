@@ -26,4 +26,6 @@ stty -ixon
 
 . "$HOME/.cargo/env"
 
-. "$HOME/.local/share/../bin/env"
+if [ -f "$HOME/.local/share/../bin/env" ]; then
+    . "$HOME/.local/share/../bin/env"
+fi
