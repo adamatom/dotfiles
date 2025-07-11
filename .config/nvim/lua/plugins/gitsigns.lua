@@ -2,7 +2,13 @@ return {
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {
-      signs = {
+      signs = vim.g.have_nerd_font and {
+        add = { text = "▎" },
+        change = { text = "▎" },
+        delete = { text = "" },
+        topdelete = { text = "" },
+        changedelete = { text = "▎" },
+      } or {
         add = { text = '+' },
         change = { text = '~' },
         delete = { text = '_' },
@@ -62,4 +68,3 @@ return {
     },
   },
 }
--- vim: ts=2 sts=2 sw=2 et

@@ -16,25 +16,23 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
-local opts = { silent = true }
-
 -- toggle spelling quickly
-vim.keymap.set("n", "<leader>os", ":set spell! spell?<CR>", silent)
+vim.keymap.set("n", "<leader>os", ":set spell! spell?<CR>", { silent = true })
 
 -- toggle line numbers
-vim.keymap.set("n", "<leader>on", ":set number! number?<CR>", silent)
+vim.keymap.set("n", "<leader>on", ":set number! number?<CR>", { silent = true })
 
 -- toggle relative number
-vim.keymap.set("n", "<leader>or", ":set relativenumber! relativenumber?<CR>", silent)
+vim.keymap.set("n", "<leader>or", ":set relativenumber! relativenumber?<CR>", { silent = true })
 
 -- navigate through quickfix and locationlists
-vim.keymap.set("n", "<leader>q", ":cnext<CR>", silent)
-vim.keymap.set("n", "<leader>Q", ":cprevious<CR>", silent)
-vim.keymap.set("n", "<leader>l", ":lnext<CR>", silent)
-vim.keymap.set("n", "<leader>L", ":lprevious<CR>", silent)
+vim.keymap.set("n", "<leader>q", ":cnext<CR>", { silent = true })
+vim.keymap.set("n", "<leader>Q", ":cprevious<CR>", { silent = true })
+vim.keymap.set("n", "<leader>l", ":lnext<CR>", { silent = true })
+vim.keymap.set("n", "<leader>L", ":lprevious<CR>", { silent = true })
 
 -- save on leader w
-vim.keymap.set("n", "<leader>w", ":w<CR>", silent)
+vim.keymap.set("n", "<leader>w", ":w<CR>", { silent = true })
 
 -- Switch between the last two files
 vim.keymap.set("n", "<leader>a", "<C-^>")
@@ -118,4 +116,6 @@ cabbrev Qa qa
 cabbrev Tabnew tabnew
 ]])
 
--- vim: ts=2 sts=2 sw=2 et
+vim.keymap.set("n", "<leader>d", function()
+  require("noice").cmd("dismiss")
+end, {desc = "[D]imiss notifications"})

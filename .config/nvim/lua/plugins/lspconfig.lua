@@ -1,3 +1,35 @@
+
+-- Find newest compile_commands.json under build/
+local function find_latest_compile_commands(root_dir)
+  local uv = vim.loop
+  local latest_file = nil
+  local latest_mtime = 0
+
+  local function scan_dir(dir)
+    local handle = vim.loop.fs_scandir(dir)
+    if not handle then return end
+
+    while true do
+      local name, type = vim.loop.fs_scandir_next(handle)
+      if not name then break end
+
+      local full_path = dir .. "/" .. name
+      if type == "directory" then
+        scan_dir(full_path)
+      elseif name == "compile_commands.json" then
+        local stat = vim.loop.fs_stat(full_path)
+        if stat and stat.mtime.sec > latest_mtime then
+          latest_mtime = stat.mtime.sec
+          latest_file = full_path
+        end
+      end
+    end
+  end
+
+  scan_dir(root_dir .. "/build")
+  return latest_file and vim.fn.fnamemodify(latest_file, ":h") or nil
+end
+
 return {
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -28,7 +60,7 @@ return {
       --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
       --    function will be executed to configure the current buffer
       vim.api.nvim_create_autocmd('LspAttach', {
-        group = vim.api.nvim_create_augroup('plugins-lsp-attach', { clear = true }),
+        group = vim.api.nvim_create_augroup('lspconfig-attach', { clear = true }),
         callback = function(event)
 
           local map = function(keys, func, desc, mode)
@@ -93,7 +125,7 @@ return {
           -- When you move your cursor, the highlights will be cleared (the second autocommand).
           local client = vim.lsp.get_client_by_id(event.data.client_id)
           if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
-            local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
+            local highlight_augroup = vim.api.nvim_create_augroup('lspconfig-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
               buffer = event.buf,
               group = highlight_augroup,
@@ -107,10 +139,10 @@ return {
             })
 
             vim.api.nvim_create_autocmd('LspDetach', {
-              group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
+              group = vim.api.nvim_create_augroup('lspconfig-detach', { clear = true }),
               callback = function(event2)
                 vim.lsp.buf.clear_references()
-                vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
+                vim.api.nvim_clear_autocmds { group = 'lspconfig-highlight', buffer = event2.buf }
               end,
             })
           end
@@ -131,19 +163,21 @@ return {
       -- See :help vim.diagnostic.Opts
       vim.diagnostic.config {
         severity_sort = true,
+        update_in_insert = false,
         float = { border = 'rounded', source = 'if_many' },
         underline = { severity = vim.diagnostic.severity.ERROR },
         signs = vim.g.have_nerd_font and {
           text = {
-            [vim.diagnostic.severity.ERROR] = '󰅚 ',
-            [vim.diagnostic.severity.WARN] = '󰀪 ',
-            [vim.diagnostic.severity.INFO] = '󰋽 ',
-            [vim.diagnostic.severity.HINT] = '󰌶 ',
+            [vim.diagnostic.severity.ERROR] = ' ',
+            [vim.diagnostic.severity.WARN] = ' ',
+            [vim.diagnostic.severity.INFO] = ' ',
+            [vim.diagnostic.severity.HINT] = ' ',
           },
         } or {},
         virtual_text = {
-          source = 'if_many',
-          spacing = 2,
+          spacing = 4,
+          source = "if_many",
+          prefix = "•",
           format = function(diagnostic)
             local diagnostic_message = {
               [vim.diagnostic.severity.ERROR] = diagnostic.message,
@@ -162,7 +196,18 @@ return {
       --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
       local capabilities = require('blink.cmp').get_lsp_capabilities()
       local servers = {
-        clangd = {},
+        clangd = {
+            on_new_config = function(new_config, root_dir)
+              local dir = find_latest_compile_commands(root_dir)
+              if dir then
+                -- append compile-commands-dir flag
+                table.insert(new_config.cmd, "--compile-commands-dir=" .. dir)
+                vim.notify("clangd using " .. dir .. "/compile_commands.json", vim.log.levels.INFO)
+              else
+                vim.notify("No compile_commands.json found under build/", vim.log.levels.WARN)
+              end
+            end,
+          },
         cmake = {},
         gopls = {},
         pyright = {},
@@ -193,4 +238,3 @@ return {
     end,
   },
 }
--- vim: ts=2 sts=2 sw=2 et

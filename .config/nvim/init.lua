@@ -7,5 +7,5 @@ vim.g.have_nerd_font = true
 require 'options'
 require 'functions'
 require 'keymaps'
-require 'lazy-bootstrap'
-require 'lazy-plugins'
+require 'autocommands'
+require 'plugins'
