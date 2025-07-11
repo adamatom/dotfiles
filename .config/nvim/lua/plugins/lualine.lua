@@ -27,14 +27,6 @@ return {
         return vim.bo.readonly and "🔒" or ""
       end
 
-      -- Git branch using fugitive#head()
-      local function fugitive_branch()
-        if vim.bo.filetype ~= "vimfiler" and vim.fn.exists("*fugitive#head") == 1 then
-          return vim.fn["fugitive#head"]()
-        end
-        return ""
-      end
-
       -- Gutentags statusline integration
       local function gutentags_status()
         if vim.fn.exists("*gutentags#statusline") == 1 then
@@ -51,10 +43,10 @@ return {
           component_separators = "",
         },
         sections = {
-          lualine_a = { "mode", "paste" },
-          lualine_b = { fugitive_branch },
+          lualine_a = { "mode" },
+          lualine_b = {'branch', 'diff', 'diagnostics'},
           lualine_c = { custom_filename, readonly_icon },
-          lualine_x = { gutentags_status },
+          lualine_x = { "lsp_status", gutentags_status, "searchcount", "selectioncount" },
           lualine_y = { "fileformat", "fileencoding", "filetype" },
           lualine_z = {
             { "location", "progress" },
