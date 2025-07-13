@@ -27,6 +27,7 @@ require('lazy').setup({
   -- require 'plugins.onedarkhc',
   -- require 'plugins.catppuccin',
   require 'plugins.nightfox',
+  require 'plugins/github-nvim-theme',
 
   -- Show hex color codes as the color
   {'norcalli/nvim-colorizer.lua', config = function() require'colorizer'.setup() end},
