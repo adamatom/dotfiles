@@ -6,14 +6,14 @@ if [[ $__PROFILE__ -eq 1 ]]; then
     zmodload zsh/zprof  # launch shell then run 'zprof'
 fi
 
+source ~/.zsh/plugins.zsh
 source ~/.zsh/colors.zsh
 source ~/.zsh/setopt.zsh
 source ~/.p10k.zsh
 source ~/.zsh/aliases.zsh
 source ~/.zsh/history.zsh
-source ~/.zsh/completion.zsh
 source ~/.zsh/bindkeys.zsh
-source ~/.zsh/plugins.zsh
+source ~/.zsh/completion.zsh
 if [ -f ~/.zsh_local.zsh ]; then
     source ~/.zsh_local.zsh
 fi

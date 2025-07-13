@@ -83,29 +83,20 @@ compctl -K _complete_invoke + -f invoke inv
 function uvi() {
   uv run invoke "$@"
 }
+
 _complete_uv_run_invoke() {
-    # `words` contains the entire command string up til now (including
-    # program name).
-    #
-    # We hand it to Invoke so it can figure out the current context: spit back
-    # core options, task names, the current task's options, or some combo.
-    #
-    # Before doing so, we attempt to tease out any collection flag+arg so we
-    # can ensure it is applied correctly.
-    collection_arg=''
-    if [[ "${words}" =~ "(-c|--collection) [^ ]+" ]]; then
-        collection_arg=$MATCH
-    fi
-    # `reply` is the array of valid completions handed back to `compctl`.
-    # Use ${=...} to force whitespace splitting in expansion of
-    # $collection_arg
-    reply=( $(uv run invoke ${=collection_arg} --complete -- ${words}) )
+  local -a args completions
+  local collection_arg=''
+
+  args=("${words[@]:1}")
+
+  if [[ "${args[*]}" =~ "(-c|--collection) [^ ]+" ]]; then
+    collection_arg=$MATCH
+  fi
+
+  completions=( $(uv run invoke ${=collection_arg} --complete -- "invoke ${args[@]}") )
+
+  _describe 'invoke task options' completions
 }
 
-# Tell shell builtin to use the above for completing our given binary name(s).
-# * -K: use given function name to generate completions.
-# * +: specifies 'alternative' completion, where options after the '+' are only
-#   used if the completion from the options before the '+' result in no matches.
-# * -f: when function generates no results, use filenames.
-# * positional args: program names to complete for.
-compctl -K _complete_uv_run_invoke + -f uvi
+compdef _complete_uv_run_invoke uvi
