@@ -59,9 +59,23 @@ return {
       },
 
       completion = {
-        trigger = { show_in_snippet = false },
-        documentation = { auto_show = false, auto_show_delay_ms = 500 },
+        documentation = {
+          -- Controls whether the documentation window will automatically show
+          auto_show = false,
+          -- Delay before showing the documentation window
+          auto_show_delay_ms = 500,
+          -- Delay before updating the documentation window when selecting a new item,
+          -- while an existing item is still visible
+          update_delay_ms = 50,
+          -- Whether to use treesitter highlighting, disable if you run into performance issues
+          treesitter_highlighting = true,
+          window = { winblend = vim.g.default_blend_level },
+        },
         list = { selection = { preselect = false, auto_insert = true }, },
+        menu = {
+          winblend = vim.g.default_blend_level,
+        },
+        trigger = { show_in_snippet = false },
       },
 
       sources = {

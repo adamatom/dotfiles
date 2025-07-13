@@ -3,6 +3,12 @@
 -- Make line numbers default
 vim.opt.number = true
 
+-- Run with full color support
+vim.opt.termguicolors = true
+
+-- popup windows use a slight transparency
+vim.opt.winblend = vim.g.default_blend_level
+
 -- Enable mouse mode
 vim.opt.mouse = 'a'
 

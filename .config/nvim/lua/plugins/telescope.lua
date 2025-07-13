@@ -54,6 +54,9 @@ return {
         --   },
         -- },
         -- pickers = {}
+        defaults = {
+          winblend = vim.g.default_blend_level,
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
