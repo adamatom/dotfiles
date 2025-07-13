@@ -25,7 +25,11 @@ require('lazy').setup({
   --- Colorschemes
   -- onedark, high contrast
   -- require 'plugins.onedarkhc',
-  require 'plugins.catppuccin',
+  -- require 'plugins.catppuccin',
+  require 'plugins.nightfox',
+
+  -- Show hex color codes as the color
+  {'norcalli/nvim-colorizer.lua', config = function() require'colorizer'.setup() end},
 
   -- I use nvim as my 'git commit' editor, show the diff when editing a git commit
   'rhysd/committia.vim',
