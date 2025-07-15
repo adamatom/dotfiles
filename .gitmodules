@@ -1,0 +1,3 @@
+[submodule ".config/nix"]
+	path = .config/nix
+	url = git@github.com:adamatom/nix-config.git
