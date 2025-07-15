@@ -73,6 +73,10 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 5
 
+-- Match ls-style tab completion on the cmdmenu
+vim.opt.wildmenu = true
+vim.opt.wildmode = { "longest:full", "full" }
+
 -- Make g the default on things like s/PATTERN/REPLACE/g
 vim.opt.gdefault = true
 

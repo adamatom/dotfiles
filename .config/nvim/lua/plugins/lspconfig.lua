@@ -208,9 +208,8 @@ return {
               end
             end,
           },
-        cmake = {},
         gopls = {},
-        pyright = {},
+        pylsp = {},
         rust_analyzer = {},
         lua_ls = {
           -- cmd = { ... },

@@ -43,6 +43,8 @@ return {
           ['<Tab>'] = { 'show_and_insert', 'select_next' },
           ['<S-Tab>'] = { 'show_and_insert', 'select_prev' },
 
+
+          ['/'] = {'accept', 'fallback' },
           ['<C-space>'] = { 'show', 'fallback' },
 
           ['<C-n>'] = { 'select_next', 'fallback' },
