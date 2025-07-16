@@ -1,7 +1,6 @@
 
 -- Find newest compile_commands.json under build/
 local function find_latest_compile_commands(root_dir)
-  local uv = vim.loop
   local latest_file = nil
   local latest_mtime = 0
 
@@ -202,9 +201,6 @@ return {
               if dir then
                 -- append compile-commands-dir flag
                 table.insert(new_config.cmd, "--compile-commands-dir=" .. dir)
-                vim.notify("clangd using " .. dir .. "/compile_commands.json", vim.log.levels.INFO)
-              else
-                vim.notify("No compile_commands.json found under build/", vim.log.levels.WARN)
               end
             end,
           },
