@@ -41,7 +41,12 @@ function load_plugins() {
     fi
 
     if ! builtin which direnv > /dev/null; then
-        # consider installation instructions?
+        printf "direnv not detected, download and install to ~/.local/bin? [y/N]: "
+        if read -q; then
+            echo; wget -P /tmp https://github.com/direnv/direnv/releases/download/v2.37.0/direnv.linux-amd64
+            cp /tmp/direnv.linux-amd64 ~/.local/bin/direnv && chmod +x ~/.local/bin/direnv
+            eval "$(direnv hook zsh)"
+        fi
     else
         eval "$(direnv hook zsh)"
     fi
