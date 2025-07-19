@@ -7,7 +7,7 @@ vim.g.have_nerd_font = true
 -- When using a true color terminal like alacritty, some popup window plugins allow us to set
 -- a transparency. We use this in our configuration in these plugins so we dont have to change it
 -- everywhere.
-vim.g.default_blend_level = 12
+vim.g.default_blend_level = 0
 
 require 'options'
 require 'functions'
