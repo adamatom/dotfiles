@@ -24,7 +24,7 @@ return {
 
       -- Readonly icon if file is readonly
       local function readonly_icon()
-        return vim.bo.readonly and "🔒" or ""
+        return vim.bo.readonly and "󰈡" or ""
       end
 
       -- Gutentags statusline integration
@@ -42,10 +42,27 @@ return {
           section_separators = { left = "", right = "" },
           component_separators = "",
         },
+
+        winbar = { lualine_c = { custom_filename, readonly_icon }, },
+        inactive_winbar = { lualine_c = { custom_filename, readonly_icon }, },
         sections = {
           lualine_a = { "mode" },
           lualine_b = {'branch', 'diff', 'diagnostics'},
-          lualine_c = { custom_filename, readonly_icon },
+          lualine_c = {  },
+          lualine_x = { "lsp_status", gutentags_status, "searchcount", "selectioncount" },
+          lualine_y = { "fileformat", "fileencoding", "filetype" },
+          lualine_z = {
+            { "location", "progress" },
+            {
+              function() return "" end,
+              padding = { left = 0, right = 1 },
+            },
+          },
+        },
+        inactive_sections = {
+          lualine_a = { },
+          lualine_b = {'branch', 'diff', 'diagnostics'},
+          lualine_c = {  },
           lualine_x = { "lsp_status", gutentags_status, "searchcount", "selectioncount" },
           lualine_y = { "fileformat", "fileencoding", "filetype" },
           lualine_z = {
