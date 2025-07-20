@@ -1,9 +1,5 @@
-autoload -U compinit && compinit
+# - zplug will run complist, so we skip this: autoload -U compinit && compinit
 zmodload -i zsh/complist
-
-# Enable completion caching, use rehash to clear
-zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path ~/.zsh/cache/$HOST
 
 # Speedup path completion
 zstyle ':completion:*' accept-exact '*(N)'
