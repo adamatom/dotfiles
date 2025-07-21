@@ -57,7 +57,10 @@ return {
           ['<C-y>'] = { 'select_and_accept' },
           ['<C-e>'] = { 'cancel' },
         },
-        completion = { menu = { auto_show = false } },
+        completion = {
+          menu = { auto_show = false },
+          ghost_text = { enabled = false },
+        },
       },
 
       completion = {
