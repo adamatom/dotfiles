@@ -22,6 +22,7 @@ local sections = {
 return {
   {
     "folke/snacks.nvim",
+    priority=1000,
     opts = {
       dashboard = { sections = sections },
       bigfile = { enabled = true },

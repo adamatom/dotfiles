@@ -26,7 +26,7 @@ require('lazy').setup({
   -- onedark, high contrast
   -- require 'plugins.onedarkhc',
   -- require 'plugins.catppuccin',
-  require 'plugins.nightfox',
+  -- require 'plugins.nightfox',
   require 'plugins/github-nvim-theme',
 
   -- Show hex color codes as the color
@@ -43,6 +43,9 @@ require('lazy').setup({
 
   -- display marks
   'kshenoy/vim-signature',
+
+  -- reload files that are edited outside of nvim
+  'djoshea/vim-autoread',
 
   -- Completion engine
   require 'plugins.blink-cmp',
@@ -94,6 +97,8 @@ require('lazy').setup({
 
   -- Show keybinds while we learn them
   require 'plugins.which-key',
+
+  require 'plugins.clang_db_picker',
 
 }, {
   ui = {

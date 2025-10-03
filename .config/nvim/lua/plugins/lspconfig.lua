@@ -1,34 +1,3 @@
-
--- Find newest compile_commands.json under build/
-local function find_latest_compile_commands(root_dir)
-  local latest_file = nil
-  local latest_mtime = 0
-
-  local function scan_dir(dir)
-    local handle = vim.loop.fs_scandir(dir)
-    if not handle then return end
-
-    while true do
-      local name, type = vim.loop.fs_scandir_next(handle)
-      if not name then break end
-
-      local full_path = dir .. "/" .. name
-      if type == "directory" then
-        scan_dir(full_path)
-      elseif name == "compile_commands.json" then
-        local stat = vim.loop.fs_stat(full_path)
-        if stat and stat.mtime.sec > latest_mtime then
-          latest_mtime = stat.mtime.sec
-          latest_file = full_path
-        end
-      end
-    end
-  end
-
-  scan_dir(root_dir .. "/build")
-  return latest_file and vim.fn.fnamemodify(latest_file, ":h") or nil
-end
-
 return {
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -85,24 +54,27 @@ return {
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
-          map('<leader>cgd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          map('<leader>cgd', require('telescope.builtin').lsp_definitions, '[g]oto [d]efinition')
 
-          -- WARN: This is not Goto Definition, this is Goto Declaration.
+          -- This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.
-          map('<leader>cgD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+          map('<leader>cgD', vim.lsp.buf.declaration, '[g]oto [d]eclaration')
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map('<leader>cs', require('telescope.builtin').lsp_document_symbols, 'Open Document [s]ymbols')
+          map('<leader>css', require('telescope.builtin').lsp_document_symbols, '[s]how Document [s]ymbols')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
-          map('<leader>gS', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace [S]ymbols')
+          map('<leader>gsS', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[s] workspace [S]ymbols')
 
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
           --  the definition of its *type*, not where it was *defined*.
           map('<leader>cgt', require('telescope.builtin').lsp_type_definitions, '[g]oto [t]ype Definition')
+
+          -- Show errors in the locationlist.
+          map('<leader>csd', vim.diagnostic.setloclist, '[s]how [d]iagnostics')
 
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
@@ -195,32 +167,11 @@ return {
       --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
       local capabilities = require('blink.cmp').get_lsp_capabilities()
       local servers = {
-        clangd = {
-            on_new_config = function(new_config, root_dir)
-              local dir = find_latest_compile_commands(root_dir)
-              if dir then
-                -- append compile-commands-dir flag
-                table.insert(new_config.cmd, "--compile-commands-dir=" .. dir)
-              end
-            end,
-          },
+        clangd = {},
         gopls = {},
         pylsp = {},
         rust_analyzer = {},
-        lua_ls = {
-          -- cmd = { ... },
-          -- filetypes = { ... },
-          -- capabilities = {},
-          settings = {
-            Lua = {
-              completion = {
-                callSnippet = 'Replace',
-              },
-              -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
-            },
-          },
-        },
+        -- lua_ls = {},
       }
 
       for server, opts in pairs(servers) do
@@ -228,7 +179,8 @@ return {
         -- by the server configuration above. Useful when disabling
         -- certain features of an LSP (for example, turning off formatting for ts_ls)
         opts.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-        require("lspconfig")[server].setup(opts)
+        vim.lsp.config(server, opts)
+        vim.lsp.enable(server)
       end
     end,
   },
