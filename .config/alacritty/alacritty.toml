@@ -56,15 +56,18 @@ x = 0
 y = 0
 
 [font.italic]
-family = "JetBrainsMono Nerd Font"
+# family = "JetBrainsMono Nerd Font"
+family = "CaskaydiaCove NF"
 style = "Italic"
 
 [font.bold]
-family = "JetBrainsMono Nerd Font"
+# family = "JetBrainsMono Nerd Font"
+family = "CaskaydiaCove NF"
 style = "Bold"
 
 [font.normal]
-family = "JetBrainsMono Nerd Font"
+# family = "JetBrainsMono Nerd Font"
+family = "CaskaydiaCove NF"
 style = "Regular"
 
 [font.offset]
