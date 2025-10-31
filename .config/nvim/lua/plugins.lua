@@ -47,6 +47,9 @@ require('lazy').setup({
   -- reload files that are edited outside of nvim
   'djoshea/vim-autoread',
 
+  -- Project wide search and replace
+  'MagicDuck/grug-far.nvim',
+
   -- Completion engine
   require 'plugins.blink-cmp',
 
@@ -98,6 +101,8 @@ require('lazy').setup({
   -- Show keybinds while we learn them
   require 'plugins.which-key',
 
+
+  -- Allow for switching between which compile_commands.json
   require 'plugins.clang_db_picker',
 
 }, {

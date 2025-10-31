@@ -12,7 +12,7 @@ return {
       keymap = {
       preset = 'none',
         ['<C-e>'] = { 'hide', 'fallback' },
-        ['<esc>'] = { 'hide', 'fallback' },
+        ['<Esc>'] = { 'hide', 'fallback' },
 
         ['<CR>'] = { 'accept', 'fallback' },
 
@@ -84,7 +84,7 @@ return {
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
         },
