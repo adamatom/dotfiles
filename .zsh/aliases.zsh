@@ -3,7 +3,7 @@ export LANG="en_US.UTF-8"
 export GOPATH=$HOME/.go
 export RUBYGEMPATH=$HOME/.gem/ruby/2.5.0/
 
-export PATH=$PATH:$HOME/.rye/shims:$HOME/.bin:$GOPATH/bin:$RUBYGEMPATH/bin:$HOME/.local/bin:$HOME/projects/tek-linux/node_modules/.bin/:/opt/gcc-arm-none-eabi-10.3-2021.10/bin/
+export PATH=$PATH:$HOME/.rye/shims:$HOME/.bin:$GOPATH/bin:$RUBYGEMPATH/bin:$HOME/.local/bin:$HOME/projects/tek-linux/node_modules/.bin/
 # disable paging for git delta.
 export DELTA_PAGER=""
 export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
