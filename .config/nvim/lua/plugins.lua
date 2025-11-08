@@ -103,7 +103,7 @@ require('lazy').setup({
 
 
   -- Allow for switching between which compile_commands.json
-  require 'plugins.clang_db_picker',
+  require 'plugins.clangd_db_picker',
 
 }, {
   ui = {
