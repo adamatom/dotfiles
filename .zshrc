@@ -1,5 +1,9 @@
 # Automatically sourced by zsh on interactive shells
 # .zshenv → [.zprofile if login] → [.zshrc if interactive] → [.zlogin if login] → [.zlogout sometimes]
+#
+# Don't export FPATH; exporting it breaks completion if multiple zsh versions are around
+typeset +x FPATH
+
 # Enable profiling
 __PROFILE__=0
 if [[ $__PROFILE__ -eq 1 ]]; then
@@ -313,6 +317,14 @@ SAVEHIST=9000
 HISTFILE=~/.zsh_history
 
 # Completion --------------------------------------------------------------------------------------
+
+# Make sure completions for this zsh take precedence. This prevents multiple zsh installations on
+# the same machine from crossing where they pull completions from. This can happen with HM+Ubuntu.
+zver=${ZSH_VERSION%%-*}
+if [[ -d "$HOME/.nix-profile/share/zsh/$zver/functions" ]]; then
+  fpath=("$HOME/.nix-profile/share/zsh/$zver/functions" $fpath)
+fi
+
 autoload -Uz compinit
 compinit
 zmodload -i zsh/complist
