@@ -25,9 +25,12 @@ require('lazy').setup({
   --- Colorschemes
   -- onedark, high contrast
   -- require 'plugins.onedarkhc',
-  -- require 'plugins.catppuccin',
+  require 'plugins.catppuccin',
   -- require 'plugins.nightfox',
-  require 'plugins/github-nvim-theme',
+  -- require 'plugins.github-nvim-theme',
+  -- require 'plugins.colorscheme-arctic',
+  -- require 'plugins.colorscheme-cyberdream',
+  -- require 'plugins.colorscheme-doomone',
 
   -- Show hex color codes as the color
   {'norcalli/nvim-colorizer.lua', config = function() require'colorizer'.setup() end},
