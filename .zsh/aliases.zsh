@@ -44,6 +44,7 @@ alias gf="git fetch -Ppat"
 alias sml="rlwrap sml"
 alias vc="vim ~/.vimrc"
 alias vp="vim ~/.vimrc.plugins"
+alias gitk="gitk &"
 
 launch() {
     "$@" 2>/dev/null & disown

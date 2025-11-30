@@ -37,6 +37,7 @@
     # =========================[ Line #2 ]=========================
     newline                 # \n
     os_icon
+    vi_mode
     prompt_char             # prompt symbol
   )
 

@@ -4,7 +4,68 @@ function update_plugins() {
     touch ~/.cache/zplug/timestamp
 }
 
+function zvm_config() {
+    # Allow yanking to clipboard from zsh-vim-mode plugin
+    ZVM_SYSTEM_CLIPBOARD_ENABLED=true
+}
+
+function zvm_cmd_key() {
+    # Helper: bind a key in a zvm keymap to "run this command"
+    local do_exec=$1; shift     # execute command immediately if 1
+    local mode=$1; shift        # e.g. vicmd / viins / visual
+    local keys=$1; shift        # e.g. ' gf'
+    local cmd="$*"              # rest of the args as a single string
+
+    # Create a unique, safe widget name from mode+keys
+    local widget="zvm_cmd_${mode}_${${keys//[^A-Za-z0-9]/_}}"
+
+    local exec_type
+    if [[ $do_exec -eq 1 ]]; then
+        exec_type=$'zle accept-line'
+    else
+        exec_type=$'CURSOR=${#BUFFER}'
+    fi
+
+    eval "
+        function $widget() {
+            zle -I
+            BUFFER=${(q)cmd}
+            $exec_type
+        }
+    "
+
+    zvm_define_widget "$widget"
+    zvm_bindkey "$mode" "$keys" "$widget"
+}
+
+function zvm_after_lazy_keybindings() {
+    # The plugin will auto execute this zvm_after_lazy_keybindings function
+    zvm_cmd_key 1 vicmd ' gf'  git fetch
+    zvm_cmd_key 1 vicmd ' ga'  git add -up
+    zvm_cmd_key 1 vicmd ' gc'  git commit
+    zvm_cmd_key 1 vicmd ' gr' git rebase -i origin/main
+    zvm_cmd_key 0 vicmd ' gp' git push --force origin
+}
+
+function zvm_after_init() {
+    # zvm necessarily clobbers keybinds, and we want to reclaim them, so we do sourcing of extra
+    # utilities after we initialize zvm. This would be moved back into load_plugins() if zvm is
+    # removed.
+    if builtin which zoxide > /dev/null; then
+        eval "$(zoxide init zsh)"
+    fi
+
+    if builtin which mcfly > /dev/null; then
+        eval "$(mcfly init zsh)"
+    fi
+
+    if builtin which direnv > /dev/null; then
+        eval "$(direnv hook zsh)"
+    fi
+}
+
 function load_plugins() {
+    zplug "jeffreytse/zsh-vi-mode"  # Sane vi-mode
     zplug "romkatv/powerlevel10k", as:theme, depth:1  # fancy prompt
     zplug "zsh-users/zsh-syntax-highlighting"  # syntax highlighting with the shell
     zplug "zsh-users/zsh-completions"
@@ -23,10 +84,7 @@ function load_plugins() {
         printf "zoxide not detected, sudo apt install zoxide? [y/N]: "
         if read -q; then
             echo; sudo apt install zoxide
-            eval "$(zoxide init zsh)"
         fi
-    else
-        eval "$(zoxide init zsh)"
     fi
 
     if ! builtin which mcfly > /dev/null; then
@@ -36,7 +94,6 @@ function load_plugins() {
             tar -zxf /tmp/mcfly-v0.9.2-x86_64-unknown-linux-musl.tar.gz -C ~/.local/bin
         fi
     fi
-    eval "$(mcfly init zsh)"
 
     if ! builtin which direnv > /dev/null; then
         printf "direnv not detected, download and install to ~/.local/bin? [y/N]: "
@@ -45,7 +102,6 @@ function load_plugins() {
             cp /tmp/direnv.linux-amd64 ~/.local/bin/direnv && chmod +x ~/.local/bin/direnv
         fi
     fi
-    eval "$(direnv hook zsh)"
 
     # history-substring-search options
     HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='fg=white,bold'
