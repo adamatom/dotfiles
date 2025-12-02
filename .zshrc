@@ -64,12 +64,20 @@ function zvm_cmd_key() {
 
 function zvm_after_lazy_keybindings() {
     # The plugin will auto execute this zvm_after_lazy_keybindings function
-    zvm_cmd_key 1 vicmd ' ga' git add -up
-    zvm_cmd_key 1 vicmd ' gc' git commit
-    zvm_cmd_key 1 vicmd ' gf' git fetch
-    zvm_cmd_key 1 vicmd ' gg' git closegone
-    zvm_cmd_key 0 vicmd ' gp' git push --force origin
-    zvm_cmd_key 1 vicmd ' gr' git rebase -i origin/main
+    zvm_cmd_key 1 vicmd ' ga'   git add -up
+    zvm_cmd_key 1 vicmd ' gc'   git commit
+    zvm_cmd_key 1 vicmd ' gd'   git diff
+    zvm_cmd_key 1 vicmd ' gf'   git fetch
+    zvm_cmd_key 1 vicmd ' gg'   git closegone
+    zvm_cmd_key 0 vicmd ' gpf'  git push --force origin
+    zvm_cmd_key 0 vicmd ' gpsu' git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
+    zvm_cmd_key 1 vicmd ' gr'   git rebase -i origin/main
+    zvm_cmd_key 1 vicmd ' gs'   git status
+
+    zvm_cmd_key 1 vicmd ' ib'   invoke bootstrap
+    zvm_cmd_key 1 vicmd ' il'   invoke lint --fix
+
+    zvm_cmd_key 1 vicmd '   '   mcfly search \'\'
 }
 
 function zvm_after_init() {
