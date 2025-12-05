@@ -1,6 +1,9 @@
 # Automatically sourced by zsh on interactive shells
 # .zshenv → [.zprofile if login] → [.zshrc if interactive] → [.zlogin if login] → [.zlogout sometimes]
-#
+
+# Enable Powerlevel10k instant prompt. Should be the very first line in ~/.zshrc.
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
 # Don't export FPATH; exporting it breaks completion if multiple zsh versions are around
 typeset +x FPATH
 
@@ -14,8 +17,6 @@ fi
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
 
-# Enable Powerlevel10k instant prompt. Should be the very first line in ~/.zshrc.
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 [[ -r ~/.cache/p10k-instant-prompt-${(%):-%n}.zsh ]] && source ~/.cache/p10k-instant-prompt-${(%):-%n}.zsh
 
 # Plugins -----------------------------------------------------------------------------------------
@@ -69,15 +70,22 @@ function zvm_after_lazy_keybindings() {
     zvm_cmd_key 1 vicmd ' gd'   git diff
     zvm_cmd_key 1 vicmd ' gf'   git fetch
     zvm_cmd_key 1 vicmd ' gg'   git closegone
-    zvm_cmd_key 0 vicmd ' gpf'  git push --force origin
-    zvm_cmd_key 0 vicmd ' gpsu' git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
+    zvm_cmd_key 0 vicmd ' gm'   git commit --amend
+    zvm_cmd_key 0 vicmd ' gp'   git push --force origin
     zvm_cmd_key 1 vicmd ' gr'   git rebase -i origin/main
     zvm_cmd_key 1 vicmd ' gs'   git status
+    zvm_cmd_key 1 vicmd ' gu'   git push --set-upstream origin
 
     zvm_cmd_key 1 vicmd ' ib'   invoke bootstrap
     zvm_cmd_key 1 vicmd ' il'   invoke lint --fix
 
     zvm_cmd_key 1 vicmd '   '   mcfly search \'\'
+}
+
+function normal_command() {
+    local keys=$1; shift        # e.g. ' gf'
+    local cmd="$*"              # rest of the args as a single string
+    zvm_cmd_key 1 vicmd $keys $cmd
 }
 
 function zvm_after_init() {
@@ -245,21 +253,6 @@ setopt IGNORE_EOF # disable ctrl-d to logout
 setopt multios # perform implicit tees or cats when multiple redirections are attempted
 
 # aliases -----------------------------------------------------------------------------------------
-export LANG="en_US.UTF-8"
-
-export GOPATH=$HOME/.go
-export RUBYGEMPATH=$HOME/.gem/ruby/2.5.0/
-
-export PATH=$PATH:$HOME/.rye/shims:$HOME/.bin:$GOPATH/bin:$RUBYGEMPATH/bin:$HOME/.local/bin:$HOME/projects/tek-linux/node_modules/.bin/
-# disable paging for git delta.
-export DELTA_PAGER=""
-export MANPAGER="/bin/sh -c \"col -b | vim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
-export LESS='--quit-if-one-screen --ignore-case --status-column --chop-long-lines --long-prompt --RAW-CONTROL-CHARS --HILITE-UNREAD --tabs=4 --window=-4'
-export MANPAGER='less +Gg'
-export FZF_DEFAULT_COMMAND='rg --hidden --no-ignore -l ""'
-export MCFLY_RESULTS=100
-export MCFLY_INTERFACE_VIEW=BOTTOM
-export MCFLY_RESULTS_SORT=LAST_RUN
 
 alias ssh="TERM=xterm-256color ssh"
 alias ls="ls -lA --color=always --group-directories-first"
@@ -383,21 +376,11 @@ zstyle '*' single-ignored show
 zstyle ':completion:*' use-compctl false
 
 # -------------------------------------------------------------------------------------------------
-if [ -f ~/.zsh_local.zsh ]; then
-    source ~/.zsh_local.zsh
-fi
-
-if [ -f $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh ]; then
-    source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
-fi
-
-. "$HOME/.cargo/env"
-
-if [ -f "$HOME/.local/share/../bin/env" ]; then
-    . "$HOME/.local/share/../bin/env"
-fi
-
 # Disable Ctrl-s/Ctrl-q, which freezes and unfreezes the terminal.
 if [[ -t 0 ]]; then
   stty -ixon 2>/dev/null || true
+fi
+
+if [ -f ~/.zsh_local.zsh ]; then
+    source ~/.zsh_local.zsh
 fi
