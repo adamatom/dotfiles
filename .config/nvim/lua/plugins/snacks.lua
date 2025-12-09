@@ -1,6 +1,7 @@
 local sections = {
   { pane = 1, section = "startup" },
   { section = "keys", gap = 1, padding = 1 },
+  { pane = 1, icon = " ", gap = 1, padding = 1, key = "-", desc = "Browse Files", action = ":FileBeagle" },
   { pane = 2, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
   { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
   {
