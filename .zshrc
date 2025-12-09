@@ -375,6 +375,43 @@ zstyle '*' single-ignored show
 # Dont fall back from the new completion system to the old `compctl` automatically.
 zstyle ':completion:*' use-compctl false
 
+# Completion for invoke / inv using invoke's own --complete support.
+_invoke_complete() {
+  local -a completions args
+  local collection_arg=()
+
+  # $words is the full command line, including "invoke" itself at index 1.
+  # Build args excluding the command name.
+  args=("${words[@]:1}")
+
+  # Look for -c / --collection and its argument.
+  local i
+  for (( i = 1; i <= $#args; ++i )); do
+    if [[ ${args[i]} == -c || ${args[i]} == --collection ]]; then
+      if (( i + 1 <= $#args )); then
+        collection_arg=("${args[i]}" "${args[i+1]}")
+      fi
+      break
+    fi
+  done
+
+  # Ask invoke for completions. It prints one suggestion per line.
+  # We split on newlines with ${(f)...}.
+  completions=("${(@f)$(invoke "${collection_arg[@]}" --complete -- "${words[@]}")}")
+
+  # If nothing came back, just fall back to files.
+  if (( ${#completions[@]} == 0 )); then
+    _files
+    return
+  fi
+
+  # Present the suggestions.
+  _describe 'invoke tasks/options' completions
+}
+
+# Hook it up for both "invoke" and "inv"
+compdef _invoke_complete invoke inv
+
 # -------------------------------------------------------------------------------------------------
 # Disable Ctrl-s/Ctrl-q, which freezes and unfreezes the terminal.
 if [[ -t 0 ]]; then
