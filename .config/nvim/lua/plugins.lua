@@ -72,7 +72,7 @@ require('lazy').setup({
   require 'plugins.gundo',
 
   -- Generate tags file automatically
-  require 'plugins.gutentags',
+  -- require 'plugins.gutentags',
 
   -- Jump to characters
   require 'plugins.hop',
