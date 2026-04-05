@@ -157,6 +157,8 @@ ctrl-m:execute: (grep -o '[a-f0-9]\\{7\\}' | head -1 | \
 [rebase]
     instructionFormat = %an %s
     updateRefs = true
+	autosquash = true
+	autostash = true
 [pull]
     rebase = true
 [color]
