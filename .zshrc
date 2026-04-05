@@ -65,21 +65,26 @@ function zvm_cmd_key() {
 
 function zvm_after_lazy_keybindings() {
     # The plugin will auto execute this zvm_after_lazy_keybindings function
-    zvm_cmd_key 1 vicmd ' ga'   git add -up
-    zvm_cmd_key 1 vicmd ' gc'   git commit
-    zvm_cmd_key 1 vicmd ' gd'   git diff
-    zvm_cmd_key 1 vicmd ' gf'   git fetch
-    zvm_cmd_key 1 vicmd ' gg'   git closegone
-    zvm_cmd_key 0 vicmd ' gm'   git commit --amend
-    zvm_cmd_key 0 vicmd ' gp'   git push --force origin
-    zvm_cmd_key 1 vicmd ' gr'   git rebase -i origin/main
-    zvm_cmd_key 1 vicmd ' gs'   git status
-    zvm_cmd_key 1 vicmd ' gu'   git push --set-upstream origin
+    zvm_cmd_key 1 vicmd 'ga'   git add -up
+    zvm_cmd_key 1 vicmd 'gco'  git commit
+    zvm_cmd_key 0 vicmd 'gca'  git commit --amend
+    zvm_cmd_key 1 vicmd 'gd'   git diff
+    zvm_cmd_key 1 vicmd 'gf'   git fetch
+    zvm_cmd_key 1 vicmd 'gg'   git closegone
+    zvm_cmd_key 1 vicmd 'gr'   git rebase -i origin/main
+    zvm_cmd_key 1 vicmd 'gst'  git status
+    zvm_cmd_key 1 vicmd 'gsu'  git submodule update --init --recursive
 
-    zvm_cmd_key 1 vicmd ' ib'   invoke bootstrap
-    zvm_cmd_key 1 vicmd ' il'   invoke lint --fix
+    zvm_cmd_key 0 vicmd 'pf'   git push --force origin
+    zvm_cmd_key 1 vicmd 'pu'   git push --set-upstream origin
 
-    zvm_cmd_key 1 vicmd '   '   mcfly search \'\'
+    zvm_cmd_key 1 vicmd 'rc'   git rebase --continue
+    zvm_cmd_key 1 vicmd 'ra'   git rebase --continue
+
+    zvm_cmd_key 1 vicmd 'b'   invoke bootstrap
+    zvm_cmd_key 1 vicmd 'l'   invoke lint --fix
+
+    zvm_cmd_key 1 vicmd 'n'    nvim
 }
 
 function normal_command() {
@@ -230,7 +235,8 @@ setopt hist_ignore_dups # Do not write events to history that are duplicates of 
 setopt hist_ignore_space # remove command line from history list when first character on the line is a space
 setopt hist_reduce_blanks # Remove extra blanks from each command line being added to history
 setopt hist_verify # dont execute, just expand history
-setopt share_history # imports new commands and appends typed commands to history
+unsetopt share_history # keep per-pane history for ↑ and !! (no cross-pane imports)
+setopt inc_append_history # write commands to $HISTFILE immediately for shared tools (e.g. mcfly)
 
 # ===== Completion 
 setopt always_to_end # When completing from the middle of a word, move the cursor to the end of the word    
@@ -281,11 +287,10 @@ alias backupb2="rclone sync /home/adam b2:Pascal-Backup --transfers 32 --filter-
 alias pip="pip3"
 alias vc="nvim ~/.vimrc"
 alias vp="nvim ~/.vimrc.plugins"
-alias gitk="gitk &"
 
-launch() {
-    "$@" 2>/dev/null & disown
-}
+gitk() { command gitk "$@" &! }
+
+launch() { "$@" 2>/dev/null & disown }
 
 config() {
     if [[ $@ =~ "^clean" ]]; then
@@ -310,6 +315,10 @@ zshrecompile() {
     [[ -f ~/.zcompdump.zwc.old ]] && rm -f ~/.zcompdump.zwc.old
 
     source ~/.zshrc
+}
+
+pdiff() {
+  diff -u --color=always "$@" | diff-so-fancy | less -FRX
 }
 
 # History -----------------------------------------------------------------------------------------
