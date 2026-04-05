@@ -175,6 +175,7 @@ return {
         clangd = {},
         gopls = {},
         pylsp = {},
+        marksman = {},
         rust_analyzer = {},
         -- lua_ls = {},
       }

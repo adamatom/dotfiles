@@ -23,14 +23,14 @@ rtp:prepend(lazypath)
 --
 require('lazy').setup({
   --- Colorschemes
-  -- onedark, high contrast
-  -- require 'plugins.onedarkhc',
-  require 'plugins.catppuccin',
+  require 'plugins.onedarkhc',
+  -- require 'plugins.catppuccin',
   -- require 'plugins.nightfox',
   -- require 'plugins.github-nvim-theme',
   -- require 'plugins.colorscheme-arctic',
   -- require 'plugins.colorscheme-cyberdream',
   -- require 'plugins.colorscheme-doomone',
+  -- require 'plugins.colorscheme-zenbones',
 
   -- Show hex color codes as the color
   {'norcalli/nvim-colorizer.lua', config = function() require'colorizer'.setup() end},
@@ -45,7 +45,8 @@ require('lazy').setup({
   'vim-scripts/ReplaceWithRegister',
 
   -- display marks
-  'kshenoy/vim-signature',
+  --
+  {"chentoast/marks.nvim", event = "VeryLazy", opts = {}, },
 
   -- reload files that are edited outside of nvim
   'djoshea/vim-autoread',
@@ -81,7 +82,7 @@ require('lazy').setup({
   require 'plugins.indent_line',
 
   -- Lint source code files
-  require 'plugins.lint',
+  -- require 'plugins.lint',
 
   -- Pull in sane defaults for LSP servers
   require 'plugins.lspconfig',
@@ -104,6 +105,8 @@ require('lazy').setup({
   -- Show keybinds while we learn them
   require 'plugins.which-key',
 
+  -- Markdown preview
+  require 'plugins.markdown-preview',
 
   -- Allow for switching between which compile_commands.json
   require 'plugins.clangd_db_picker',
