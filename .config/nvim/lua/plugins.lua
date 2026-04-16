@@ -23,14 +23,15 @@ rtp:prepend(lazypath)
 --
 require('lazy').setup({
   --- Colorschemes
-  require 'plugins.onedarkhc',
-  -- require 'plugins.catppuccin',
-  -- require 'plugins.nightfox',
-  -- require 'plugins.github-nvim-theme',
-  -- require 'plugins.colorscheme-arctic',
-  -- require 'plugins.colorscheme-cyberdream',
-  -- require 'plugins.colorscheme-doomone',
-  -- require 'plugins.colorscheme-zenbones',
+  require 'plugins.colorschemes.onedarkhc',
+  require 'plugins.colorschemes.catppuccin',
+  require 'plugins.colorschemes.nightfox',
+  require 'plugins.colorschemes.github-nvim-theme',
+  require 'plugins.colorschemes.colorscheme-arctic',
+  require 'plugins.colorschemes.colorscheme-cyberdream',
+  require 'plugins.colorschemes.colorscheme-doomone',
+  require 'plugins.colorschemes.colorscheme-zenbones',
+  require 'plugins.colorschemes.vim-seti',
 
   -- Show hex color codes as the color
   {'norcalli/nvim-colorizer.lua', config = function() require'colorizer'.setup() end},
@@ -140,3 +141,6 @@ require('lazy').setup({
     },
   },
 })
+
+vim.opt.background = 'dark'
+vim.cmd.colorscheme('doom-one')

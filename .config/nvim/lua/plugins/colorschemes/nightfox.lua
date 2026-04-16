@@ -47,8 +47,6 @@ return {
         specs = {},
         groups = {},
       })
-
-      vim.cmd("colorscheme nightfox")
     end,
   }
 }

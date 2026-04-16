@@ -53,7 +53,11 @@ return {
         --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
         --   },
         -- },
-        -- pickers = {}
+        pickers = {
+          colorscheme = {
+            enable_preview = true
+          }
+        },
         defaults = {
           winblend = vim.g.default_blend_level,
         },

@@ -20,6 +20,5 @@ return {
             mini = true,
         },
     })
-    vim.cmd("colorscheme cyberdream")
   end,
 }

@@ -46,7 +46,6 @@ return {
       specs = {},
       groups = {},
     })
-    vim.cmd('colorscheme github_dark_dimmed')
   end,
 
 }
