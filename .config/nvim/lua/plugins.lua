@@ -58,7 +58,8 @@ require('lazy').setup({
   require 'plugins.blink-cmp',
 
   -- File explorer
-  require 'plugins.filebeagle',
+  require 'plugins.oil',
+  { "malewicz1337/oil-git.nvim", dependencies = { "stevearc/oil.nvim" } },
 
   -- Git integration, mostly for GitBlame
   require 'plugins.fugitive',
@@ -107,6 +108,15 @@ require('lazy').setup({
 
   -- Markdown preview
   require 'plugins.markdown-preview',
+
+  -- Markdown rendering in nvim
+  require 'plugins.render-markdown',
+
+  -- Formating, only markdown for now
+  require 'plugins.conform',
+
+  -- Follow Markdown links
+  { 'jghauser/follow-md-links.nvim' },
 
   -- Allow for switching between which compile_commands.json
   require 'plugins.clangd_db_picker',

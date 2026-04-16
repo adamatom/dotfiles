@@ -6,7 +6,8 @@ autocmd("FileType", {
   pattern = "markdown",
   group = "allfiles",
   callback = function()
-    vim.opt_local.formatoptions:append("t")
+    vim.opt_local.formatoptions:append("tro")
+    vim.opt_local.comments = "b:*,b:-,b:+,b:>"
     vim.opt_local.iskeyword:append("-")
     vim.opt_local.spell = true
     vim.opt_local.textwidth = 79
@@ -14,7 +15,9 @@ autocmd("FileType", {
     vim.opt_local.shiftwidth = 2
     vim.opt_local.softtabstop = 2
     vim.opt_local.expandtab = true
-  end
+
+    vim.keymap.set('n', '<BS>', '<C-o>', { buffer = true, desc = 'Jump back' })
+  end,
 })
 
 autocmd("FileType", {
