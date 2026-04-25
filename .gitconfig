@@ -62,6 +62,13 @@
     # Get the default branch name. Lets stop assuming it is 'master'
     getdefault = !git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@'
 
+    # Same for the remote default
+    getdefaultremote = "!\
+    f() {                                                                                          \
+        DEFAULT=$(git getdefault);                                                                 \
+        printf 'origin/%s\\n' \"${DEFAULT}\";                                                      \
+    }; f"
+
     # Update the current branch to what it is tracking
     up = !git pull --rebase --prune $@ && git submodule update --init --recursive
 
@@ -72,7 +79,8 @@
     # Run `git delcheck` on a checked out branch to see if the branch has any novel commits
     delcheck = "!\
     f() {                                                                                          \
-        DEFAULT=$(git getdefault);                                                                 \
+        git fetch --prune --prune-tags;                                                            \
+        DEFAULT=$(git getdefaultremote);                                                           \
         CURRENT=$(git rev-parse --abbrev-ref HEAD);                                                \
         CHECK=${1:-${CURRENT}};                                                                    \
         git log --graph --left-right --cherry-pick --oneline ${DEFAULT}...${CHECK};                \
@@ -81,24 +89,25 @@
     # Run `git can-delete` or `git can-delete <branch>` to determine if the branch is already mainlined.
     can-delete = "!\
     f() {                                                                                          \
-        DEFAULT=$(git getdefault);                                                                 \
+        git fetch --prune --prune-tags;                                                            \
+        DEFAULT=$(git getdefaultremote);                                                           \
         CURRENT=$(git rev-parse --abbrev-ref HEAD);                                                \
         CHECK=${1:-${CURRENT}};                                                                    \
-        if git merge-base --is-ancestor \"${CHECK}\" \"${DEFAULT}\"; then                         \
-            printf 'SAFE exact: %s is merged into %s\\n' \"${CHECK}\" \"${DEFAULT}\";             \
-        elif ! git cherry \"${DEFAULT}\" \"${CHECK}\" | grep -q '^+'; then                        \
+        if git merge-base --is-ancestor \"${CHECK}\" \"${DEFAULT}\"; then                          \
+            printf 'SAFE exact: %s is merged into %s\\n' \"${CHECK}\" \"${DEFAULT}\";              \
+        elif ! git cherry \"${DEFAULT}\" \"${CHECK}\" | grep -q '^+'; then                         \
             printf 'SAFE patch: %s is mainlined in %s but not by ancestry\\n' \"${CHECK}\" \"${DEFAULT}\"; \
             git cherry -v \"${DEFAULT}\" \"${CHECK}\";                                             \
-        elif git diff --quiet \"${DEFAULT}...${CHECK}\" --; then                                  \
+        elif git diff --quiet \"${DEFAULT}...${CHECK}\" --; then                                   \
             printf 'SAFE effective: %s has no remaining net diff against %s\\n' \"${CHECK}\" \"${DEFAULT}\"; \
         else                                                                                       \
-            printf 'NOT SAFE: %s still differs from %s\\n' \"${CHECK}\" \"${DEFAULT}\";           \
+            printf 'NOT SAFE: %s still differs from %s\\n' \"${CHECK}\" \"${DEFAULT}\";            \
             git diff --stat \"${DEFAULT}...${CHECK}\";                                             \
         fi;                                                                                        \
     }; f"
 
     # Closeout merged branches.
-    # Given no argument, closes the current branch and switches back to master
+    # Given no argument, closes the current branch and switches back to the default branch
     # Given one argument, closes the given branch. If the given branch is the same as the current
     #       branch, then act like no arguments given.
     closeout = "!\
@@ -124,7 +133,7 @@
     # These are exactly the branches that git branch -d should accept
     gone-merged = "!\
     f() {                                                                                          \
-        DEFAULT=$(git getdefault);                                                                 \
+        DEFAULT=$(git getdefaultremote);                                                           \
         git gone | while read BRANCH; do                                                           \
             git merge-base --is-ancestor \"${BRANCH}\" \"${DEFAULT}\" && printf '%s\\n' \"${BRANCH}\"; \
         done;                                                                                      \
