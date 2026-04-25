@@ -78,6 +78,25 @@
         git log --graph --left-right --cherry-pick --oneline ${DEFAULT}...${CHECK};                \
     }; f"
 
+    # Run `git can-delete` or `git can-delete <branch>` to determine if the branch is already mainlined.
+    can-delete = "!\
+    f() {                                                                                          \
+        DEFAULT=$(git getdefault);                                                                 \
+        CURRENT=$(git rev-parse --abbrev-ref HEAD);                                                \
+        CHECK=${1:-${CURRENT}};                                                                    \
+        if git merge-base --is-ancestor \"${CHECK}\" \"${DEFAULT}\"; then                         \
+            printf 'SAFE exact: %s is merged into %s\\n' \"${CHECK}\" \"${DEFAULT}\";             \
+        elif ! git cherry \"${DEFAULT}\" \"${CHECK}\" | grep -q '^+'; then                        \
+            printf 'SAFE patch: %s is mainlined in %s but not by ancestry\\n' \"${CHECK}\" \"${DEFAULT}\"; \
+            git cherry -v \"${DEFAULT}\" \"${CHECK}\";                                             \
+        elif git diff --quiet \"${DEFAULT}...${CHECK}\" --; then                                  \
+            printf 'SAFE effective: %s has no remaining net diff against %s\\n' \"${CHECK}\" \"${DEFAULT}\"; \
+        else                                                                                       \
+            printf 'NOT SAFE: %s still differs from %s\\n' \"${CHECK}\" \"${DEFAULT}\";           \
+            git diff --stat \"${DEFAULT}...${CHECK}\";                                             \
+        fi;                                                                                        \
+    }; f"
+
     # Closeout merged branches.
     # Given no argument, closes the current branch and switches back to master
     # Given one argument, closes the given branch. If the given branch is the same as the current
