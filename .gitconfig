@@ -104,7 +104,13 @@
     closegone = !git gone | xargs -I '{}' -r -n1 git closeout '{}' 0
 
     # Show local branches whose upstream branch has been removed. Good for finding merged branches.
-    gone = ! git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}'
+    gone = "!\
+    f() {                                                                                          \
+        echo 'The following branches no longer have an upstream:';                                 \
+        git fetch --prune --prune-tags;                                                            \
+        git for-each-ref --format='%(refname:short) %(upstream:track)' refs/heads |                \
+            awk '$2 == \"[gone]\" {print $1}';                                                     \
+    }; f"
 
     # Update the submodules
     mods = submodule update --init --recursive
