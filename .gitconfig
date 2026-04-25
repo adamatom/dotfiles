@@ -72,9 +72,10 @@
     # Run `git delcheck` on a checked out branch to see if the branch has any novel commits
     delcheck = "!\
     f() {                                                                                          \
+        DEFAULT=$(git getdefault);                                                                 \
         CURRENT=$(git rev-parse --abbrev-ref HEAD);                                                \
         CHECK=${1:-${CURRENT}};                                                                    \
-        git log --graph --left-right --cherry-pick --oneline master...${CHECK};               \
+        git log --graph --left-right --cherry-pick --oneline ${DEFAULT}...${CHECK};                \
     }; f"
 
     # Closeout merged branches.
