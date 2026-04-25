@@ -99,13 +99,27 @@
         git branch -d ${DEL};                                                                      \
     }; f"
 
+
+    # Starts from the gone list
+    # Keeps only branches whose tip is an ancestor of the default branch
+    # These are exactly the branches that git branch -d should accept
+    gone-merged = "!\
+    f() {                                                                                          \
+        DEFAULT=$(git getdefault);                                                                 \
+        git gone | while read BRANCH; do                                                           \
+            git merge-base --is-ancestor \"${BRANCH}\" \"${DEFAULT}\" && printf '%s\\n' \"${BRANCH}\"; \
+        done;                                                                                      \
+    }; f"
+
     # Run closeout on any branches that no longer have an upstream tracking branch.
-    closegone = !git gone | xargs -I '{}' -r -n1 git closeout '{}' 0
+    closegone = "!\
+    f() {                                                                                          \
+        git gone-merged | xargs -r -n1 git closeout;                                               \
+    }; f"
 
     # Show local branches whose upstream branch has been removed. Good for finding merged branches.
     gone = "!\
     f() {                                                                                          \
-        echo 'The following branches no longer have an upstream:';                                 \
         git fetch --prune --prune-tags;                                                            \
         git for-each-ref --format='%(refname:short) %(upstream:track)' refs/heads |                \
             awk '$2 == \"[gone]\" {print $1}';                                                     \
