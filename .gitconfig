@@ -90,15 +90,14 @@
         FETCH=${2:-1};                                                                             \
         if [ \"${FETCH}\" = \"1\" ]; then                                                          \
             printf 'Fetching...\\n';                                                               \
-            git fetch -Ppat;                                                                       \
+            git fetch --prune --prune-tags;                                                        \
         fi;                                                                                        \
         if [ \"${DEL}\" = \"${CURRENT}\" ]; then                                                   \
-            git checkout ${DEFAULT};                                                               \
-            git rebase;                                                                            \
+            git switch ${DEFAULT};                                                                 \
+            git pull --ff-only;                                                                    \
         fi;                                                                                        \
         git branch -d ${DEL};                                                                      \
     }; f"
-
 
     # Run closeout on any branches that no longer have an upstream tracking branch.
     closegone = !git gone | xargs -I '{}' -r -n1 git closeout '{}' 0
