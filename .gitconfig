@@ -159,6 +159,27 @@
     # 'git mine' alias for showing me my branches
     mine = branch -vv
 
+    # Push a stack of branches, to support MR chains
+    push-stack = "!f() { \
+        base=origin/main; \
+        if [ $# -gt 0 ] && [ \"${1#-}\" = \"$1\" ]; then \
+            base=$1; \
+            shift; \
+        fi; \
+        base_local=${base#origin/}; \
+        head=$(git rev-parse --abbrev-ref HEAD) || exit 1; \
+        git for-each-ref --format='%(refname:short) %(upstream:short)' refs/heads | \
+        while read -r branch upstream; do \
+            [ -n \"$upstream\" ] || continue; \
+            [ \"$branch\" = \"$base_local\" ] && continue; \
+            git merge-base --is-ancestor \"$base\" \"$branch\" || continue; \
+            git merge-base --is-ancestor \"$branch\" \"$head\" || continue; \
+            remote=${upstream%%/*}; \
+            echo \"git push $* $remote $branch\"; \
+            git push \"$@\" \"$remote\" \"$branch\"; \
+        done; \
+    }; f"
+
     # Implements an interactive log. Can be passed any commands that git log accepts.
     # This implementation was based on examples from
     # https://gist.github.com/junegunn/f4fca918e937e6bf5bad
