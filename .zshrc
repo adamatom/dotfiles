@@ -81,7 +81,7 @@ function zvm_after_lazy_keybindings() {
     zvm_cmd_key 1 vicmd 'rc'   git rebase --continue
     zvm_cmd_key 1 vicmd 'ra'   git rebase --continue
 
-    zvm_cmd_key 1 vicmd 'b'   invoke bootstrap
+    zvm_cmd_key 1 vicmd 'b'   invoke sync
     zvm_cmd_key 1 vicmd 'l'   invoke lint --fix
 
     zvm_cmd_key 1 vicmd 'n'    nvim
