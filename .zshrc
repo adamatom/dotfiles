@@ -103,6 +103,13 @@ function zvm_after_init() {
 
     if builtin which mcfly > /dev/null; then
         eval "$(mcfly init zsh)"
+
+        function mcfly-history-widget-vicmd() {
+            zle -K viins
+            zle mcfly-history-widget
+        }
+        zle -N mcfly-history-widget-vicmd
+        bindkey -M vicmd '^R' mcfly-history-widget-vicmd
     fi
 
     if builtin which direnv > /dev/null; then
