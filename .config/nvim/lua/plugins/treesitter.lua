@@ -16,22 +16,55 @@ return {
         'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc',
       })
 
-      -- Enable highlighting + indent per filetype.
+      local ts_filetypes = {
+        bash = true,
+        c = true,
+        diff = true,
+        html = true,
+        lua = true,
+        luadoc = true,
+        markdown = true,
+        query = true,
+        vim = true,
+        help = true,
+      }
+
+      local function enable_treesitter(buf)
+        local ft = vim.bo[buf].filetype
+        if ft == '' or not ts_filetypes[ft] then
+          return
+        end
+
+        local ok = pcall(vim.treesitter.start, buf)
+        if not ok then
+          return
+        end
+
+        vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end
+
+      -- Enable highlighting + indent for future buffers.
       vim.api.nvim_create_autocmd('FileType', {
-        pattern = {
-          'bash', 'c', 'diff', 'html', 'lua', 'luadoc',
-          'markdown', 'query', 'vim', 'help',
-        },
+        pattern = vim.tbl_keys(ts_filetypes),
         callback = function(args)
-          -- Highlighting
-          local ok = pcall(vim.treesitter.start, args.buf)
-          if not ok then return end
-          -- Indent (opt-in per buffer; skip for filetypes where it misbehaves)
-          if vim.bo[args.buf].filetype ~= 'ruby' then
-            vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          enable_treesitter(args.buf)
+        end,
+      })
+
+      -- Retry once startup has fully completed. This covers the initial file
+      -- opened by `nvim somefile` when early-render plugins attach too soon.
+      vim.api.nvim_create_autocmd('VimEnter', {
+        once = true,
+        callback = function()
+          local buf = vim.api.nvim_get_current_buf()
+          enable_treesitter(buf)
+
+          -- If treesitter is not enabled for this filetype and quickfile ran
+          -- before filetype detection completed, ensure classic syntax
+          -- highlighting is attached after startup.
+          if vim.bo[buf].buftype == '' and vim.bo[buf].filetype ~= '' and vim.bo[buf].syntax == '' then
+            vim.bo[buf].syntax = vim.bo[buf].filetype
           end
-          -- Folds, if you want them
-          -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
         end,
       })
     end,

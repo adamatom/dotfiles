@@ -98,6 +98,7 @@ vim.opt.completeopt = { "menuone", "noinsert" }
 
 -- Spell undercurl
 vim.cmd([[
+syntax enable
 highlight SpellBad cterm=undercurl
 highlight SpellBad gui=undercurl
 ]])
