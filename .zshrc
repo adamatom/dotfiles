@@ -458,6 +458,9 @@ _invoke_complete() {
 # Hook it up for both "invoke" and "inv"
 compdef _invoke_complete invoke inv
 
+# Reuse git completion for the bare-repo dotfiles wrapper.
+compdef _git config=git
+
 # -------------------------------------------------------------------------------------------------
 # Disable Ctrl-s/Ctrl-q, which freezes and unfreezes the terminal.
 if [[ -t 0 ]]; then
