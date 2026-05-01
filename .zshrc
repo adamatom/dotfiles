@@ -391,6 +391,36 @@ zstyle '*' single-ignored show
 # Dont fall back from the new completion system to the old `compctl` automatically.
 zstyle ':completion:*' use-compctl false
 
+# Reuse built-in `git push` completion for `git push-stack`.
+# `push-stack` accepts an optional first positional base ref before normal push flags.
+_git-push-stack() {
+  local ret=1
+  local -a original_words delegated_words
+  local original_current=$CURRENT
+
+  original_words=("${words[@]}")
+
+  if (( CURRENT == 2 )) && [[ -n ${words[2]} ]] && [[ ${words[2]} != -* ]]; then
+    __git_revisions && return 0
+  fi
+
+  delegated_words=(push)
+  if (( ${#words[@]} >= 2 )) && [[ -n ${words[2]} ]] && [[ ${words[2]} != -* ]]; then
+    delegated_words+=("${words[@]:2}")
+    (( CURRENT > 2 )) && (( CURRENT -= 1 ))
+  else
+    delegated_words+=("${words[@]:1}")
+  fi
+
+  words=("${delegated_words[@]}")
+  _git-push
+  ret=$?
+
+  words=("${original_words[@]}")
+  CURRENT=$original_current
+  return ret
+}
+
 # Completion for invoke / inv using invoke's own --complete support.
 _invoke_complete() {
   local -a completions args
