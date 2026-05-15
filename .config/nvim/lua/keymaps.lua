@@ -2,8 +2,11 @@
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
--- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+-- Open diagnostics in the current window's location list and show it immediately.
+vim.keymap.set('n', '<leader>e', function()
+  vim.diagnostic.setloclist { open = true }
+end, { desc = 'Open diagnostic location list' })
+vim.keymap.set('n', '<leader>E', '<cmd>lclose<CR>', { desc = 'Close location list' })
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode

@@ -78,9 +78,6 @@ return {
           --  the definition of its *type*, not where it was *defined*.
           map('<leader>cgt', require('telescope.builtin').lsp_type_definitions, '[g]oto [t]ype Definition')
 
-          -- Show errors in the locationlist.
-          map('<leader>csd', vim.diagnostic.setloclist, '[s]how [d]iagnostics')
-
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
           ---@param method vim.lsp.protocol.Method
@@ -137,6 +134,7 @@ return {
 
       -- Diagnostic Config
       -- See :help vim.diagnostic.Opts
+      vim.diagnostic.enable()
       vim.diagnostic.config {
         severity_sort = true,
         update_in_insert = false,
@@ -175,6 +173,7 @@ return {
         clangd = {},
         gopls = {},
         pylsp = {},
+        nil_ls = {},
         marksman = {},
         rust_analyzer = {},
         -- lua_ls = {},
