@@ -78,7 +78,7 @@ require('lazy').setup({
   -- require 'plugins.gutentags',
 
   -- Jump to characters
-  require 'plugins.hop',
+  require 'plugins.pounce',
 
   -- Show indentation level indicators
   require 'plugins.indent_line',
@@ -106,12 +106,6 @@ require('lazy').setup({
 
   -- Show keybinds while we learn them
   require 'plugins.which-key',
-
-  -- Markdown preview
-  require 'plugins.markdown-preview',
-
-  -- Markdown rendering in nvim
-  require 'plugins.render-markdown',
 
   -- Formating, only markdown for now
   require 'plugins.conform',
