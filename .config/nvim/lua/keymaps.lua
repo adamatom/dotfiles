@@ -43,6 +43,12 @@ vim.keymap.set("n", "<leader>a", "<C-^>")
 -- search for the word under the cursor using Rg, defined in functions
 vim.keymap.set("n", "<leader>F", [[:Rg "<C-R><C-w>"]], { noremap = true })
 
+-- Dont immediately jump with *. Highlight all instances, and use n and N to jump occurrences.
+vim.keymap.set("n", "*", function()
+    vim.fn.setreg("/", [[\<]] .. vim.fn.expand("<cword>") .. [[\>]])
+    vim.o.hlsearch = true
+  end, { desc = "Highlight word under cursor without jumping" })
+
 
 -- Spell check the last error.
 -- <ctrl-g>u     create undo marker (before fix) so we can undo/redo this
