@@ -3,11 +3,11 @@ return {
     'lewis6991/gitsigns.nvim',
     opts = {
       signs = vim.g.have_nerd_font and {
-        add = { text = "▎" },
-        change = { text = "▎" },
+        add = { text = "+" },
+        change = { text = "~" },
         delete = { text = "" },
         topdelete = { text = "" },
-        changedelete = { text = "▎" },
+        changedelete = { text = "~" },
       } or {
         add = { text = '+' },
         change = { text = '~' },
@@ -66,5 +66,21 @@ return {
         map('n', '<leader>tD', gitsigns.preview_hunk_inline, { desc = '[T]oggle git show [D]eleted' })
       end,
     },
+    config = function(_, opts)
+      require('gitsigns').setup(opts)
+
+      -- Make 'add' (green) and 'change' (amber) easy to tell apart in the gutter.
+      -- Re-applied on every colorscheme switch so it survives theme changes.
+      local function set_gitsigns_hl()
+        vim.api.nvim_set_hl(0, 'GitSignsAdd', { fg = '#98ff65' })          -- green
+        vim.api.nvim_set_hl(0, 'GitSignsChange', { fg = '#ECDE7B' })       -- amber/yellow
+        vim.api.nvim_set_hl(0, 'GitSignsChangedelete', { fg = '#ECDE7B' }) -- amber/yellow
+        vim.api.nvim_set_hl(0, 'GitSignsDelete', { fg = '#ff6c6b' })       -- red
+        vim.api.nvim_set_hl(0, 'GitSignsTopdelete', { fg = '#ff6c6b' })    -- red
+      end
+
+      set_gitsigns_hl()
+      vim.api.nvim_create_autocmd('ColorScheme', { callback = set_gitsigns_hl })
+    end,
   },
 }
